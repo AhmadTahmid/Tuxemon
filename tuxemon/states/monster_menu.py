@@ -64,11 +64,13 @@ class MonsterMenuState(Menu[Monster | None]):
         *,
         on_selection: Callable[[MenuItem[Monster | None]], None] | None = None,
         is_valid_entry: Callable[[Monster | None], bool] | None = None,
+        on_selection_change: Callable[[MonsterMenuState], None] | None = None,
         **kwargs: Any,
     ):
         super().__init__(client=client, **kwargs)
         self._external_on_selection = on_selection
         self._external_is_valid_entry = is_valid_entry
+        self._external_on_selection_change = on_selection_change
         self.monster_filter = monster_filter or MonsterFilter()
         self.monsters = self.monster_filter.get_filtered_monsters(monsters)
 
@@ -162,6 +164,9 @@ class MonsterMenuState(Menu[Monster | None]):
             self.monster_sprite_displays.append(sprite_display)
 
     def on_menu_selection_change(self) -> None:
+        if self._external_on_selection_change:
+            self._external_on_selection_change(self)
+
         monster: Monster | None = None
         try:
             monster = self.monsters[self.selected_index]
@@ -249,13 +254,16 @@ class MonsterMenuHandler:
         items_filtered = ItemFilter(self.party.owner.bag.items)
         items_filtered.add_filter(lambda item: item.behaviors.holdable)
 
-        menu = self.client.push_state(
+        self.client.push_state(
             ItemMenuState(
-                self.client, self.party.owner, self.name, items_filtered
+                self.client,
+                character=self.party.owner,
+                source=self.name,
+                item_filter=items_filtered,
+                on_selection=lambda menu_item: self._equip_from_picker(
+                    monster, menu_item
+                ),
             )
-        )
-        menu.on_menu_selection = lambda menu_item: self._equip_from_picker(  # type: ignore[method-assign]
-            monster, menu_item
         )
 
     def _equip_from_picker(
@@ -414,16 +422,9 @@ class MonsterMenuHandler:
                 on_selection=lambda item: self.handle_selection(
                     item, self.monster_menu
                 ),
+                on_selection_change=self.monster_menu_hook,
             )
         )
-
-        original_on_change = self.monster_menu.on_menu_selection_change
-
-        def wrapped_on_change() -> None:
-            self.monster_menu_hook(self.monster_menu)
-            original_on_change()
-
-        self.monster_menu.on_menu_selection_change = wrapped_on_change  # type: ignore[method-assign]
 
     def open_sort_submenu(self, monster_menu: MonsterMenuState) -> None:
         """Opens a submenu with sorting options."""

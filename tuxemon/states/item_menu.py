@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Generator
+from collections.abc import Callable, Generator
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from pygame.rect import Rect
@@ -49,6 +49,8 @@ class ItemMenuState(Menu[Item]):
         source: str,
         item_filter: ItemFilter | None = None,
         sorter: ItemSorter | None = None,
+        on_selection: Callable[[MenuItem[Item]], None] | None = None,
+        is_valid_entry: Callable[[Item | None], bool] | None = None,
         **kwargs: Any,
     ) -> None:
         self.char = character
@@ -57,6 +59,8 @@ class ItemMenuState(Menu[Item]):
 
         self.filter_controller = item_filter or ItemFilter(self.char.items)
         self.sorter = sorter or ItemSorter()
+        self._external_on_selection = on_selection
+        self._external_is_valid_entry = is_valid_entry
         # this sprite is used to display the item
         # it's also animated to pop out of the backpack
         self.item_center = self.rect.width * 0.164, self.rect.height * 0.13
@@ -112,6 +116,9 @@ class ItemMenuState(Menu[Item]):
         """
         Called when player has selected something from the inventory.
         """
+        if self._external_on_selection:
+            return self._external_on_selection(menu_item)
+
         item = menu_item.game_object
 
         # Check if the item can be used on any monster
@@ -217,6 +224,8 @@ class ItemMenuState(Menu[Item]):
             self.show_item_description(selected_item.game_object)
 
     def is_valid_entry(self, item: Item | None) -> bool:
+        if self._external_is_valid_entry:
+            return self._external_is_valid_entry(item)
         return item is not None
 
     def animate_item_selection(self, item: Item) -> None:

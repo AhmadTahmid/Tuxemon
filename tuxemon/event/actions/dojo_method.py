@@ -92,14 +92,14 @@ class DojoMethodAction(EventAction):
                 self.stop()
                 return
 
-            forget = session.client.push_state(
+            session.client.push_state(
                 TechniqueMenuState(
                     client=session.client,
                     character=session.player,
                     techniques=self.monster.moves.current_moves,
+                    on_selection=self.get_tech,
                 )
             )
-            forget.on_menu_selection = self.get_tech  # type: ignore[method-assign]
         else:
             actions = {
                 mon.slug: partial(self.devolve, mon.slug)
@@ -171,11 +171,11 @@ class DojoMethodAction(EventAction):
             self.stop()
             return
 
-        relearn = self.client.push_state(
+        self.client.push_state(
             TechniqueMenuState(
                 client=self.client,
                 character=self.player,
                 techniques=learnable_moves,
+                on_selection=self.set_var,
             )
         )
-        relearn.on_menu_selection = self.set_var  # type: ignore[method-assign]

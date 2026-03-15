@@ -272,15 +272,16 @@ class MainCombatMenuState(PopUpMenu[MenuGameObj]):
             items_filtered.set_filter_combat_targets(
                 self.session, self.character.monsters, self.opponents
             )
-            menu = self.client.push_state(
+            self.client.push_state(
                 ItemMenuState(
-                    self.client, self.character, self.name, items_filtered
+                    self.client,
+                    character=self.character,
+                    source=self.name,
+                    item_filter=items_filtered,
+                    on_selection=choose_target,
+                    is_valid_entry=validate_item,
                 )
             )
-
-            # set next menu after the selection is made
-            menu.is_valid_entry = validate_item  # type: ignore[method-assign]
-            menu.on_menu_selection = choose_target  # type: ignore[method-assign]
 
         def choose_target(menu_item: MenuItem[Item]) -> None:
             # open menu to choose target of item
@@ -568,16 +569,16 @@ class MainCombatMenuState(PopUpMenu[MenuGameObj]):
 
             # allow to choose target if 1 vs 2 or 2 vs 2
             if len(self.opponents) > 1:
-                state = self.client.push_state(
+                self.client.push_state(
                     CombatTargetMenuState(
                         client=self.client,
                         combat=self.combat,
                         character=self.character,
                         monster=self.monster,
                         technique=technique,
+                        on_selection=partial(enqueue_technique, technique),
                     )
                 )
-                state.on_menu_selection = partial(enqueue_technique, technique)  # type: ignore[method-assign]
             else:
                 player = self.party[0]
                 enemy = self.opponents[0]
@@ -639,6 +640,9 @@ class CombatTargetMenuState(Menu[Monster]):
         character: NPC,
         monster: Monster,
         technique: Technique,
+        *,
+        on_selection: Callable[[MenuItem[Monster]], None] | None = None,
+        is_valid_entry: Callable[[Monster | None], bool] | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(client=client, **kwargs)
@@ -647,6 +651,8 @@ class CombatTargetMenuState(Menu[Monster]):
         self.combat = combat
         self.combat_session = self.client.combat_session
         self.technique = technique
+        self._external_on_selection = on_selection
+        self._external_is_valid_entry = is_valid_entry
         self.targeting_map: defaultdict[str, list[Monster]] = defaultdict(list)
 
         self._create_menu()
@@ -754,3 +760,12 @@ class CombatTargetMenuState(Menu[Monster]):
         """Handles border updates when selection changes."""
         self.hide_cursor()
         self._update_borders()
+
+    def on_menu_selection(self, item: MenuItem[Monster]) -> None:
+        if self._external_on_selection:
+            return self._external_on_selection(item)
+
+    def is_valid_entry(self, monster: Monster | None) -> bool:
+        if self._external_is_valid_entry:
+            return self._external_is_valid_entry(monster)
+        return monster is not None
