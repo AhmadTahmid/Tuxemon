@@ -404,7 +404,7 @@ class MainCombatMenuState(PopUpMenu[MenuGameObj]):
             menu.anchor("right", self.client.context.rect.right)
 
             # set next menu after the selection is made
-            menu.on_menu_selection = choose_target  # type: ignore[assignment]
+            menu.on_selection_callback = choose_target
 
             def show() -> None:
                 # Clear the combat dialog so the old "What will X do?" text disappears

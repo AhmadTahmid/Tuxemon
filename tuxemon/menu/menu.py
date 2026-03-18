@@ -401,6 +401,7 @@ class Menu(Generic[T], State):
         self.on_menu_selection_change_callback: Callable[[], None] | None = (
             None
         )
+        self.on_selection_callback: Callable[[MenuItem[T]], None] | None = None
 
         self.font_filename = fetch_asset("font", self.font_filename)
         self.font = self.set_font()  # load default font
@@ -924,6 +925,9 @@ class Menu(Generic[T], State):
 
         Override in subclass, if you want to.
         """
+        if self.on_selection_callback:
+            return self.on_selection_callback(selected_item)
+
         if selected_item.enabled:
             if selected_item.game_object is None:
                 raise ValueError("Selected menu item has no game object")
