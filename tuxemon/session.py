@@ -179,19 +179,5 @@ class Session(AbstractSession["BaseClient"]):
         self._current_slot = slot
         return save_data
 
-    def get_npc_pos(self, pos: tuple[int, int]) -> NPC | None:
-        """Gets an NPC object by location (x,y)."""
-        player = self.player
-        if player.tile_pos == pos:
-            return self.player
-        return self.client.get_npc_pos(pos)
-
-    def get_npc(self, slug: str) -> NPC | None:
-        """Gets an NPC object by slug."""
-        if slug == "player":
-            return self.player
-
-        return self.client.get_npc(slug)
-
 
 local_session = Session()

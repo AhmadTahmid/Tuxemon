@@ -71,7 +71,7 @@ class ReplacePartyFromYamlAction(EventAction):
 
     def start(self, session: Session) -> None:
 
-        character = session.get_npc(self.character)
+        character = session.client.get_npc(self.character)
         if character is None:
             logger.error("'wild_encounter' not found")
             self.stop()

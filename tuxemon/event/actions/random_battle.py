@@ -89,7 +89,7 @@ class RandomBattleAction(EventAction):
         )
 
     def _start_battle(self, session: Session) -> None:
-        npc = session.get_npc(self.opponent.slug)
+        npc = session.client.get_npc(self.opponent.slug)
         if npc is None:
             logger.error(f"{self.opponent.slug} not found after creation.")
             self.stop()

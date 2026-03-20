@@ -43,7 +43,7 @@ class EvolutionAction(EventAction):
     def start(self, session: Session) -> None:
         self.session = session
         self.client = session.client
-        character = session.get_npc(self.npc_slug)
+        character = session.client.get_npc(self.npc_slug)
 
         if character is None:
             logger.error(f"{self.npc_slug} not found")

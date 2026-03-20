@@ -432,8 +432,14 @@ class BaseClient(ABC):
 
     def get_npc_pos(self, pos: tuple[int, int]) -> NPC | None:
         """Gets an NPC object by location (x,y)."""
+        if local_session.has_player():
+            player = local_session.player
+            if player.tile_pos == pos:
+                return player
         return self.npc_manager.get_entity_pos(pos)
 
     def get_npc(self, slug: str) -> NPC | None:
         """Gets an NPC object by slug."""
+        if slug == "player":
+            return local_session.player if local_session.has_player() else None
         return self.npc_manager.get_npc(slug)

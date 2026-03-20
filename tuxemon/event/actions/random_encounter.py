@@ -99,7 +99,7 @@ class RandomEncounterAction(EventAction):
             "create_npc", ["wild_encounter", 0, 0], True
         )
 
-        npc = session.get_npc("wild_encounter")
+        npc = session.client.get_npc("wild_encounter")
         if npc is None:
             logger.error("'wild_encounter' not found")
             self.stop()
