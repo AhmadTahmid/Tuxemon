@@ -26,48 +26,6 @@ def collision_manager(map_manager, npc_manager):
     return CollisionManager(map_manager, npc_manager)
 
 
-def test_get_all_tile_properties(collision_manager, map_manager):
-    surface_map = {
-        (0, 0): {"label1": 1.0, "label2": 2.0},
-        (1, 1): {"label1": 3.0, "label3": 4.0},
-    }
-    map_manager.surface_map = surface_map
-
-    result = collision_manager.get_all_tile_properties(surface_map, "label1")
-    assert result == [(0, 0), (1, 1)]
-
-
-@patch(
-    "tuxemon.map.collision_manager.SURFACE_KEYS",
-    ["label1", "label2", "label3"],
-)
-def test_update_tile_property(collision_manager, map_manager):
-    surface_map = {
-        (0, 0): {"label1": 1.0, "label2": 2.0},
-        (1, 1): {"label1": 3.0, "label3": 4.0},
-    }
-    map_manager.surface_map = surface_map
-
-    collision_manager.update_tile_property("label1", 5.0)
-
-    assert map_manager.surface_map[(0, 0)]["label1"] == 5.0
-    assert map_manager.surface_map[(1, 1)]["label1"] == 5.0
-
-
-@patch(
-    "tuxemon.map.collision_manager.SURFACE_KEYS",
-    ["label1", "label2", "label3"],
-)
-def test_all_tiles_modified(collision_manager, map_manager):
-    surface_map = {
-        (0, 0): {"label1": 5.0, "label2": 2.0},
-        (1, 1): {"label1": 5.0, "label3": 4.0},
-    }
-    map_manager.surface_map = surface_map
-
-    assert collision_manager.all_tiles_modified("label1", 5.0)
-
-
 def test_check_collision_zones(collision_manager, map_manager):
     collision_map = {
         (0, 0): RegionProperties([], [], [], None, "label1"),
@@ -87,7 +45,7 @@ def test_add_collision(collision_manager, map_manager):
     region = RegionProperties([], [], [], None, "label1")
     map_manager.collision_map = {(0, 0): region}
 
-    collision_manager.add_collision(entity, (0.0, 0.0))
+    collision_manager.add_collision(entity, (0, 0))
 
     assert map_manager.collision_map[(0, 0)].entity is not None
 

@@ -8,7 +8,6 @@ from collections.abc import Mapping, MutableMapping
 from typing import TYPE_CHECKING
 
 from tuxemon.map.region import RegionProperties
-from tuxemon.platform.const.sizes import SURFACE_KEYS
 
 if TYPE_CHECKING:
     from tuxemon.entity.entity import Entity
@@ -35,68 +34,6 @@ class CollisionManager:
     ) -> None:
         self._map_manager = map_manager
         self._npc_manager = npc_manager
-
-    def get_all_tile_properties(
-        self,
-        surface_map: MutableMapping[tuple[int, int], dict[str, float]],
-        label: str,
-    ) -> list[tuple[int, int]]:
-        """
-        Retrieves the coordinates of all tiles with a specific property.
-
-        Parameters:
-            map: The surface map.
-            label: The label (SurfaceKeys).
-
-        Returns:
-            A list of coordinates (tuples) of tiles with the specified label.
-        """
-        return [
-            coords for coords, props in surface_map.items() if label in props
-        ]
-
-    def update_tile_property(self, label: str, moverate: float) -> None:
-        """
-        Updates the movement rate property for existing tile entries in the
-        surface map.
-
-        This method modifies the moverate value for tiles that already contain
-        the specified label, ensuring that no new dictionary entries are created.
-        If the label is not present in a tile's properties, the tile remains
-        unchanged. The update process runs efficiently to prevent unnecessary
-        modifications.
-
-        Parameters:
-            label: The property key to update (e.g., terrain type).
-            moverate: The new movement rate value to assign.
-        """
-        if label not in SURFACE_KEYS:
-            return
-
-        for coord in self.get_all_tile_properties(
-            self._map_manager.surface_map, label
-        ):
-            props = self._map_manager.surface_map.get(coord)
-            if props and props.get(label) != moverate:
-                props[label] = moverate
-
-    def all_tiles_modified(self, label: str, moverate: float) -> bool:
-        """
-        Checks if all tiles with the specified label have been modified.
-
-        Parameters:
-            label: The property key to check.
-            moverate: The expected movement rate.
-
-        Returns:
-            True if all tiles have the expected moverate, False otherwise.
-        """
-        return all(
-            self._map_manager.surface_map[coord].get(label) == moverate
-            for coord in self.get_all_tile_properties(
-                self._map_manager.surface_map, label
-            )
-        )
 
     def check_collision_zones(
         self,

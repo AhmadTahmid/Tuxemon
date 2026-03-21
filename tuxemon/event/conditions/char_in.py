@@ -41,9 +41,7 @@ class CharInCondition(EventCondition):
 
         tiles = []
         if self.value in SURFACE_KEYS:
-            tiles = client.collision_manager.get_all_tile_properties(
-                client.map_manager.surface_map, self.value
-            )
+            tiles = client.terrain_manager.get_all_tile_properties(self.value)
         else:
             tiles = client.collision_manager.check_collision_zones(
                 client.map_manager.collision_map, self.value

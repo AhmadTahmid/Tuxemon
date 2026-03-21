@@ -33,6 +33,7 @@ from tuxemon.event.running import ConditionEvaluator
 from tuxemon.map.collision_manager import CollisionManager
 from tuxemon.map.loader import MapLoader
 from tuxemon.map.manager import MapManager
+from tuxemon.map.terrain import TerrainManager
 from tuxemon.map.transition import MapTransition
 from tuxemon.map.view import AbstractRenderer, NullRenderer
 from tuxemon.menu.alert import AlertManager
@@ -158,6 +159,7 @@ class BaseClient(ABC):
         self.movement_manager = MovementManager(
             self.event_manager, self.input_manager
         )
+        self.terrain_manager = TerrainManager(self.map_manager)
         self.collision_manager = CollisionManager(
             self.map_manager, self.npc_manager
         )
