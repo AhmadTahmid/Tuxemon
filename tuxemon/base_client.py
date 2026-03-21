@@ -160,9 +160,7 @@ class BaseClient(ABC):
             self.event_manager, self.input_manager
         )
         self.terrain_manager = TerrainManager(self.map_manager)
-        self.collision_manager = CollisionManager(
-            self.map_manager, self.npc_manager
-        )
+        self.collision_manager = CollisionManager(self.map_manager)
         self.pathfinder = Pathfinder(
             self.npc_manager,
             self.map_manager,

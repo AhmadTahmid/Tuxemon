@@ -45,5 +45,4 @@ class CharPositionAction(EventAction):
                 f"Character is outside the boundaries of the map at ({position[0]}, {position[1]})"
             )
         character.remove_collision()
-        character.set_position(position)
-        character.on_tile_changed()
+        character.complete_tile_entry(position)

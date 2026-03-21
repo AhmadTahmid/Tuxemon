@@ -7,13 +7,10 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from enum import Enum
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from tuxemon.db import Direction
 from tuxemon.platform.const.sizes import REGION_KEYS
-
-if TYPE_CHECKING:
-    from tuxemon.entity.entity import Entity
 
 logger = logging.getLogger(__name__)
 
@@ -50,12 +47,6 @@ class RegionProperties:
         default_factory=list,
         metadata={
             "description": "Directions from which an entity can remain in this region."
-        },
-    )
-    entity: Entity | None = field(
-        default=None,
-        metadata={
-            "description": "Optional entity associated with this region."
         },
     )
     key: str | None = field(
@@ -136,7 +127,6 @@ class DefaultTileStrategy(RegionPropertiesStrategy):
             enter_from=parsed_data.get("enter_from", []),
             exit_from=parsed_data.get("exit_from", []),
             endure=parsed_data.get("endure", []),
-            entity=None,
             key=parsed_data.get("key"),
             push_effect=None,
             speed_modifier=parsed_data.get("speed_modifier"),
@@ -156,7 +146,6 @@ class SlideTileStrategy(RegionPropertiesStrategy):
             enter_from=all_dirs,
             exit_from=all_dirs,
             endure=all_dirs,
-            entity=None,
             key=RegionKey.SLIDE.value,
             push_effect=None,
             speed_modifier=parsed_data.get("speed_modifier"),
@@ -188,7 +177,6 @@ class PushTileStrategy(RegionPropertiesStrategy):
             enter_from=enter_from,
             exit_from=exit_from,
             endure=parsed_data.get("endure", []),
-            entity=None,
             key=RegionKey.PUSH_TILE.value,
             push_effect=PushEffect(push_direction, push_strength),
             speed_modifier=parsed_data.get("speed_modifier"),
@@ -245,8 +233,10 @@ def _parse_raw_properties(
                     raise ValueError(
                         f"Invalid speed_modifier '{value}': must be a number."
                     )
-        # Optional: collect unknown keys for logging/debugging
+        else:
+            logger.debug(f"Unknown region property key '{k}' ignored.")
 
+    # If only exit_from is defined, infer enter_from as the complementary set.
     if parsed_data["exit_from"] and not parsed_data["enter_from"]:
         all_dirs = list(Direction)
         parsed_data["enter_from"] = sorted(
@@ -267,11 +257,6 @@ def create_region_properties(
         key = RegionKey.DEFAULT
 
     strategy_cls = REGION_STRATEGIES.get(key, DefaultTileStrategy)
-
-    # Note: If DefaultTileStrategy is registered, this fallback is technically
-    # redundant but harmless, and ensures a clean failure if someone deletes the
-    # default registration.
-
     return strategy_cls.create(parsed_data)
 
 
@@ -279,8 +264,8 @@ def extract_region_properties(
     properties: Mapping[str, str | None],
 ) -> RegionProperties | None:
     """
-    Given a dictionary from Tiled properties, return a dictionary
-    suitable for collision detection.
+    Given a dictionary from Tiled properties, return a RegionProperties
+    object suitable for collision detection.
 
     The function expects the input dictionary to contain keys from the following set:
     {"enter_from", "exit_from", "endure", "key"}. The values for "enter_from", "exit_from",
@@ -298,7 +283,7 @@ def extract_region_properties(
         properties: A dictionary from Tiled properties.
 
     Returns:
-        A RegionProperties NamedTuple suitable for collision detection.
+        A RegionProperties object suitable for collision detection, or None.
 
     Raises:
         ValueError: If the input dictionary contains an invalid value.
@@ -325,12 +310,14 @@ def direction_to_list(direction: str | None) -> list[Direction]:
     if not cleaned:
         raise ValueError("Direction string is empty or whitespace.")
 
+    all_dirs = list(Direction)
     try:
         return sorted(
             [
                 Direction(d)
                 for d in {d.strip().lower() for d in cleaned.split(",")}
-            ]
+            ],
+            key=lambda d: all_dirs.index(d),
         )
     except ValueError as e:
         raise ValueError(f"Invalid direction list: {direction}") from e
