@@ -52,7 +52,10 @@ class FoodPreferenceEffect(CoreEffect):
         bond_delta = get_bond_from_food(
             target, self.warm.lower(), self.cold.lower()
         )
-        target.bond_handler.change_bond(bond_delta)
+        floor = target.bond_handler.get_effective_min_bond(target.stage)
+        crossed = target.bond_handler.change_bond(bond_delta, floor)
+        if crossed:
+            logger.debug(f"{target.name} crossed bond milestones: {crossed}")
         return ItemEffectResult(name=item.name, success=True)
 
 
@@ -72,19 +75,21 @@ def get_bond_from_food(
     """
     warm_match = warm_taste == monster.taste_warm
     cold_match = cold_taste == monster.taste_cold
-
     warm_opposite = is_opposite_taste(warm_taste, monster.taste_warm)
     cold_opposite = is_opposite_taste(cold_taste, monster.taste_cold)
-
     bond_preferences = config_monster.bond_preferences
 
     if warm_match and cold_match:
-        return bond_preferences.get("great", 0)
+        key = "great"
     elif warm_match or cold_match:
-        return bond_preferences.get("good", 0)
+        key = "good"
     elif warm_opposite and cold_opposite:
-        return bond_preferences.get("terrible", 0)
+        key = "terrible"
     elif warm_opposite or cold_opposite:
-        return bond_preferences.get("bad", 0)
+        key = "bad"
     else:
-        return bond_preferences.get("average", 0)
+        key = "average"
+
+    if key not in bond_preferences:
+        logger.warning(f"Bond preference key '{key}' not found in config.")
+    return bond_preferences.get(key, 0)

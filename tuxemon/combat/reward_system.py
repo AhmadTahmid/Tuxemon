@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 from tuxemon.combat.combat_context import CombatType
@@ -26,6 +26,7 @@ class RewardDataEntry:
     money: int
     experience: int
     levels_gained: int = 0
+    bond_milestones_crossed: set[int] = field(default_factory=set)
 
 
 @dataclass
@@ -121,15 +122,15 @@ class RewardCalculator:
         """
         awarded_exp, _ = calculate_experience(loser, winner, self.damage_map)
         awarded_money = calculate_money(loser, winner)
-
         calculate_tps(winner, loser)
         levels = winner.give_experience(awarded_exp)
-
+        crossed = winner.bond_handler.apply_bond_modifier("win_battle")
         return RewardDataEntry(
             winner=winner,
             money=awarded_money,
             experience=awarded_exp,
             levels_gained=levels,
+            bond_milestones_crossed=crossed,
         )
 
     def update_moves_and_messages(

@@ -427,6 +427,7 @@ class Monster:
     def set_acquisition(self, acquisition: Acquisition) -> None:
         """Sets the acquisition method of this monster."""
         self.acquisition = Acquisition(acquisition)
+        self.bond_handler.set_bond_for_acquisition(acquisition)
 
     def has_acquisition(self, method: Acquisition) -> bool:
         """Returns True if the monster was acquired via the specified method."""
@@ -697,6 +698,10 @@ class Monster:
         self.plague = old_monster.plague
         self.steps = old_monster.steps
         self.bond_handler = old_monster.bond_handler
+
+        min_bond = self.bond_handler.get_effective_min_bond(self.stage)
+        if self.bond_handler.bond < min_bond:
+            self.bond_handler.bond = min_bond
 
         if old_monster.name != T.translate(old_monster.slug):
             self.name = old_monster.name
