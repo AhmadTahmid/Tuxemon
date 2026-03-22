@@ -75,9 +75,9 @@ class StepManager:
         steps: float,
         **kwargs: Any,
     ) -> None:
-        from tuxemon.entity.player import Player
+        from tuxemon.entity.npc import NPC
 
-        if not isinstance(entity, Player):
+        if not isinstance(entity, NPC):
             return
 
         entity.steps += steps

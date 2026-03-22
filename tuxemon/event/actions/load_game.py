@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import final
 
 from tuxemon.constants.asset_loader import fetch_asset
-from tuxemon.entity.player import Player
+from tuxemon.entity.npc import NPC
 from tuxemon.event.eventaction import EventAction
 from tuxemon.platform.const.sizes import PLAYER_NPC
 from tuxemon.save_system.save_manager import SaveManager
@@ -69,7 +69,7 @@ class LoadGameAction(EventAction):
 
         slug = npc_state.player_slug or PLAYER_NPC
         npc_state.player_slug = slug
-        Player.create(session, slug=slug)
+        NPC.create_player(session, slug=slug)
 
         if npc_state.current_map is None:
             logger.error("Save data missing current map.")

@@ -653,7 +653,7 @@ class CombatAnimations(Menu[None], ABC):
         # Spawn Entities
         if self.combat_session.is_trainer_battle:
             enemy_pos = layout.get_combatant_pos("enemy", back_island.rect)
-            enemy_surface = opponent.combat_sheet().front()
+            enemy_surface = opponent.combat_sheet.front()
             enemy_surface = graphics.scale_surface(enemy_surface, self.factor)
             enemy = self.load_surface(enemy_surface, **enemy_pos)
             self.sprite_map.add_sprite(opponent, enemy)
@@ -670,7 +670,7 @@ class CombatAnimations(Menu[None], ABC):
             self.update_hud(opponent, True, True)
 
         player_pos = layout.get_combatant_pos("player", front_island.rect)
-        player_surface = player.combat_sheet().back()
+        player_surface = player.combat_sheet.back()
         player_surface = graphics.scale_surface(player_surface, self.factor)
         player_back = self.load_surface(player_surface, **player_pos)
 

@@ -134,6 +134,13 @@ class NPC(Entity):
         return cls(npc_slug, npc_data, session)
 
     @classmethod
+    def create_player(cls, session: Session, slug: str) -> NPC:
+        npc = cls.create(session, slug)
+        if not session.has_player():
+            session.set_player(npc)
+        return npc
+
+    @classmethod
     def from_save(cls, session: Session, save_data: NPCState) -> NPC:
         slug = save_data.player_slug or PLAYER_NPC
         npc_data = NpcModel.lookup(slug, db)
@@ -196,6 +203,7 @@ class NPC(Entity):
         """Returns the NPC's current movement destination tile, if any."""
         return self.path_controller.move_destination
 
+    @property
     def combat_sheet(self) -> CombatSheet:
         a = self.appearance_manager.state
 

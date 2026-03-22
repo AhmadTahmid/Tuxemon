@@ -11,7 +11,7 @@ from uuid import UUID
 
 import pytest
 
-from tuxemon.entity.player import Player
+from tuxemon.entity.npc import NPC
 from tuxemon.math import Vector2
 from tuxemon.tools import (
     cast_value,
@@ -64,7 +64,7 @@ def test_copy_dict_with_keys(source, keys, expected):
 
 @pytest.fixture
 def player():
-    p = MagicMock(spec=Player)
+    p = MagicMock(spec=NPC)
     p.game_variables = {
         "my_var": 2,
         "non_numeric": "text",

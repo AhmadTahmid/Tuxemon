@@ -196,7 +196,7 @@ class CharacterState(PygameMenuState):
         )
         lab8.translate(fxw(0.45), fxh(0.10))
         # image
-        surface = self.char.combat_sheet().front()
+        surface = self.char.combat_sheet.front()
         scaled = scale_surface(surface, self.factor)
         new_image = self._create_image_from_surface(scaled)
         image_widget = menu.add.image(image_path=new_image.copy())
