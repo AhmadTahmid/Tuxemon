@@ -117,6 +117,13 @@ class ReplacePartyFromYamlAction(EventAction):
 
             new_monsters.append(monster)
 
+        if not new_monsters:
+            logger.error(
+                f"No valid monsters built for set '{self.set_name}', party unchanged."
+            )
+            self.stop()
+            return
+
         character.party.replace_party(new_monsters, False)
         logger.info(
             f"Replaced all monsters for {character.name} using set '{self.set_name}' from {self.yaml_file}"

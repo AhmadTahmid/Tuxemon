@@ -61,8 +61,9 @@ class ClearKennelAction(EventAction):
                 if transfer is None:
                     character.monster_boxes.remove_box(kennel)
                 else:
-                    character.monster_boxes.merge_boxes(kennel, transfer)
-                    character.monster_boxes.remove_box(kennel)
+                    character.monster_boxes.merge_and_remove_boxes(
+                        kennel, transfer
+                    )
             else:
                 self.stop()
                 return

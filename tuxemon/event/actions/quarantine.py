@@ -99,8 +99,9 @@ class QuarantineAction(EventAction):
             # Inoculates the monster before releasing it.
             monster.plague.inoculate(self.plague_slug)
 
-            if party.transfer_monster_to_party(monster):
-                boxes.remove_from_box("monster", self.name, monster)
+            if party.transfer_monster_to_party(
+                monster, source_kennel=self.name
+            ):
                 logger.info(f"{monster} has been inoculated and released")
             else:
                 logger.warning(f"Failed to release {monster} to party")

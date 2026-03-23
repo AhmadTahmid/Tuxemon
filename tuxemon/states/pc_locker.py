@@ -126,8 +126,8 @@ class ItemTakeState(PygameMenuState):
     ) -> None:
         self.box_name = box_name
         self.char = character
-        self.box = self.char.item_boxes.get_items(self.box_name)
-
+        self.item_boxes = self.char.item_boxes
+        self.box = self.item_boxes.get_items(self.box_name)
         width, height = client.context.resolution
 
         columns = 3
@@ -232,8 +232,6 @@ class ItemTakeState(PygameMenuState):
         )
 
     def add_menu_items(self, menu: Menu, items: Sequence[Item]) -> None:
-        self.item_boxes = self.char.item_boxes
-        self.box = self.item_boxes.get_items(self.box_name)
         handler = ItemActionHandler(
             self.client, self.char, self.box_name, self.name
         )
@@ -351,8 +349,7 @@ class ItemStorageState(ItemBoxState):
         item_boxes = self.char.item_boxes
         menu_items_map = []
         for box_name, items in item_boxes.item_boxes.items():
-            metadata = item_boxes.metadata_manager.get(box_name, "item")
-            if metadata is None or not metadata.is_hidden:
+            if not item_boxes.is_box_hidden(box_name, "item"):
                 if not items:
                     menu_callback = partial(
                         open_dialog,
@@ -380,9 +377,8 @@ class ItemDropOffState(ItemBoxState):
     def get_menu_items_map(self) -> Sequence[tuple[str, MenuGameObj]]:
         item_boxes = self.char.item_boxes
         menu_items_map = []
-        for box_name, items in item_boxes.item_boxes.items():
-            metadata = item_boxes.metadata_manager.get(box_name, "item")
-            if metadata is None or not metadata.is_hidden:
+        for box_name in item_boxes.item_boxes:
+            if not item_boxes.is_box_hidden(box_name, "item"):
                 menu_callback = self.change_state(
                     "ItemDropOff", box_name=box_name, character=self.char
                 )
@@ -430,13 +426,7 @@ class ItemDropOff(ItemMenuState):
             item_boxes = self.char.item_boxes
             box = item_boxes.get_items(self.box_name)
 
-            new_item = Item.create(itm.slug)
-            new_item.set_quantity(quantity)
-
-            def find_item_in_box(slug: str, items: list[Item]) -> Item | None:
-                return next((i for i in items if i.slug == slug), None)
-
-            retrieve = find_item_in_box(itm.slug, box) if box else None
+            retrieve = next((i for i in box if i.slug == itm.slug), None)
             stored = (
                 item_boxes.get_items_by_iid(retrieve.instance_id)
                 if retrieve
@@ -446,6 +436,8 @@ class ItemDropOff(ItemMenuState):
             if stored:
                 stored.increase_quantity(quantity)
             else:
+                new_item = Item.create(itm.slug)
+                new_item.set_quantity(quantity)
                 item_boxes.add_item(self.box_name, new_item)
 
             self.char.bag.remove_item(itm, quantity)

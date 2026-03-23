@@ -260,7 +260,7 @@ class NPC(Entity):
         base.step_tracker = encode_steps(self.step_tracker)
         base.unlocked_letters = encode_cipher(self.unlocked_letters)
         base.evolution_registry = self.evolution_registry.encode_registry()
-        base.routing_policy = self.party.routing_policy.to_dict()
+        base.routing_policy = self.party.routing_policy.serialize()
 
         return base
 
@@ -300,7 +300,7 @@ class NPC(Entity):
 
         self.tracker = decode_tracking(save_data.tracker)
         self.step_tracker = decode_steps(save_data.step_tracker)
-        self.party.routing_policy_name = RoutingPolicy.from_dict(save_data)
+        self.party.routing_policy_name = RoutingPolicy.deserialize(save_data)
 
         if save_data.appearance:
             self.appearance_manager.load_state(save_data.appearance)

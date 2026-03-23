@@ -61,10 +61,7 @@ class MonsterActionHandler:
 
     def pick(self, monster: Monster) -> None:
         self._clear_states("ChoiceState", "MonsterTakeState")
-        self.monster_boxes.remove_from_box("monster", None, monster)
-        self.char.party.insert_monster_to_party(
-            monster, len(self.char.monsters)
-        )
+        self.char.party.transfer_monster_to_party(monster)
         open_dialog(
             self.client,
             [T.format("menu_storage_take_monster", {"name": monster.name})],
@@ -290,8 +287,6 @@ class MonsterTakeState(PygameMenuState):
         )
 
     def add_menu_items(self, menu: Menu, items: Sequence[Monster]) -> None:
-        self.monster_boxes = self.char.monster_boxes
-        self.box = self.monster_boxes.get_monsters(self.box_name)
         handler = MonsterActionHandler(
             self.client, self.char, self.box_name, self.name
         )
@@ -429,8 +424,7 @@ class MonsterStorageState(MonsterBoxState):
         menu_items_map = []
         monster_boxes = self.char.monster_boxes
         for box_name, monsters in monster_boxes.monster_boxes.items():
-            metadata = monster_boxes.metadata_manager.get(box_name, "monster")
-            if metadata is None or not metadata.is_hidden:
+            if not monster_boxes.is_box_hidden(box_name, "monster"):
                 if not monsters:
                     menu_callback = partial(
                         open_dialog,
@@ -459,8 +453,7 @@ class MonsterDropOffState(MonsterBoxState):
         menu_items_map = []
         monster_boxes = self.char.monster_boxes
         for box_name, monsters in monster_boxes.monster_boxes.items():
-            metadata = monster_boxes.metadata_manager.get(box_name, "monster")
-            if metadata is None or not metadata.is_hidden:
+            if not monster_boxes.is_box_hidden(box_name, "monster"):
                 if len(monsters) < MAX_BOX:
                     menu_callback = self.change_state(
                         "MonsterDropOff",
@@ -523,6 +516,5 @@ class MonsterDropOff(MonsterMenuState):
             self.on_selection(monster)
             self.client.state_manager.pop_state(self)
         else:
-            self.char.monster_boxes.add_monster(self.box_name, monster)
-            self.char.party.remove_monster(monster)
+            self.char.party.transfer_monster_to_box(monster, self.box_name)
             self.client.state_manager.pop_state(self)
