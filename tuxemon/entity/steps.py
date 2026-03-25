@@ -81,6 +81,8 @@ class StepManager:
             return
 
         entity.steps += steps
+        entity.daycare.on_steps(steps)
+
         self.handle_steps(
             diff_x=diff_x,
             diff_y=diff_y,

@@ -11670,58 +11670,14 @@ msgstr "Sorry, I'm under orders to let no one pass."
 
 msgid "cotton_breeder0"
 msgstr ""
-"Hi there, welcome to the Daycare, I breed Tuxemon here.\n"
-"I run this place because I love Tuxemon so much!\n"
-"If you like, I can breed two of your Tuxemon for you. Just let me know, ok?"
+"Hi there, welcome to the Daycare! I look after Tuxemon here.\n"
+"If you leave your partners with me, I can train them while you explore — as long as you've got some money on hand.\n"
+"And if you leave a male and a female who are fully evolved enough, they might even produce a newborn!\n"
+"Just tell me what you'd like to do."
 
 msgid "cotton_breeder1"
-msgstr "Do you wanna leave two of your Tuxemon with me to breed them?"
-
-msgid "cotton_breeder2a_1"
-msgstr "Okay, which Tuxemon will be the mother?"
-
-msgid "cotton_breeder2a_2"
-msgstr "Great, how about the father?"
-
-msgid "cotton_breeder3"
-msgstr "Okay, you sure these are the two you want?"
-
-msgid "cotton_breeder4a"
 msgstr ""
-"Great! Come back to check in later and I'll let you know how it's going."
-
-msgid "cotton_breeder_rejected"
-msgstr "Oh, alright. You think about it some more and come back to me."
-
-msgid "cotton_breeder5"
-msgstr "Hey ${{name}}, come to check up on your Tuxemon?"
-
-msgid "cotton_breeder6a"
-msgstr ""
-"They're still getting acquainted, as it were. Why don't you come back later?"
-
-msgid "cotton_breeder6b"
-msgstr ""
-"It's going very well! They're practically inseperable!\n"
-"It shouldn't be too long now before we've got a baby on the way."
-
-msgid "cotton_breeder6c"
-msgstr "Congratulations! They've had a baby! Here you go, raise it well."
-
-msgid "cotton_breeder_continue"
-msgstr ""
-"It'll be awhile before they're ready for another, but if you like I can hold"
-" onto these two and breed them again."
-
-msgid "cotton_breeder7a"
-msgstr ""
-"Great! You take some time with the baby and I'll take care of the parents. "
-"Come back later to check up on them."
-
-msgid "cotton_breeder7b"
-msgstr ""
-"Good idea, the new family should be kept together at this important stage in the baby's development.\n"
-"Ya'll come back now, y'hear?"
+"Would you like to leave a Tuxemon with me? I can train one, or look after a pair if you want them to try breeding."
 
 msgid "taba_greeting1"
 msgstr ""
@@ -12005,19 +11961,6 @@ msgstr ""
 msgid "spyder_papertown_grannypiper4"
 msgstr ""
 "Hello ${{name}}. Would you like to put a tuxemon into my Daycare Centre?"
-
-msgid "spyder_papertown_grannypiper5"
-msgstr ""
-"Hello ${{name}}. Would you like to retrieve your ${{var:daycare_name}}?"
-
-msgid "spyder_papertown_grannypiper6"
-msgstr ""
-"Okay, ${{var:daycare_name}} rose ${{var:daycare_level}} levels under our "
-"care. That will be ${{currency}}${{var:daycare_exp}}."
-
-msgid "spyder_papertown_grannypiper7"
-msgstr ""
-"Oh, it looks like you are out of money! Looks like you need to work harder!"
 
 msgid "spyder_papertown_grannypiper8"
 msgstr ""
@@ -18341,6 +18284,94 @@ msgstr "{user} dashes around, kicking up dust in excitement."
 
 msgid "menu_park_alert"
 msgstr "{user} suddenly stops, sensing something nearby."
+
+############################################################
+# DAYCARE — SUMMARY & GENERAL
+############################################################
+
+msgid "menu_daycare_summary"
+msgstr "Daycare Summary"
+
+msgid "menu_daycare_parents"
+msgstr "Parents in Daycare"
+
+msgid "menu_daycare_empty"
+msgstr "No monsters stored."
+
+msgid "menu_daycare_mode"
+msgstr "Mode"
+
+msgid "menu_daycare_thanks"
+msgstr "Thanks for using the Daycare!"
+
+msgid "menu_daycare_add"
+msgstr "Add Tuxemon"
+
+msgid "menu_daycare_withdraw"
+msgstr "Withdraw All"
+
+msgid "menu_daycare_collect"
+msgstr "Collect Newborn"
+
+msgid "menu_daycare_mode_training"
+msgstr "Training"
+
+msgid "menu_daycare_mode_breeding"
+msgstr "Breeding"
+
+msgid "menu_daycare_mode_incompatible"
+msgstr "Training (Incompatible Pair)"
+
+msgid "menu_daycare_mode_empty"
+msgstr "Empty"
+
+msgid "menu_daycare_training"
+msgstr "Training Info"
+
+msgid "menu_daycare_exp_total"
+msgstr "Total EXP Gained"
+
+msgid "menu_daycare_cost_total"
+msgstr "Total Cost Paid"
+
+msgid "menu_daycare_exp_per_step"
+msgstr "EXP per Step (per monster)"
+
+msgid "menu_daycare_cost_per_step"
+msgstr "Cost per Step (per monster)"
+
+msgid "menu_daycare_exp_per_step_total"
+msgstr "Total EXP per Step"
+
+msgid "menu_daycare_cost_per_step_total"
+msgstr "Total Cost per Step"
+
+msgid "menu_daycare_training_active_single"
+msgstr "Training Active (1 monster)"
+
+msgid "menu_daycare_training_active_double"
+msgstr "Training Active (2 monsters)"
+
+msgid "menu_daycare_training_inactive"
+msgstr "Training Inactive"
+
+msgid "menu_daycare_breeding"
+msgstr "Breeding Info"
+
+msgid "menu_daycare_progress"
+msgstr "Progress"
+
+msgid "menu_daycare_ready"
+msgstr "Newborn Ready!"
+
+msgid "menu_daycare_halfway"
+msgstr "Halfway There"
+
+msgid "menu_daycare_not_ready"
+msgstr "Not Ready Yet"
+
+msgid "menu_daycare_no_breeding"
+msgstr "No breeding possible."
 
 # Another Mod ##
 msgid "37707_sign_welcome"

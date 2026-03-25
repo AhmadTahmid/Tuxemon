@@ -14,6 +14,7 @@ from tuxemon.entity.appearance import AppearanceManager
 from tuxemon.entity.bag import BagHandler
 from tuxemon.entity.battle import BattlesHandler
 from tuxemon.entity.behavior.base import BehaviorPolicy
+from tuxemon.entity.daycare import Daycare
 from tuxemon.entity.entity import Entity
 from tuxemon.entity.party import PartyHandler
 from tuxemon.entity.path.controller import PathController
@@ -119,6 +120,7 @@ class NPC(Entity):
         self.steps: float = 0.0
         self.dialogue: DialogueProfile | None = None
         self.sprite_controller = SpriteController(self)
+        self.daycare = Daycare(owner=self)
 
         # PathController manages all path/pathfinding state & logic.
         self.path_controller = PathController(
@@ -250,6 +252,7 @@ class NPC(Entity):
         base.player_steps = self.steps
         base.monster_boxes = monster_boxes_state["monster_boxes"]
         base.monster_box_metadata = monster_boxes_state["monster_box_metadata"]
+        base.daycare = self.daycare.get_state()
         base.item_boxes = item_boxes_state["item_boxes"]
         base.item_box_metadata = item_boxes_state["item_box_metadata"]
         base.teleport_faint = self.teleport_faint.to_dict()
@@ -291,6 +294,7 @@ class NPC(Entity):
         self.evolution_registry.decode_registry(save_data.evolution_registry)
         self.monster_boxes.load(self, save_data)
         self.item_boxes.load(save_data)
+        self.daycare.load_state(save_data.daycare)
 
         self.teleport_faint = TeleportFaint.from_dict(save_data)
 
