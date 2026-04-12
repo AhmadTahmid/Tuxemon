@@ -39,7 +39,14 @@ def engine(patched_player_init):
     evaluator = ConditionEvaluator(MagicMock(), MagicMock())
     behavior = BehaviorManager()
     eng = EventEngine(local_session, action, evaluator, behavior)
-    local_session.set_player(NPC())
+    player = NPC()
+    local_session.set_player(player)
+    mock_client = MagicMock()
+    mock_client.get_npc.side_effect = lambda slug: (
+        player if slug == "player" else None
+    )
+    mock_client.get_npc_pos.return_value = None
+    local_session.set_client(mock_client)
     return eng
 
 
