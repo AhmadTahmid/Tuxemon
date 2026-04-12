@@ -25,17 +25,6 @@ if TYPE_CHECKING:
     from tuxemon.base_client import BaseClient
     from tuxemon.platform.events import PlayerInput
 
-lookup_cache: dict[str, MonsterModel] = {}
-
-
-def _lookup_monsters() -> None:
-    global lookup_cache
-    lookup_cache = {
-        mon_name: result
-        for mon_name in db.database["monster"]
-        if (result := MonsterModel.lookup(mon_name, db)).txmn_id > 0
-    }
-
 
 class CharacterState(PygameMenuState):
     """
@@ -66,7 +55,7 @@ class CharacterState(PygameMenuState):
         )
 
         # tuxepedia data
-        filters = list(lookup_cache.values())
+        filters = list(self.cache.values())
         reporter = TuxepediaReporter(self.char.tuxepedia.data)
         completeness = reporter.get_completeness_report(len(filters))
         percentage = round(completeness["registered_percent"] * 100, 1)
@@ -209,8 +198,8 @@ class CharacterState(PygameMenuState):
         character: NPC,
         **kwargs: Any,
     ) -> None:
-        if not lookup_cache:
-            _lookup_monsters()
+        MonsterModel.load_cache(db)
+        self.cache = MonsterModel.get_cache()
 
         width, height = client.context.resolution
         self.char = character

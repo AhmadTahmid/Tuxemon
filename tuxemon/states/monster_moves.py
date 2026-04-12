@@ -25,17 +25,6 @@ if TYPE_CHECKING:
     from tuxemon.monster.monster import Monster
     from tuxemon.platform.events import PlayerInput
 
-lookup_cache: dict[str, MonsterModel] = {}
-
-
-def _lookup_monsters() -> None:
-    global lookup_cache
-    lookup_cache = {
-        mon_name: result
-        for mon_name in db.database["monster"]
-        if (result := MonsterModel.lookup(mon_name, db)).txmn_id > 0
-    }
-
 
 class MonsterMovesState(PygameMenuState):
     """
@@ -345,8 +334,6 @@ class MonsterMovesState(PygameMenuState):
         monsters: list[Monster] | None,
         **kwargs: Any,
     ) -> None:
-        if not lookup_cache:
-            _lookup_monsters()
 
         width, height = client.context.resolution
 

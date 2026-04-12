@@ -20,8 +20,6 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-lookup_cache: dict[str, MonsterModel] = {}
-
 
 @dataclass
 class ActionConfig:
@@ -103,8 +101,8 @@ class FishingEffect(CoreEffect):
     _trigger_next_frame: bool = False
 
     def apply_item(self, session: Session, item: Item) -> ItemEffectResult:
-        if not lookup_cache:
-            _lookup_monsters()
+        MonsterModel.load_cache(db)
+        self.cache = MonsterModel.get_cache()
 
         fishing_configs = Loader.get_config_fishing(f"{self.name}.yaml")
 
@@ -217,7 +215,7 @@ class FishingEffect(CoreEffect):
                 )
             )
 
-        filtered = [mon for mon in lookup_cache.values() if matches(mon)]
+        filtered = [mon for mon in self.cache.values() if matches(mon)]
 
         if not filtered:
             logger.error(
@@ -249,12 +247,3 @@ class FishingEffect(CoreEffect):
         """Prepare a fishing encounter (store slug + level only)."""
         self._pending_encounter = (mon_slug, level)
         self._trigger_next_frame = True
-
-
-def _lookup_monsters() -> None:
-    global lookup_cache
-    lookup_cache = {
-        mon_name: result
-        for mon_name in db.database["monster"]
-        if (result := MonsterModel.lookup(mon_name, db)).txmn_id > 0
-    }

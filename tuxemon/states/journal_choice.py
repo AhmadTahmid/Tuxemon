@@ -25,16 +25,6 @@ MAX_PAGE = 20
 
 
 MenuGameObj = Callable[[], object]
-lookup_cache: dict[str, MonsterModel] = {}
-
-
-def _lookup_monsters() -> None:
-    global lookup_cache
-    lookup_cache = {
-        mon_name: result
-        for mon_name in db.database["monster"]
-        if (result := MonsterModel.lookup(mon_name, db)).txmn_id > 0
-    }
 
 
 class JournalChoice(PygameMenuState):
@@ -96,14 +86,14 @@ class JournalChoice(PygameMenuState):
     ) -> None:
         self.char = character
 
-        if not lookup_cache:
-            _lookup_monsters()
+        MonsterModel.load_cache(db)
+        cache = MonsterModel.get_cache()
 
         width, height = client.context.resolution
 
         columns = 2
 
-        box = list(lookup_cache.values())
+        box = list(cache.values())
         diff = round(len(box) / MAX_PAGE) + 1
         rows = int(diff / columns) + 1
 

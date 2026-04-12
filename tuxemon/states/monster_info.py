@@ -24,27 +24,6 @@ if TYPE_CHECKING:
     from tuxemon.base_client import BaseClient
     from tuxemon.platform.events import PlayerInput
 
-lookup_cache: dict[str, MonsterModel] = {}
-lookup_tastes: dict[str, TasteModel] = {}
-
-
-def _lookup_tastes() -> None:
-    global lookup_tastes
-    lookup_tastes = {
-        taste_name: result
-        for taste_name in db.database["taste"]
-        if (result := TasteModel.lookup(taste_name, db)).slug
-    }
-
-
-def _lookup_monsters() -> None:
-    global lookup_cache
-    lookup_cache = {
-        mon_name: result
-        for mon_name in db.database["monster"]
-        if (result := MonsterModel.lookup(mon_name, db)).txmn_id > 0
-    }
-
 
 class MonsterInfoState(PygameMenuState):
     """
@@ -75,7 +54,7 @@ class MonsterInfoState(PygameMenuState):
         background_widget.translate(fxw(0 / 256), fxh(0 / 144))
 
         # weight and height
-        models = list(lookup_cache.values())
+        models = list(self.monster_cache.values())
         results = next(
             (model for model in models if model.slug == monster.slug), None
         )
@@ -382,7 +361,7 @@ class MonsterInfoState(PygameMenuState):
 
         # Helper: find which stat a taste affects
         def get_stat_for_taste(slug: str) -> str | None:
-            taste = lookup_tastes.get(slug.lower())
+            taste = self.taste_cache.get(slug.lower())
             if not taste or not taste.modifiers:
                 return None
 
@@ -443,10 +422,9 @@ class MonsterInfoState(PygameMenuState):
         monsters: list[Monster] | None,
         **kwargs: Any,
     ) -> None:
-        if not lookup_cache:
-            _lookup_monsters()
-        if not lookup_tastes:
-            _lookup_tastes()
+        MonsterModel.load_cache(db)
+        self.monster_cache = MonsterModel.get_cache()
+        self.taste_cache = TasteModel.get_cache()
 
         width, height = client.context.resolution
 

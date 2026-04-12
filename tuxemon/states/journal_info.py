@@ -23,17 +23,6 @@ if TYPE_CHECKING:
     from tuxemon.entity.npc import NPC
     from tuxemon.platform.events import PlayerInput
 
-lookup_cache: dict[str, MonsterModel] = {}
-
-
-def _lookup_monsters() -> None:
-    global lookup_cache
-    lookup_cache = {
-        mon_name: result
-        for mon_name in db.database["monster"]
-        if (result := MonsterModel.lookup(mon_name, db)).txmn_id > 0
-    }
-
 
 class JournalInfoState(PygameMenuState):
     """Shows journal (screen 3/3)."""
@@ -256,9 +245,9 @@ class JournalInfoState(PygameMenuState):
         reveal: bool = False,
         **kwargs: Any,
     ) -> None:
+        MonsterModel.load_cache(db)
+        self.cache = MonsterModel.get_cache()
 
-        if not lookup_cache:
-            _lookup_monsters()
         if monster is None:
             raise ValueError("No monster")
 
@@ -284,7 +273,7 @@ class JournalInfoState(PygameMenuState):
     def process_event(self, event: PlayerInput) -> PlayerInput | None:
         client = self.client
         monsters = self.char.tuxepedia.get_monsters()
-        models = list(lookup_cache.values())
+        models = list(self.cache.values())
         model_dict = {model.slug: model for model in models}
         monster_models = sorted(
             [model_dict[mov] for mov in monsters if mov in model_dict],

@@ -25,16 +25,6 @@ if TYPE_CHECKING:
 MAX_PAGE = 20
 
 MenuGameObj = Callable[[], object]
-lookup_cache: dict[str, MonsterModel] = {}
-
-
-def _lookup_monsters() -> None:
-    global lookup_cache
-    lookup_cache = {
-        mon_name: result
-        for mon_name in db.database["monster"]
-        if (result := MonsterModel.lookup(mon_name, db)).txmn_id > 0
-    }
 
 
 class JournalState(PygameMenuState):
@@ -99,8 +89,8 @@ class JournalState(PygameMenuState):
         page: int,
         **kwargs: Any,
     ) -> None:
-        if not lookup_cache:
-            _lookup_monsters()
+        MonsterModel.load_cache(db)
+        self.cache = MonsterModel.get_cache()
 
         self.char = character
         self._page = page
@@ -153,7 +143,7 @@ class JournalState(PygameMenuState):
 
     def process_event(self, event: PlayerInput) -> PlayerInput | None:
         client = self.client
-        box = list(lookup_cache.values())
+        box = list(self.cache.values())
         max_page = (len(box) + MAX_PAGE - 1) // MAX_PAGE
 
         # LEFT / RIGHT → page navigation (with repeat)
