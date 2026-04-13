@@ -33,10 +33,10 @@ Features
 - Python code can be modified without a compiler
 - CLI interface for live game debugging
 - Runs on Windows, Linux, OS X, and some support on Android
-- 183 monsters with sprites
-- 98 techniques to use in battle
-- 221 NPC sprites
-- 18 items
+- 393 monsters and 18 threats with sprites
+- 274 techniques to use in battle
+- 208 NPC sprites
+- 223 items
 
 
 Installation
