@@ -4408,6 +4408,9 @@ msgstr "Heal to {hp} HP"
 msgid "shop_buy_free"
 msgstr "FREE!"
 
+msgid "shop_buy_too_expensive"
+msgstr "You can't afford that yet"
+
 msgid "shop_buy_soldout"
 msgstr "Sold Out!"
 

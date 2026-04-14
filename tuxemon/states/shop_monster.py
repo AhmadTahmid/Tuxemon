@@ -65,10 +65,7 @@ class ShopMonsterMenuState(ShopMenuState[Monster]):
                 )
                 qty = self.client.shop_manager.get_quantity(key)
                 label, _, price = generate_label(monster, self.economy, qty)
-                unavailable = price > self.buyer_manager.get_money()
-                self._add_menu_item(
-                    monster, label, {"price": price}, unavailable
-                )
+                self._add_menu_item(monster, label, {"price": price})
             elif self.seller.is_player:
                 label, _, cost = generate_label(
                     monster, self.economy, qty=None, seller_mode=True
@@ -150,6 +147,9 @@ class ShopMonsterBuyMenuState(ShopMonsterMenuState):
 
         def buy_monster(quantity: int) -> None:
             price = self.economy.calculate_price(monster, quantity)
+            if price.final_price > self.buyer_manager.get_money():
+                return
+
             self.transaction_manager.buy_monster(
                 self.buyer, monster, quantity, label, price.final_price
             )
@@ -172,6 +172,7 @@ class ShopMonsterBuyMenuState(ShopMonsterMenuState):
                 quantity=1,
                 shrink_to_items=True,
                 price=price,
+                wallet_money=self.buyer_manager.get_money(),
             )
         )
 
@@ -219,5 +220,6 @@ class ShopMonsterSellMenuState(ShopMonsterMenuState):
                 quantity=1,
                 shrink_to_items=True,
                 cost=cost,
+                wallet_money=self.seller_manager.get_money(),
             )
         )

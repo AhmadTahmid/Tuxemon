@@ -63,8 +63,7 @@ class ShopItemMenuState(ShopMenuState[Item]):
                 )
                 qty = self.client.shop_manager.get_quantity(key)
                 label, _, price = generate_label(item, self.economy, qty)
-                unavailable = price > self.buyer_manager.get_money()
-                self._add_menu_item(item, label, {"price": price}, unavailable)
+                self._add_menu_item(item, label, {"price": price})
             elif self.seller.is_player:
                 label, _, cost = generate_label(
                     item, self.economy, qty=None, seller_mode=True
@@ -146,6 +145,9 @@ class ShopItemBuyMenuState(ShopItemMenuState):
 
         def buy_item(quantity: int) -> None:
             price = self.economy.calculate_price(item, quantity)
+            if price.final_price > self.buyer_manager.get_money():
+                return
+
             self.transaction_manager.buy_item(
                 self.buyer, item, quantity, label, price.final_price
             )
@@ -168,6 +170,7 @@ class ShopItemBuyMenuState(ShopItemMenuState):
                 quantity=1,
                 shrink_to_items=True,
                 price=price,
+                wallet_money=self.buyer_manager.get_money(),
             )
         )
 
@@ -215,5 +218,6 @@ class ShopItemSellMenuState(ShopItemMenuState):
                 quantity=1,
                 shrink_to_items=True,
                 cost=cost,
+                wallet_money=self.seller_manager.get_money(),
             )
         )

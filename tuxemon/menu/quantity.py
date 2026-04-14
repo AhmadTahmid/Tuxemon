@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Callable, Generator
+from collections.abc import Callable, Iterable
 from typing import TYPE_CHECKING, Any, ClassVar
 
 from tuxemon.item.stock import INFINITE_ITEMS
@@ -13,7 +13,6 @@ from tuxemon.menu.interface import MenuItem
 from tuxemon.menu.menu import Menu
 from tuxemon.platform.const import buttons, intentions
 from tuxemon.platform.events import PlayerInput
-from tuxemon.session import local_session
 
 if TYPE_CHECKING:
     from tuxemon.base_client import BaseClient
@@ -25,6 +24,13 @@ QUANTITY_PAGE_INCREMENT = 10
 MIN_QUANTITY = 1
 REPEAT_DELAY = 0.3  # seconds before repeat starts
 REPEAT_INTERVAL = 0.1  # seconds between repeats
+
+QUANTITY_DELTAS = {
+    buttons.UP: +QUANTITY_INCREMENT,
+    buttons.DOWN: -QUANTITY_INCREMENT,
+    buttons.RIGHT: +QUANTITY_PAGE_INCREMENT,
+    buttons.LEFT: -QUANTITY_PAGE_INCREMENT,
+}
 
 
 class QuantityMenu(Menu[None]):
@@ -41,32 +47,26 @@ class QuantityMenu(Menu[None]):
         shrink_to_items: bool = False,
         price: int = 0,
         cost: int = 0,
+        wallet_money: int = 0,
         currency_formatter: CurrencyFormatter | None = None,
         quantity_formatter: QuantityFormatter | None = None,
         label: Callable[[int], str] | None = None,
         **kwargs: Any,
     ) -> None:
-        """
-        Initialize the quantity menu.
-
-        Parameters:
-            quantity: Default selected quantity.
-            max_quantity: Maximum selectable quantity.
-            callback: Function to be called when dialog is confirmed. The
-                quantity will be sent as only argument.
-            shrink_to_items: Whether to fit the border to contents.
-            currency_formatter: An optional formatter for currency display.
-            quantity_formatter: An optional formatter for quantity display.
-        """
         super().__init__(client=client, **kwargs)
+
         self.quantity = quantity
-        self.price = price
-        self.cost = cost
         self.max_quantity = (
             max_quantity if max_quantity != INFINITE_ITEMS else None
         )
+
         self.callback = callback
         self.shrink_to_items = shrink_to_items
+
+        self.price = price
+        self.cost = cost
+        self.wallet_money = wallet_money
+
         self.currency_formatter = currency_formatter or CurrencyFormatter()
         self.quantity_formatter = quantity_formatter or QuantityFormatter()
         self.label = label or self.quantity_formatter.format
@@ -81,108 +81,93 @@ class QuantityMenu(Menu[None]):
                 self.close()
                 self.callback(0)
                 return None
-            elif event.button == buttons.A:
+
+            if event.button == buttons.A:
                 self.menu_select_sound.play()
                 self.close()
                 self.callback(self.quantity)
                 return None
-            else:
-                self._update_quantity(event.button)
-                self._clamp_quantity()
-                self.reload_items()
 
-        elif event.held:
-            if event.is_held(REPEAT_DELAY):
-                self._update_quantity(event.button)
-                self._clamp_quantity()
-                self.reload_items()
+            self._apply_button(event.button)
+
+        elif event.held and event.is_held(REPEAT_DELAY):
+            self._apply_button(event.button)
 
         return None
 
-    def _update_quantity(self, button: int) -> None:
-        if button == buttons.UP:
-            self.quantity += QUANTITY_INCREMENT
-        elif button == buttons.DOWN:
-            self.quantity -= QUANTITY_INCREMENT
-        elif button == buttons.RIGHT:
-            self.quantity += QUANTITY_PAGE_INCREMENT
-        elif button == buttons.LEFT:
-            self.quantity -= QUANTITY_PAGE_INCREMENT
+    def _apply_button(self, button: int) -> None:
+        delta = QUANTITY_DELTAS.get(button)
+        if delta is None:
+            return
+
+        self.adjust_quantity(delta)
+
+    def adjust_quantity(self, delta: int) -> None:
+        self.quantity += delta
+        self._clamp_quantity()
+        self.reload_items()
 
     def _clamp_quantity(self) -> None:
         if self.max_quantity is None:
-            return
-        self.quantity = max(
-            MIN_QUANTITY, min(self.quantity, self.max_quantity)
-        )
-
-    def initialize_items(self) -> Generator[MenuItem[None], None, None]:
-        label = self.label(self.quantity)
-        image = self.shadow_text(label)
-        yield MenuItem(image, label, None, None)
-
-    def show_money(self) -> Generator[MenuItem[None], None, None]:
-        money_manager = local_session.player.money_controller.money_manager
-        formatted_money = self.currency_formatter.format(
-            money_manager.get_money()
-        )
-        label = f"{T.translate('wallet')}: {formatted_money}"
-        image_money = self.shadow_text(label)
-        yield MenuItem(image_money, label, None, None)
+            self.quantity = max(MIN_QUANTITY, self.quantity)
+        else:
+            self.quantity = max(
+                MIN_QUANTITY, min(self.quantity, self.max_quantity)
+            )
 
     def calculate_total(self, value: int) -> int:
-        return value if self.quantity == 0 else self.quantity * value
+        return self.quantity * value
+
+    def make_item(self, label: str) -> MenuItem[None]:
+        return MenuItem(self.shadow_text(label), label, None, None)
+
+    def initialize_items(self) -> Iterable[MenuItem[None]]:
+        yield self.make_item(self.label(self.quantity))
+
+    def show_money(self) -> Iterable[MenuItem[None]]:
+        formatted = self.currency_formatter.format(self.wallet_money)
+        label = f"{T.translate('wallet')}: {formatted}"
+        yield self.make_item(label)
+
+    def get_value_label(self) -> str:
+        """Subclasses override to show price/cost."""
+        return ""
 
 
 class QuantityAndPriceMenu(QuantityMenu):
-    """Menu used to select quantities, and also shows the price of items."""
+    """Menu used to select quantities and show price."""
 
     name: ClassVar[str] = "QuantityAndPriceMenu"
 
-    def __init__(self, client: BaseClient, *args: Any, **kwargs: Any):
+    def __init__(self, client: BaseClient, *args: Any, **kwargs: Any) -> None:
         super().__init__(client, *args, **kwargs)
 
-    def on_open(self) -> None:
-        # Do this to force the menu to resize when first opened, as currently
-        # it's way too big initially and then resizes after you change quantity.
-        self.menu_items.arrange_menu_items()
-
-    def initialize_items(self) -> Generator[MenuItem[None], None, None]:
-        # Show the money in buying menu by using the method from the parent class:
-        yield from self.show_money()
-
-        # Show the quantity by using the method from the parent class:
-        yield from super().initialize_items()
-
+    def get_value_label(self) -> str:
         price = self.calculate_total(self.price)
-        label = self.currency_formatter.format(price)
         if price == 0:
-            label = T.translate("shop_buy_free")
-        image = self.shadow_text(label)
-        yield MenuItem(image, label, None, None)
+            return T.translate("shop_buy_free")
+        if price > self.wallet_money:
+            return T.translate("shop_buy_too_expensive")
+        return self.currency_formatter.format(price)
+
+    def initialize_items(self) -> Iterable[MenuItem[None]]:
+        yield from self.show_money()
+        yield from super().initialize_items()
+        yield self.make_item(self.get_value_label())
 
 
 class QuantityAndCostMenu(QuantityMenu):
-    """Menu used to select quantities, and also shows the cost of items."""
+    """Menu used to select quantities and show cost."""
 
     name: ClassVar[str] = "QuantityAndCostMenu"
 
-    def __init__(self, client: BaseClient, *args: Any, **kwargs: Any):
+    def __init__(self, client: BaseClient, *args: Any, **kwargs: Any) -> None:
         super().__init__(client, *args, **kwargs)
 
-    def on_open(self) -> None:
-        # Do this to force the menu to resize when first opened, as currently
-        # it's way too big initially and then resizes after you change quantity.
-        self.menu_items.arrange_menu_items()
+    def get_value_label(self) -> str:
+        return self.currency_formatter.format(self.calculate_total(self.cost))
 
-    def initialize_items(self) -> Generator[MenuItem[None], None, None]:
-        # Show the money in selling menu by using the method from the parent class:
+    def initialize_items(self) -> Iterable[MenuItem[None]]:
         yield from self.show_money()
-
-        # Show the quantity by using the method from the parent class:
         yield from super().initialize_items()
-
-        cost = self.calculate_total(self.cost)
-        label = self.currency_formatter.format(cost)
-        image = self.shadow_text(label)
-        yield MenuItem(image, label, None, None)
+        yield self.make_item(self.get_value_label())
