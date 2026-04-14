@@ -41,7 +41,7 @@ class DaycareAction(EventAction):
         self.session = session
         self.client = session.client
 
-        character = self.session.get_npc(self.character)
+        character = self.client.get_npc(self.character)
         if not character:
             self.stop()
             return
