@@ -6,6 +6,7 @@ import logging
 import tempfile
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
+from enum import IntFlag
 from functools import partial
 from typing import TYPE_CHECKING, Any, ClassVar, Generic, TypedDict, TypeVar
 
@@ -66,6 +67,15 @@ if TYPE_CHECKING:
     from tuxemon.prepare import DisplayContext
 
 logger = logging.getLogger(__name__)
+
+
+class LayoutFlag(IntFlag):
+    NONE = 0
+    ITEMS = 1 << 0
+    FONT = 1 << 1
+    BORDER = 1 << 2
+    CURSOR = 1 << 3
+    POSITION = 1 << 4
 
 
 @dataclass(frozen=True)
@@ -337,6 +347,27 @@ class PygameMenuState(State):
         return None
 
 
+ALLOWED_KWARGS = {
+    "rect",
+    "columns",
+    "background_filename",
+    "background_color",
+    "font_color",
+    "font_shadow_color",
+    "unavailable_color",
+    "unavailable_color_shop",
+    "menu_select_sound_filename",
+    "font_filename",
+    "borders_filename",
+    "cursor_filename",
+    "cursor_move_duration",
+    "shrink_to_items",
+    "escape_key_exits",
+    "animate_contents",
+    "touch_aware",
+}
+
+
 class Menu(Generic[T], State):
     """
     A class to create menu objects.
@@ -388,10 +419,14 @@ class Menu(Generic[T], State):
         # state: closed, opening, normal, disabled, closing
         self.state_controller = MenuController()
         self._show_contents: bool = False
-        self._needs_refresh: bool = False
+        self._layout_flags: LayoutFlag = LayoutFlag.NONE
         self._layout_passes: int = 0
         self._anchors: list[tuple[str, int | tuple[int, int]]] = []
-        self.__dict__.update(kwargs)
+
+        for key, value in kwargs.items():
+            if key not in ALLOWED_KWARGS:
+                raise TypeError(f"Unexpected Menu argument: {key!r}")
+            setattr(self, key, value)
 
         # holds sprites representing menu items
         self.create_new_menu_items_group()
@@ -461,11 +496,11 @@ class Menu(Generic[T], State):
         del self.cursor_controller
 
     def invalidate_layout(self, reason: str = "") -> None:
-        self._needs_refresh = True
+        self._layout_flags |= LayoutFlag.ITEMS
         logger.debug(reason)
 
     def validate_layout(self, reason: str = "") -> None:
-        self._needs_refresh = False
+        self._layout_flags = LayoutFlag.NONE
         logger.debug(reason)
 
     def initialize_items(self) -> Iterable[MenuItem[T]] | None:
@@ -492,18 +527,12 @@ class Menu(Generic[T], State):
         """
         return True
 
-    def reload_items(self) -> None:
-        """
-        Empty all items in the menu and re-add them.
-        Only works if initialize_items is used.
-        """
-        self.invalidate_layout("items changed")
-        items = self.initialize_items()
+    def _load_items(self) -> Iterable[MenuItem[T]] | None:
+        """Return freshly initialized items or None if unchanged."""
+        return self.initialize_items()
 
-        if items is None:
-            # No change requested
-            return
-
+    def _populate_items(self, items: Iterable[MenuItem[T]]) -> None:
+        """Replace menu_items with new items and validate them."""
         self.menu_items.empty()
 
         for item in items:
@@ -513,20 +542,35 @@ class Menu(Generic[T], State):
 
         self.menu_items.arrange_menu_items()
 
+    def _recover_selection(self, previous_index: int) -> None:
+        """Pick the closest enabled item to the previous index."""
         selected_item = self.get_selected_item()
         if selected_item and selected_item.enabled:
             return
 
-        # Choose new cursor position. We can't use the prev position, so we
-        # will use the closest valid option.
-        score = None
-        prev_index = self.selected_index
+        best_score = None
         for index, item in enumerate(self.menu_items):
             if item.enabled:
-                new_score = abs(prev_index - index)
-                if score is None or new_score < score:
+                score = abs(previous_index - index)
+                if best_score is None or score < best_score:
                     self.selected_index = index
-                    score = new_score
+                    best_score = score
+
+    def reload_items(self) -> None:
+        """
+        Empty all items in the menu and re-add them.
+        Only works if initialize_items is used.
+        """
+        self.invalidate_layout("items changed")
+
+        items = self._load_items()
+        if items is None:
+            return
+
+        previous_index = self.selected_index
+
+        self._populate_items(items)
+        self._recover_selection(previous_index)
 
     def build_item(
         self: Menu[Callable[[], object]],
@@ -637,15 +681,35 @@ class Menu(Generic[T], State):
         """Hide the cursor that indicates the selected object."""
         self.cursor_controller.hide_cursor()
 
-    def refresh_layout(self) -> None:
-        """Fit border to contents and hide/show cursor."""
-        self._layout_passes += 1
-        logger.debug(
-            f"[{self.name}] layout pass #{self._layout_passes} (needs_refresh={self._needs_refresh})"
-        )
+    def refresh_layout(self, *, mutate: bool = True) -> Rect:
+        """
+        Compute layout. If mutate=False, return the computed rect
+        without modifying menu state.
+        """
+        if mutate:
+            self._layout_passes += 1
+            logger.debug(
+                f"[{self.name}] layout pass #{self._layout_passes} "
+                f"(layout_flags={self._layout_flags!s})"
+            )
+            self.arrange_items()
+            self.update_cursor_visibility()
+            self.update_border()
+            return self.rect
+
+        original_rect = self.rect.copy()
+        original_flags = self._layout_flags
+
         self.arrange_items()
         self.update_cursor_visibility()
         self.update_border()
+
+        result = self.rect.copy()
+
+        self.rect = original_rect
+        self._layout_flags = original_flags
+
+        return result
 
     def arrange_items(self) -> None:
         self.menu_items.expand = not self.shrink_to_items
@@ -669,9 +733,9 @@ class Menu(Generic[T], State):
         Parameters:
             surface: Surface to draw on.
         """
-        if self._needs_refresh:
+        if self._layout_flags is not LayoutFlag.NONE:
             self.refresh_layout()
-            self.validate_layout("refresh layout")
+            self._layout_flags = LayoutFlag.NONE
 
         if not self.transparent:
             self.window.draw(surface, self.rect)
@@ -889,6 +953,21 @@ class Menu(Generic[T], State):
         menu_rect.bottomright = inner.bottomright
         return menu_rect
 
+    def compute_layout_rect(self) -> Rect:
+        """
+        Pure layout computation: returns the rect the menu *would* have
+        after layout, without mutating any state.
+        """
+        original_rect = self.rect.copy()
+        original_flags = self._layout_flags
+
+        result = self.refresh_layout(mutate=False).copy()
+
+        self.rect = original_rect
+        self._layout_flags = original_flags
+
+        return result
+
     def calc_final_rect(self) -> Rect:
         """
         Calculate the area in the game window where menu is shown.
@@ -902,11 +981,7 @@ class Menu(Generic[T], State):
         Returns:
             Rectangle with the size of the menu.
         """
-        original = self.rect.copy()  # store the original rect
-        self.refresh_layout()  # arrange the menu
-        rect = self.rect.copy()  # store the final rect
-        self.rect = original  # set the original back
-        return rect
+        return self.compute_layout_rect()
 
     def on_open(self) -> None:
         """Hook is called after opening animation has finished."""

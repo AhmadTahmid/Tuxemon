@@ -729,10 +729,10 @@ class CombatTargetMenuState(Menu[Monster]):
                         )
                         return
 
-    def refresh_layout(self) -> None:
+    def refresh_layout(self, *, mutate: bool = True) -> Rect:
         """Updates layout after determining the target."""
         self.determine_target()
-        super().refresh_layout()
+        return super().refresh_layout(mutate=mutate)
 
     def _update_borders(self) -> None:
         """Draws borders around the currently selected monster in 2vs2/1vs2 combat."""
