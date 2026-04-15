@@ -35,6 +35,7 @@ from tuxemon.menu.input_handler import (
     PygameMenuInputHandler,
 )
 from tuxemon.menu.interface import MenuItem
+from tuxemon.menu.layout_engine import MenuLayoutEngine
 from tuxemon.menu.theme import get_sound_engine, get_theme
 from tuxemon.platform.const.graphics import (
     BACKGROUND_COLOR,
@@ -418,6 +419,7 @@ class Menu(Generic[T], State):
         self.selected_index = selected_index
         # state: closed, opening, normal, disabled, closing
         self.state_controller = MenuController()
+        self.layout_engine = MenuLayoutEngine()
         self._show_contents: bool = False
         self._layout_flags: LayoutFlag = LayoutFlag.NONE
         self._layout_passes: int = 0
@@ -686,30 +688,7 @@ class Menu(Generic[T], State):
         Compute layout. If mutate=False, return the computed rect
         without modifying menu state.
         """
-        if mutate:
-            self._layout_passes += 1
-            logger.debug(
-                f"[{self.name}] layout pass #{self._layout_passes} "
-                f"(layout_flags={self._layout_flags!s})"
-            )
-            self.arrange_items()
-            self.update_cursor_visibility()
-            self.update_border()
-            return self.rect
-
-        original_rect = self.rect.copy()
-        original_flags = self._layout_flags
-
-        self.arrange_items()
-        self.update_cursor_visibility()
-        self.update_border()
-
-        result = self.rect.copy()
-
-        self.rect = original_rect
-        self._layout_flags = original_flags
-
-        return result
+        return self.layout_engine.compute(self, mutate=mutate)
 
     def arrange_items(self) -> None:
         self.menu_items.expand = not self.shrink_to_items
@@ -734,7 +713,7 @@ class Menu(Generic[T], State):
             surface: Surface to draw on.
         """
         if self._layout_flags is not LayoutFlag.NONE:
-            self.refresh_layout()
+            self.layout_engine.compute(self, mutate=True)
             self._layout_flags = LayoutFlag.NONE
 
         if not self.transparent:
@@ -876,7 +855,7 @@ class Menu(Generic[T], State):
 
             self.state_controller.open()
             self.reload_items()
-            self.refresh_layout()
+            self.layout_engine.compute(self, mutate=True)
 
             ani = self.animate_open()
             if ani:
@@ -958,15 +937,7 @@ class Menu(Generic[T], State):
         Pure layout computation: returns the rect the menu *would* have
         after layout, without mutating any state.
         """
-        original_rect = self.rect.copy()
-        original_flags = self._layout_flags
-
-        result = self.refresh_layout(mutate=False).copy()
-
-        self.rect = original_rect
-        self._layout_flags = original_flags
-
-        return result
+        return self.layout_engine.compute(self, mutate=False)
 
     def calc_final_rect(self) -> Rect:
         """
