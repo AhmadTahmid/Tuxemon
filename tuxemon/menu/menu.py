@@ -37,6 +37,7 @@ from tuxemon.menu.input_handler import (
 from tuxemon.menu.interface import MenuItem
 from tuxemon.menu.layout_engine import MenuLayoutEngine
 from tuxemon.menu.theme import get_sound_engine, get_theme
+from tuxemon.menu.transitions import EaseOut, MenuTransition
 from tuxemon.platform.const.graphics import (
     BACKGROUND_COLOR,
     FONT_COLOR,
@@ -106,9 +107,15 @@ class PygameMenuState(State):
         sound_engine: Sound | None = None,
         font_settings: FontSettings | None = None,
         menu_kwargs: dict[str, Any] | None = None,
+        transition: MenuTransition | None = None,
+        easing: Callable[[float], float] | None = None,
         **state_kwargs: Any,
     ) -> None:
         super().__init__(client=client, **state_kwargs)
+
+        self.transition = transition
+        self.easing = easing or EaseOut()
+        self.animation_progress = 0.0
 
         self.font_settings = font_settings
         self.font_type = font_settings or FontSettings.from_context(
@@ -319,11 +326,29 @@ class PygameMenuState(State):
 
         self._menu._theme = theme
 
+    def _update_transition(self) -> None:
+        if not self.transition:
+            return
+
+        eased = self.easing(self.animation_progress)
+        self.transition.apply(self.menu, eased, self.client.context)
+
     def animate_open(self) -> Animation | None:
-        return None
+        if not self.transition:
+            return None
+
+        self.animation_progress = 0.0
+        ani = self.animate(self, animation_progress=1.0, duration=0.20)
+        ani.schedule(self._update_transition, ScheduleType.ON_UPDATE)
+        return ani
 
     def animate_close(self) -> Animation | None:
-        return None
+        if not self.transition:
+            return None
+
+        ani = self.animate(self, animation_progress=0.0, duration=0.15)
+        ani.schedule(self._update_transition, ScheduleType.ON_UPDATE)
+        return ani
 
 
 class LayoutFlag(IntFlag):

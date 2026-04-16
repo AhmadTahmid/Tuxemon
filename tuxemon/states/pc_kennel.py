@@ -13,11 +13,11 @@ from pygame_menu.locals import ALIGN_CENTER, POSITION_EAST
 from pygame_menu.menu import Menu
 from pygame_menu.widgets.selection.highlight import HighlightSelection
 
-from tuxemon.animation import ScheduleType
 from tuxemon.graphics import scale_surface
 from tuxemon.locale.locale import T
 from tuxemon.menu.interface import MenuItem
 from tuxemon.menu.menu import PygameMenuState
+from tuxemon.menu.transitions import SlideRight
 from tuxemon.monster.renderer import MonsterRenderer
 from tuxemon.platform.const.graphics import BG_PC_KENNEL
 from tuxemon.platform.const.sizes import MAX_KENNEL, PARTY_LIMIT
@@ -33,7 +33,6 @@ from tuxemon.ui.menu_options import (
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    from tuxemon.animation import Animation
     from tuxemon.base_client import BaseClient
     from tuxemon.entity.npc import NPC
     from tuxemon.monster.monster import Monster
@@ -336,9 +335,10 @@ class MonsterBoxState(PygameMenuState):
     ) -> None:
         width, height = client.context.resolution
 
-        super().__init__(client=client, height=height, **kwargs)
+        super().__init__(
+            client=client, height=height, transition=SlideRight(), **kwargs
+        )
 
-        self.animation_offset = 0
         self.char = character
 
         menu_items_map = self.get_menu_items_map()
@@ -379,37 +379,6 @@ class MonsterBoxState(PygameMenuState):
         return partial(
             self.client.state_manager.replace_state, state, **kwargs
         )
-
-    def update_animation_position(self) -> None:
-        self.menu.translate(-self.animation_offset, 0)
-
-    def animate_open(self) -> Animation:
-        """
-        Animate the menu sliding in.
-
-        Returns:
-            Sliding in animation.
-        """
-
-        width = self.menu.get_width(border=True)
-        self.animation_offset = 0
-
-        ani = self.animate(self, animation_offset=width, duration=0.50)
-        ani.schedule(self.update_animation_position, ScheduleType.ON_UPDATE)
-
-        return ani
-
-    def animate_close(self) -> Animation:
-        """
-        Animate the menu sliding out.
-
-        Returns:
-            Sliding out animation.
-        """
-        ani = self.animate(self, animation_offset=0, duration=0.50)
-        ani.schedule(self.update_animation_position, ScheduleType.ON_UPDATE)
-
-        return ani
 
 
 class MonsterStorageState(MonsterBoxState):
