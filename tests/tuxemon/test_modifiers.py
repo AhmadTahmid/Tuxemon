@@ -19,14 +19,14 @@ def elements():
     water.name = "water"
     grass = MagicMock(spec=Element)
     grass.name = "grass"
-    aether = MagicMock(spec=Element)
-    aether.name = "aether"
-    return fire, water, grass, aether
+    normal = MagicMock(spec=Element)
+    normal.name = "normal"
+    return fire, water, grass, normal
 
 
 @pytest.fixture
 def monster(elements):
-    fire, water, grass, aether = elements
+    fire, water, grass, normal = elements
     m = MagicMock(spec=Monster)
     m.types = MagicMock(spec=ElementTypesHandler)
     m.types.current = []

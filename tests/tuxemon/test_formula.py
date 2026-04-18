@@ -155,9 +155,9 @@ def elements():
     water.slug = "water"
     grass = MagicMock(spec=Element)
     grass.slug = "grass"
-    aether = MagicMock(spec=Element)
-    aether.slug = "aether"
-    return fire, water, grass, aether
+    normal = MagicMock(spec=Element)
+    normal.slug = "normal"
+    return fire, water, grass, normal
 
 
 def test_basic_multiplier(elements):
@@ -183,12 +183,6 @@ def test_multiple_target_types(elements):
     fire, water, grass, _ = elements
     fire.lookup_multiplier = MagicMock(side_effect=[2.0, 0.5])
     assert simple_damage_multiplier([fire], [water, grass]) == 1.0
-
-
-def test_aether_type(elements):
-    fire, water, _, aether = elements
-    assert simple_damage_multiplier([aether], [water]) == 1.0
-    assert simple_damage_multiplier([fire], [aether]) == 1.0
 
 
 def test_additional_factors(elements):
