@@ -140,7 +140,7 @@ class EvolutionTransition(State):
         self.evolved_sprite.image.blit(self.evolved_sprite_white, (0, 0))
 
         if self.elapsed_time > self.total_seconds and not self.dialog_opened:
-            self.client.sound_manager.play_sound("sound_confirm")
+            self.client.sound_manager.play("sound_confirm")
             self.on_animation_complete()
 
     def draw(self, surface: Surface) -> None:

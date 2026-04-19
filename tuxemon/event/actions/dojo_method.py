@@ -132,21 +132,21 @@ class DojoMethodAction(EventAction):
         devolution = Monster.spawn_base(slug, self.monster.level)
         self.monster.evolution_handler.evolve_monster(devolution)
         logger.info(f"{self.monster.name}'s devolved!")
-        self.client.sound_manager.play_sound("sound_confirm")
+        self.client.sound_manager.play("sound_confirm")
         self.client.pop_state()
 
     def set_var(self, menu_technique: MenuItem[Technique]) -> None:
         tech = menu_technique.game_object
         self.monster.moves.learn(self.monster, tech, ignore_eligibility=True)
         logger.info(f"{tech.name} learned!")
-        self.client.sound_manager.play_sound("sound_confirm")
+        self.client.sound_manager.play("sound_confirm")
         self.client.pop_state()
 
     def get_tech(self, menu_technique: MenuItem[Technique]) -> None:
         tech = menu_technique.game_object
         self.monster.moves.remove_forced(tech)
         logger.info(f"{tech.name} forgot!")
-        self.client.sound_manager.play_sound("sound_confirm")
+        self.client.sound_manager.play("sound_confirm")
         self.client.pop_state()
 
         # Now push the learn menu
@@ -167,7 +167,7 @@ class DojoMethodAction(EventAction):
                 self.monster, tech, ignore_eligibility=True
             )
             logger.info(f"{tech.name} learned!")
-            self.client.sound_manager.play_sound("sound_confirm")
+            self.client.sound_manager.play("sound_confirm")
             self.stop()
             return
 

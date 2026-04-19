@@ -108,19 +108,27 @@ class ControlState(PygameMenuState):
 
         if not self.main_menu:
 
-            def mute_music() -> None:
-                self.client.config.update_attribute(
-                    "gameplay", "music_volume", 0
-                )
-                self.client.current_music.set_volume(0)
+            def toggle_mute() -> None:
+                self.client.current_music.toggle_mute()
 
-            _volume = self.client.current_music.get_volume()
-            if _volume and _volume > 0.0:
-                menu.add.button(
-                    title=T.translate("menu_mute_music").upper(),
-                    action=mute_music,
-                    font_size=self.font_type.small,
+                # Persist logical volume (0 if muted, user volume otherwise)
+                new_vol = self.client.current_music.get_volume()
+                self.client.config.update_attribute(
+                    "gameplay", "music_volume", new_vol
                 )
+
+            is_muted = self.client.current_music.muted
+            title = (
+                T.translate("menu_unmute_music")
+                if is_muted
+                else T.translate("menu_mute_music")
+            )
+
+            menu.add.button(
+                title=title.upper(),
+                action=toggle_mute,
+                font_size=self.font_type.small,
+            )
 
             _music = self.client.config.music_volume
             default_music = int(float(_music) * 100)

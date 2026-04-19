@@ -1196,10 +1196,11 @@ class CombatState(CombatAnimations):
         """Play the sound effect."""
         if sound is None:
             return
-        volume = (
-            value if value is not None else self.client.config.sound_volume
-        )
-        self.client.sound_manager.play_sound(sound, volume)
+
+        user_volume = self.client.config.sound_volume
+        effective_volume = value if value is not None else user_volume
+        self.client.sound_manager.set_volume(effective_volume)
+        self.client.sound_manager.play(sound)
 
     def _on_play_music_combat(self, monster: Monster) -> None:
         """Play the music."""

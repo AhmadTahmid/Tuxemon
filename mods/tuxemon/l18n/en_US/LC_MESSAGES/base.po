@@ -4787,6 +4787,9 @@ msgstr "Enable"
 msgid "disable"
 msgstr "Disable"
 
+msgid "menu_unmute_music"
+msgstr "Unmute Music"
+
 msgid "menu_mute_music"
 msgstr "Mute Music"
 
