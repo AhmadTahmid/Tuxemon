@@ -124,7 +124,9 @@ class SaveMenuState(PaginatedMenuState):
             rect.width * SLOT_WIDTH_RATIO,
             rect.height // SLOT_HEIGHT_RATIO,
         )
-        for slot in SaveManager.all_slots(self.max_slots):
+        for slot in SaveManager.all_slots(
+            self.max_slots, include_autosave=False
+        ):
             item = self.create_menu_item(slot_rect, slot)
             self.add(item)
 
@@ -140,6 +142,7 @@ class SaveMenuState(PaginatedMenuState):
         else:
             image = SaveManager.render_empty(
                 slot_rect,
+                slot,
                 scaling=self.client.context.scaling,
                 font=self.font,
             )
@@ -246,7 +249,9 @@ class LoadMenuState(PaginatedMenuState):
             rect.height // SLOT_HEIGHT_RATIO,
         )
 
-        for slot in SaveManager.all_slots(self.max_slots):
+        for slot in SaveManager.all_slots(
+            self.max_slots, include_autosave=False
+        ):
             item = self.create_menu_item(slot_rect, slot)
             self.add(item)
 
@@ -262,6 +267,7 @@ class LoadMenuState(PaginatedMenuState):
         else:
             image = SaveManager.render_empty(
                 slot_rect,
+                slot,
                 scaling=self.client.context.scaling,
                 font=self.font,
             )
@@ -300,13 +306,13 @@ class LoadMenuState(PaginatedMenuState):
             )
 
     def on_menu_selection(self, menuitem: MenuItem[None]) -> None:
-        slot = SaveManager.slot_from_ui(self.selected_index)
-
-        if not SaveManager.exists(slot):
-            return
-
-        self.client.event_engine.execute_action(
-            "load_game",
-            [self.selected_index],
-            True,
+        slot = SaveManager.slot_from_ui(
+            self.selected_index, includes_autosave=False
         )
+
+        if SaveManager.exists(slot):
+            self.client.event_engine.execute_action(
+                "load_game",
+                [slot, True],
+                True,
+            )

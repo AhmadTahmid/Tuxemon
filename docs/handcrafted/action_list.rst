@@ -10,6 +10,7 @@
 .. autoscriptinfoclass:: tuxemon.event.actions.add_tracker.AddTrackerAction
 .. autoscriptinfoclass:: tuxemon.event.actions.adjust_bill_penalty.AdjustBillPenaltyAction
 .. autoscriptinfoclass:: tuxemon.event.actions.afk_threshold.AFKThresholdAction
+.. autoscriptinfoclass:: tuxemon.event.actions.autosave.AutosaveAction
 .. autoscriptinfoclass:: tuxemon.event.actions.boundary_move.BoundaryMoveAction
 .. autoscriptinfoclass:: tuxemon.event.actions.boundary_resize.BoundaryResizeAction
 .. autoscriptinfoclass:: tuxemon.event.actions.boundary_set.BoundarySetAction

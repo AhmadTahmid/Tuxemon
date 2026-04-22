@@ -4712,6 +4712,12 @@ msgstr "Doll"
 msgid "menu_save"
 msgstr "Save"
 
+msgid "menu_autosave"
+msgstr "Autosave"
+
+msgid "menu_no_autosave"
+msgstr "No Autosave"
+
 msgid "menu_up_key"
 msgstr "Up Key"
 

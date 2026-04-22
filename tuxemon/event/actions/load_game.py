@@ -24,9 +24,14 @@ class LoadGameAction(EventAction):
     """
     Loads a game from a specific save slot.
 
-    The `index` parameter refers to the UI slot index (0-2).
-    Slot resolution is handled by `resolve_save_index()`, which converts
-    the UI index (0-based) into a save slot number (1-based).
+    The `index` parameter normally refers to the UI slot index (0-2).
+    When `is_raw_slot` is False (default), the index is interpreted as a
+    UI-facing slot and converted to an actual save slot number using
+    `resolve_save_index()`.
+
+    When `is_raw_slot` is True, the index is treated as a *raw* save slot
+    number and used directly. This is primarily intended for internal or
+    system-driven loads (e.g., autosave recovery).
 
     Script usage:
         .. code-block::
@@ -34,15 +39,19 @@ class LoadGameAction(EventAction):
             load_game <index>
 
     Script parameters:
-        index: UI slot index (0-2). Must always be provided.
+        index: UI slot index (0-2) unless `is_raw_slot=True`.
+        is_raw_slot: If True, bypasses UI-to-slot conversion.
     """
 
     name = "load_game"
     index: int
+    is_raw_slot: bool = False
 
     def start(self, session: Session) -> None:
         client = session.client
-        slot = resolve_save_index(self.index)
+        slot = (
+            self.index if self.is_raw_slot else resolve_save_index(self.index)
+        )
 
         client.map_loader.clear_cache()
         logger.info("Loading!")
