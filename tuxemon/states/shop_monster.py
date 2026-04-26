@@ -11,9 +11,9 @@ from tuxemon.item.shop_utils import (
     generate_label,
 )
 from tuxemon.menu.interface import MenuItem
-from tuxemon.menu.quantity import QuantityAndCostMenu, QuantityAndPriceMenu
 from tuxemon.monster.monster import Monster
 from tuxemon.monster.renderer import MonsterRenderer
+from tuxemon.states.quantity import QuantityPickerState
 from tuxemon.states.shop_base import ShopMenuState
 
 if TYPE_CHECKING:
@@ -165,12 +165,13 @@ class ShopMonsterBuyMenuState(ShopMonsterMenuState):
         )
 
         self.client.state_manager.push_state(
-            QuantityAndPriceMenu(
+            QuantityPickerState(
                 client=self.client,
+                min_value=1,
+                max_value=max_quantity,
+                start_value=1,
+                step=1,
                 callback=partial(buy_monster),
-                max_quantity=max_quantity,
-                quantity=1,
-                shrink_to_items=True,
                 price=price,
                 wallet_money=self.buyer_manager.get_money(),
             )
@@ -213,12 +214,13 @@ class ShopMonsterSellMenuState(ShopMonsterMenuState):
                 self.on_menu_selection_change()
 
         self.client.state_manager.push_state(
-            QuantityAndCostMenu(
+            QuantityPickerState(
                 client=self.client,
+                min_value=1,
+                max_value=1,
+                start_value=1,
+                step=1,
                 callback=partial(sell_monster),
-                max_quantity=1,
-                quantity=1,
-                shrink_to_items=True,
                 cost=cost,
                 wallet_money=self.seller_manager.get_money(),
             )

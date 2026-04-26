@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any, ClassVar
 
-from pygame_menu.locals import ALIGN_CENTER, POSITION_EAST
+from pygame_menu.locals import ALIGN_CENTER
 
 from tuxemon.locale.locale import T
 from tuxemon.menu.menu import PygameMenuState
@@ -17,22 +17,24 @@ if TYPE_CHECKING:
     from tuxemon.platform.events import PlayerInput
 
 
-class NumberPickerState(PygameMenuState):
-    """
-    A compact number picker using +/- buttons instead of a long list.
-    """
+class QuantityPickerState(PygameMenuState):
+    """Compact, centered, supports +/- and held-button repeat."""
 
-    name: ClassVar[str] = "NumberPickerState"
+    name: ClassVar[str] = "QuantityPickerState"
 
     def __init__(
         self,
         client: BaseClient,
-        min_value: int,
-        max_value: int,
-        callback: Callable[[int], None],
         *,
+        min_value: int = 1,
+        max_value: int | None = None,
+        start_value: int = 1,
         step: int = 1,
+        callback: Callable[[int], None],
         title: str | None = None,
+        price: int | None = None,
+        cost: int | None = None,
+        wallet_money: int | None = None,
         escape_key_exits: bool | None = None,
         **kwargs: Any,
     ):
@@ -40,17 +42,20 @@ class NumberPickerState(PygameMenuState):
         self.max_value = max_value
         self.step = step
         self.callback = callback
+        self.current_value = start_value
         self.title = title or T.translate("select_number")
-        self.current_value = min_value
+
+        self.price = price
+        self.cost = cost
+        self.wallet_money = wallet_money
 
         width, height = client.context.resolution
-        width = int(0.5 * width)
-        height = int(0.5 * height)
+        width = int(0.45 * width)
+        height = int(0.45 * height)
         super().__init__(client=client, width=width, height=height, **kwargs)
 
         theme = self._setup_theme(BG_MISSIONS)
         theme.widget_alignment = ALIGN_CENTER
-        theme.scrollarea_position = POSITION_EAST
         theme.title = True
         self._menu_config["theme"] = theme
 
@@ -64,19 +69,31 @@ class NumberPickerState(PygameMenuState):
         self.menu.clear()
         self.menu.set_title(self.title).center_content()
 
-        row = self.menu.add.frame_h(300, 70)
-        row._relax = True
+        # Wallet display (optional)
+        if self.wallet_money is not None:
+            self.menu.add.label(
+                f"{T.translate('wallet')}: {self.wallet_money}",
+                font_size=self.font_type.small,
+                align=ALIGN_CENTER,
+            )
 
+        # Instructions
         self.menu.add.label(
             T.translate("number_picker_instructions"),
             font_size=self.font_type.small,
             align=ALIGN_CENTER,
         )
 
-        row.pack(
-            self.menu.add.label("-"),
-            align=ALIGN_CENTER,
+        # Row with - [value] +
+        row = self.menu.add.frame_h(300, 70)
+        row._relax = True
+
+        minus_btn = self.menu.add.button(
+            "-",
+            lambda: self._decrement(),
+            font_size=self.font_type.big,
         )
+        row.pack(minus_btn, align=ALIGN_CENTER)
 
         self.value_label: Any = self.menu.add.label(
             str(self.current_value),
@@ -84,46 +101,75 @@ class NumberPickerState(PygameMenuState):
         )
         row.pack(self.value_label, align=ALIGN_CENTER)
 
-        row.pack(
-            self.menu.add.label("+"),
-            align=ALIGN_CENTER,
+        plus_btn = self.menu.add.button(
+            "+",
+            lambda: self._increment(),
+            font_size=self.font_type.big,
         )
+        row.pack(plus_btn, align=ALIGN_CENTER)
+
+        # Price/cost display (optional)
+        if self.price is not None or self.cost is not None:
+            self.total_label: Any = self.menu.add.label(
+                self._compute_total_label(),
+                font_size=self.font_type.small,
+                align=ALIGN_CENTER,
+            )
+
+    def _compute_total_label(self) -> str:
+        if self.price is not None:
+            total = self.current_value * self.price
+            if self.wallet_money is not None and total > self.wallet_money:
+                return T.translate("shop_buy_too_expensive")
+            if total == 0:
+                return T.translate("shop_buy_free")
+            return str(total)
+
+        if self.cost is not None:
+            return str(self.current_value * self.cost)
+
+        return ""
+
+    def _update_labels(self) -> None:
+        self.value_label.set_title(str(self.current_value))
+        if hasattr(self, "total_label"):
+            self.total_label.set_title(self._compute_total_label())
 
     def _increment(self) -> None:
         new_value = self.current_value + self.step
-        if new_value <= self.max_value:
+        if self.max_value is None or new_value <= self.max_value:
             self.current_value = new_value
-            self.value_label.set_title(str(self.current_value))
+            self._update_labels()
 
     def _decrement(self) -> None:
         new_value = self.current_value - self.step
         if new_value >= self.min_value:
             self.current_value = new_value
-            self.value_label.set_title(str(self.current_value))
+            self._update_labels()
 
     def _confirm(self) -> None:
-        self.client.pop_state(self)
         self.callback(self.current_value)
+        self.client.pop_state()
 
     def process_event(self, event: PlayerInput) -> PlayerInput | None:
-        # RIGHT increment
+        # RIGHT = increment
         if event.button == buttons.RIGHT and self.valid_press(event):
             self._increment()
             return None
 
-        # LEFT decrement
+        # LEFT = decrement
         if event.button == buttons.LEFT and self.valid_press(event):
             self._decrement()
             return None
 
-        # A confirm
+        # A = confirm
         if event.button == buttons.A and event.pressed:
             self._confirm()
             return None
 
-        # B cancel
+        # B = cancel
         if event.button == buttons.B and event.pressed:
-            self.client.pop_state(self)
+            self.client.pop_state()
             return None
 
         return event

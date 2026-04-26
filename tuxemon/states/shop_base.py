@@ -23,11 +23,11 @@ from tuxemon.entity.npc import NPC
 from tuxemon.item.shop_utils import calc_internal_rect
 from tuxemon.menu.interface import MenuItem
 from tuxemon.menu.menu import Menu
-from tuxemon.menu.quantity import QuantityAndCostMenu
 from tuxemon.platform.const import buttons
 from tuxemon.platform.const.sizes import MAX_MENU_ITEMS
 from tuxemon.platform.events import PlayerInput
 from tuxemon.sprite import Sprite
+from tuxemon.states.quantity import QuantityPickerState
 from tuxemon.ui.text import TextArea
 
 if TYPE_CHECKING:
@@ -229,13 +229,16 @@ class ShopMenuState(Menu[T], Generic[T], ABC):
     def on_menu_selection(self, menu_item: MenuItem[T]) -> None:
         """Handles the common logic for pushing the quantity menu."""
         params = self._get_selection_menu_params(menu_item)
+
         self.client.state_manager.push_state(
-            QuantityAndCostMenu(
+            QuantityPickerState(
                 client=self.client,
+                min_value=1,
+                max_value=params["max_quantity"],
+                start_value=1,
+                step=1,
                 callback=params["callback"],
-                max_quantity=params["max_quantity"],
-                quantity=1,
-                shrink_to_items=True,
                 cost=params["cost"],
+                wallet_money=params.get("wallet_money"),
             )
         )
