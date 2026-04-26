@@ -31,6 +31,8 @@ class LevelUpSummaryState(PygameMenuState):
         start_level: int,
         end_level: int,
         diff: dict[str, tuple[int, int, int]],
+        *,
+        use_relative_position: bool = False,
         **kwargs: Any,
     ) -> None:
         self.monster = monster
@@ -51,6 +53,10 @@ class LevelUpSummaryState(PygameMenuState):
         theme.widget_alignment = ALIGN_CENTER
         self._menu_config["theme"] = theme
         self._build_menu(self.menu)
+
+        if use_relative_position:
+            self.menu.set_relative_position(50, 25)
+
         self.reset_theme()
 
     def _build_menu(self, menu: Menu) -> None:

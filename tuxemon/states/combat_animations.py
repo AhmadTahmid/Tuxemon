@@ -90,6 +90,7 @@ class CombatAnimations(Menu[None], ABC):
         )
         self.background_sprite: Sprite | None = None
         self.monsters_just_leveled_up: dict[str, bool] = {}
+        self.monsters_leftover_xp: dict[str, float] = {}
         env = self.client.environment_manager.get_active_environment()
         if env is None:
             raise RuntimeError(
@@ -312,23 +313,17 @@ class CombatAnimations(Menu[None], ABC):
             self.animations.add(ani)
             return ani
 
+        # Level-up case
         if self.monsters_just_leveled_up.get(monster.slug, False):
-
-            def fill_to_max() -> Animation:
-                ani = register(
-                    self.animate(
-                        exp_bar, value=1.0, duration=0.3, transition="linear"
-                    )
-                )
-                ani.schedule(self.refresh_ui, ScheduleType.ON_FINISH)
-                return ani
+            # leftover percent is already correct in the model
+            leftover = value_for_new_level
 
             def animate_new_level_progress() -> Animation:
-                exp_bar.value = 0.0
+                # do NOT reset exp_bar.value to 0
                 ani = register(
                     self.animate(
                         exp_bar,
-                        value=value_for_new_level,
+                        value=leftover,
                         duration=0.7,
                         transition="linear",
                         delay=0.5,
@@ -337,9 +332,25 @@ class CombatAnimations(Menu[None], ABC):
                 ani.schedule(self.refresh_ui, ScheduleType.ON_FINISH)
                 return ani
 
+            # optional: keep the fill-to-max animation
+            def fill_to_max() -> Animation:
+                ani = register(
+                    self.animate(
+                        exp_bar,
+                        value=1.0,
+                        duration=0.3,
+                        transition="linear",
+                    )
+                )
+                ani.schedule(self.refresh_ui, ScheduleType.ON_FINISH)
+                return ani
+
+            # chain both animations
             self.chain_animations(fill_to_max, animate_new_level_progress)
             self.monsters_just_leveled_up[monster.slug] = False
+
         else:
+            # normal XP gain
             ani = register(
                 self.animate(
                     exp_bar,

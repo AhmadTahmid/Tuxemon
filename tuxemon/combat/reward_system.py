@@ -27,6 +27,7 @@ class RewardDataEntry:
     experience: int
     levels_gained: int = 0
     bond_milestones_crossed: set[int] = field(default_factory=set)
+    total_experience: int = 0
 
 
 @dataclass
@@ -131,6 +132,7 @@ class RewardCalculator:
             experience=awarded_exp,
             levels_gained=levels,
             bond_milestones_crossed=crossed,
+            total_experience=winner.total_experience,
         )
 
     def update_moves_and_messages(

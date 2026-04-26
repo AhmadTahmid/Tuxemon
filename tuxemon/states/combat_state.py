@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import logging
 import random
+from collections import deque
 from collections.abc import Sequence
 from functools import partial
 from typing import TYPE_CHECKING, Any, ClassVar
@@ -84,24 +85,24 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-EVENTS: list[str] = [
-    "monster_disappeared",
-    "monster_appeared",
-    "monster_swapped_out",
-    "monster_swapped_in",
-    "mirror_effect",
-    "status_applied",
-    "update_party_hud",
-    "clean_combat",
-    "monster_needed",
-    "update_sprite_position",
-    "monster_added",
-    "capture_finished",
-    "play_sound_combat",
-    "play_music_combat",
-    "play_animation_combat",
-    "combat_dialog",
-]
+EVENT_HANDLERS: dict[str, str] = {
+    "monster_disappeared": "_on_monster_disappeared",
+    "monster_appeared": "_on_monster_appeared",
+    "monster_swapped_out": "_on_monster_swapped_out",
+    "monster_swapped_in": "_on_monster_swapped_in",
+    "mirror_effect": "_on_mirror_effect",
+    "status_applied": "_on_status_applied",
+    "update_party_hud": "_on_update_party_hud",
+    "clean_combat": "_on_clean_combat",
+    "monster_needed": "_on_monster_needed",
+    "update_sprite_position": "_on_update_sprite_position",
+    "monster_added": "_on_monster_added",
+    "capture_finished": "_on_capture_finished",
+    "play_sound_combat": "_on_play_sound_combat",
+    "play_music_combat": "_on_play_music_combat",
+    "play_animation_combat": "_on_play_animation_combat",
+    "combat_dialog": "_on_combat_dialog",
+}
 
 
 class WaitForInputState(State):
@@ -149,7 +150,7 @@ class CombatState(CombatAnimations):
         self.phase: CombatPhase | None = None
         self._method_cache = MethodAnimationCache(AnimationManager())
         self.text_anim = TextAnimationManager()
-        self._decision_queue: list[Monster] = []
+        self._decision_queue: deque[Monster] = deque()
         self._captured_mon: Monster | None = None
         # player => home areas on screen
         super().__init__(client=client, teams=context.teams, **kwargs)
@@ -332,13 +333,13 @@ class CombatState(CombatAnimations):
             self.handle_action_queue()
 
     def handle_pending_actions(
-        self, pending_monsters: list[Monster], num_actions: int
+        self, pending_monsters: deque[Monster], num_actions: int
     ) -> None:
         actual_actions = min(num_actions, len(pending_monsters))
         logger.debug(f"Handling {actual_actions} pending monster action(s)")
 
         for i in range(actual_actions):
-            monster = pending_monsters.pop(0)
+            monster = pending_monsters.popleft()
             logger.debug(f"Processing monster #{i + 1}: {monster.name}")
             self.show_monster_action_menu(monster)
 
@@ -499,7 +500,7 @@ class CombatState(CombatAnimations):
         Updates HUD and assigns monsters to the decision queue for players,
         while recharging moves and triggering AI actions for NPCs.
         """
-        self._decision_queue = []
+        self._decision_queue.clear()
 
         for monster in self.combat_session.active_monsters:
             char = self.combat_session.field_monsters.get_npc_for_monster(
@@ -836,9 +837,6 @@ class CombatState(CombatAnimations):
     def award_experience_and_money(self, monster: Monster) -> None:
         """
         Award experience and money to the winners.
-
-        Parameters:
-            monster: Monster that was fainted.
         """
         combat_type = self.combat_session.combat_type
         calculator = self.combat_session.get_calculator(combat_type)
@@ -849,6 +847,9 @@ class CombatState(CombatAnimations):
         for data in rewards.winners:
             if data.levels_gained > 0:
                 self.monsters_just_leveled_up[data.winner.slug] = True
+                self.monsters_leftover_xp[data.winner.slug] = (
+                    data.winner.experience_progress_percent
+                )
 
         # Update combat state with rewards
         self.combat_session.add_prize(rewards.prize)
@@ -856,19 +857,33 @@ class CombatState(CombatAnimations):
             self.text_anim.add_xp_message(message)
 
         if rewards.update:
-            self.update_hud_and_level_up(
-                rewards.winners[0].winner, rewards.moves
-            )
+            # HUD + XP animation only for the active monster
+            main_winner = rewards.winners[0].winner
+            self.update_hud_and_level_up(main_winner, rewards.moves)
+
+            # Level-up summaries for ALL monsters that leveled up
+            for data in rewards.winners:
+                result = data.winner.consume_levelup_summary()
+                if result:
+                    start, end, diff = result
+                    self.task(
+                        partial(
+                            self.client.push_state,
+                            "LevelUpSummaryState",
+                            monster=data.winner,
+                            start_level=start,
+                            end_level=end,
+                            diff=diff,
+                            use_relative_position=True,
+                        ),
+                        interval=4.5,
+                    )
 
     def update_hud_and_level_up(
         self, winner: Monster, techniques: list[str]
     ) -> None:
         """
-        Update the HUD and handle level ups for the winner.
-
-        Parameters:
-            winner: Monster that won the battle.
-            techniques: List of learned techniques.
+        Update the HUD and handle visual level up cues (XP bar and messages).
         """
         if winner in self.combat_session.monsters_in_play_right:
             if techniques:
@@ -881,8 +896,12 @@ class CombatState(CombatAnimations):
 
             owner = winner.get_owner()
             if owner.is_player:
+                # XP bar animation
                 self.task(partial(self.animate_exp, winner), interval=2.5)
+
+                # General UI refresh
                 self.task(self.refresh_ui, interval=3.0)
+
                 hud = self.hud_manager.get_hud(winner)
                 if hud:
                     self.task(
@@ -890,22 +909,6 @@ class CombatState(CombatAnimations):
                             self._update_hud_details, winner, hud, hud.player
                         ),
                         interval=4.0,
-                    )
-
-                result = winner.consume_levelup_summary()
-                if result:
-                    start, end, diff = result
-
-                    self.task(
-                        partial(
-                            self.client.push_state,
-                            "LevelUpSummaryState",
-                            monster=winner,
-                            start_level=start,
-                            end_level=end,
-                            diff=diff,
-                        ),
-                        interval=4.5,
                     )
 
     def animate_party_status(self) -> None:
@@ -1018,15 +1021,15 @@ class CombatState(CombatAnimations):
             self.client.push_state("FadeOutTransition", caller=self)
 
     def unregister_event_handlers(self) -> None:
-        for event in EVENTS:
-            handler = getattr(self, f"_on_{event}", None)
+        for event, handler_name in EVENT_HANDLERS.items():
+            handler = getattr(self, handler_name, None)
             if handler is None:
                 raise RuntimeError(f"Missing handler for event: {event}")
             self.client.event_bus.unsubscribe(event, handler)
 
     def register_event_handlers(self) -> None:
-        for event in EVENTS:
-            handler = getattr(self, f"_on_{event}", None)
+        for event, handler_name in EVENT_HANDLERS.items():
+            handler = getattr(self, handler_name, None)
             if handler is None:
                 raise RuntimeError(f"Missing handler for event: {event}")
             self.client.event_bus.subscribe(event, handler)
