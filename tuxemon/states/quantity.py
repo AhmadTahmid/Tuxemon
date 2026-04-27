@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any, ClassVar
 from pygame_menu.locals import ALIGN_CENTER
 
 from tuxemon.locale.locale import T
+from tuxemon.menu.formatter import CurrencyFormatter, QuantityFormatter
 from tuxemon.menu.menu import PygameMenuState
 from tuxemon.platform.const import buttons
 from tuxemon.platform.const.graphics import BG_MISSIONS
@@ -36,6 +37,8 @@ class QuantityPickerState(PygameMenuState):
         cost: int | None = None,
         wallet_money: int | None = None,
         escape_key_exits: bool | None = None,
+        currency_formatter: CurrencyFormatter | None = None,
+        quantity_formatter: QuantityFormatter | None = None,
         **kwargs: Any,
     ):
         self.min_value = min_value
@@ -48,6 +51,9 @@ class QuantityPickerState(PygameMenuState):
         self.price = price
         self.cost = cost
         self.wallet_money = wallet_money
+
+        self.currency = currency_formatter or CurrencyFormatter()
+        self.quantity = quantity_formatter or QuantityFormatter()
 
         width, height = client.context.resolution
         width = int(0.45 * width)
@@ -72,7 +78,7 @@ class QuantityPickerState(PygameMenuState):
         # Wallet display (optional)
         if self.wallet_money is not None:
             self.menu.add.label(
-                f"{T.translate('wallet')}: {self.wallet_money}",
+                f"{T.translate('wallet')}: {self.currency.format(self.wallet_money)}",
                 font_size=self.font_type.small,
                 align=ALIGN_CENTER,
             )
@@ -96,7 +102,7 @@ class QuantityPickerState(PygameMenuState):
         row.pack(minus_btn, align=ALIGN_CENTER)
 
         self.value_label: Any = self.menu.add.label(
-            str(self.current_value),
+            self.quantity.format(self.current_value),
             font_size=self.font_type.big,
         )
         row.pack(self.value_label, align=ALIGN_CENTER)
@@ -117,21 +123,26 @@ class QuantityPickerState(PygameMenuState):
             )
 
     def _compute_total_label(self) -> str:
+        # Price mode
         if self.price is not None:
             total = self.current_value * self.price
+
             if self.wallet_money is not None and total > self.wallet_money:
                 return T.translate("shop_buy_too_expensive")
+
             if total == 0:
                 return T.translate("shop_buy_free")
-            return str(total)
 
+            return self.currency.format(total)
+
+        # Cost mode
         if self.cost is not None:
-            return str(self.current_value * self.cost)
+            return self.currency.format(self.current_value * self.cost)
 
         return ""
 
     def _update_labels(self) -> None:
-        self.value_label.set_title(str(self.current_value))
+        self.value_label.set_title(self.quantity.format(self.current_value))
         if hasattr(self, "total_label"):
             self.total_label.set_title(self._compute_total_label())
 

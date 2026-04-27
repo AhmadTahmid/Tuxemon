@@ -12,7 +12,6 @@ from tuxemon.item.shop_utils import (
     generate_label,
 )
 from tuxemon.menu.interface import MenuItem
-from tuxemon.states.quantity import QuantityPickerState
 from tuxemon.states.shop_base import ShopMenuState
 
 if TYPE_CHECKING:
@@ -163,16 +162,15 @@ class ShopItemBuyMenuState(ShopItemMenuState):
         )
 
         self.client.state_manager.push_state(
-            QuantityPickerState(
-                client=self.client,
-                min_value=1,
-                max_value=max_quantity,
-                start_value=1,
-                step=1,
-                callback=partial(buy_item),
-                price=price,
-                wallet_money=self.buyer_manager.get_money(),
-            )
+            "QuantityPickerState",
+            client=self.client,
+            min_value=1,
+            max_value=max_quantity,
+            start_value=1,
+            step=1,
+            callback=partial(buy_item),
+            price=price,
+            wallet_money=self.buyer_manager.get_money(),
         )
 
 
@@ -212,14 +210,13 @@ class ShopItemSellMenuState(ShopItemMenuState):
                 self.on_menu_selection_change()
 
         self.client.state_manager.push_state(
-            QuantityPickerState(
-                client=self.client,
-                min_value=1,
-                max_value=item.quantity,
-                start_value=1,
-                step=1,
-                callback=partial(sell_item),
-                cost=cost,
-                wallet_money=self.seller_manager.get_money(),
-            )
+            "QuantityPickerState",
+            client=self.client,
+            min_value=1,
+            max_value=item.quantity,
+            start_value=1,
+            step=1,
+            callback=partial(sell_item),
+            cost=cost,
+            wallet_money=self.seller_manager.get_money(),
         )

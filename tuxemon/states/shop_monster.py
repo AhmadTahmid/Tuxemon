@@ -13,7 +13,6 @@ from tuxemon.item.shop_utils import (
 from tuxemon.menu.interface import MenuItem
 from tuxemon.monster.monster import Monster
 from tuxemon.monster.renderer import MonsterRenderer
-from tuxemon.states.quantity import QuantityPickerState
 from tuxemon.states.shop_base import ShopMenuState
 
 if TYPE_CHECKING:
@@ -165,16 +164,15 @@ class ShopMonsterBuyMenuState(ShopMonsterMenuState):
         )
 
         self.client.state_manager.push_state(
-            QuantityPickerState(
-                client=self.client,
-                min_value=1,
-                max_value=max_quantity,
-                start_value=1,
-                step=1,
-                callback=partial(buy_monster),
-                price=price,
-                wallet_money=self.buyer_manager.get_money(),
-            )
+            "QuantityPickerState",
+            client=self.client,
+            min_value=1,
+            max_value=max_quantity,
+            start_value=1,
+            step=1,
+            callback=partial(buy_monster),
+            price=price,
+            wallet_money=self.buyer_manager.get_money(),
         )
 
 
@@ -214,14 +212,13 @@ class ShopMonsterSellMenuState(ShopMonsterMenuState):
                 self.on_menu_selection_change()
 
         self.client.state_manager.push_state(
-            QuantityPickerState(
-                client=self.client,
-                min_value=1,
-                max_value=1,
-                start_value=1,
-                step=1,
-                callback=partial(sell_monster),
-                cost=cost,
-                wallet_money=self.seller_manager.get_money(),
-            )
+            "QuantityPickerState",
+            client=self.client,
+            min_value=1,
+            max_value=1,
+            start_value=1,
+            step=1,
+            callback=partial(sell_monster),
+            cost=cost,
+            wallet_money=self.seller_manager.get_money(),
         )
