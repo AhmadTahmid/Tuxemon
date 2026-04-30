@@ -48,163 +48,18 @@ Documentation
 Installation
 ------------
 
-If you want to try the game, it's recommended to download and try the
-development branch first. The master branch should be stable, but is
-often out of date.
+Complete Installation documentation:
+
+- [docs/installation.md](docs/installation.md)
 
 
-### Windows Source
+Mods
+------------
 
-Requires Python 3.10+ and git.
+Complete Mods documentation:
 
-Install the latest version of Python 3 from
-[here](https://www.python.org/downloads/)
-and the latest version of Git from [here](https://git-scm.com/downloads)
+- [docs/mods.md](docs/mods.md)
 
-Run:
-```shell
-git clone https://github.com/Tuxemon/Tuxemon.git
-cd Tuxemon
-py -3 -m pip install -U -r requirements.txt
-py -3 run_tuxemon.py
-```
-
-### Windows Binary
-
-NOTICE: Windows binaries currently do not work (see https://github.com/Tuxemon/Tuxemon/issues/1229)
-
-In the meantime please use the windows source instructions above to run Tuxemon directly from source.
-
-
-### Flatpak
-
-Check the [web page](https://flathub.org/apps/details/org.tuxemon.Tuxemon) for a complete explanation.
-
-Before installing Tuxemon, make sure you have all the Flatpak [requirements](https://www.flatpak.org/setup/) installed.
-
-*Command line install:*
-```shell
-flatpak install flathub org.tuxemon.Tuxemon
-flatpak run org.tuxemon.Tuxemon
-```
-*Using Discover (Graphical Software Manager)*
-
-1. Install Discover using your system's package manager. 
-2. Once installed, open Discover and search for 'Tuxemon', select the Tuxemon entry and press install.
-
-*Flatpak Nightly Builds*
-
-1. Download Tuxemon.flatpak file from the [Release Latest Build (Development) Section](https://github.com/Tuxemon/Tuxemon/releases/tag/latest).
-2. Using your terminal, navigate to the directory where the Tuxemon.flatpak file was downloaded to.
-3. Run the following commands:
-
-```shell
-
-flatpak install Tuxemon.flatpak
-
-flatpak run org.tuxemon.Tuxemon
-
-```
-Depending on your desktop environment, you may also be able to launch via your start menu.
-
-
-### Debian/Ubuntu with virtual environment
-
-This is the recommended way to run because it will not modify the
-system.
-```shell
-sudo apt install git python3-venv
-git clone https://github.com/Tuxemon/Tuxemon.git
-python3 -m venv venv
-source venv/bin/activate
-cd Tuxemon
-python3 -m pip install -U -r requirements.txt
-python3 run_tuxemon.py
-```
-
-### Debian/Ubuntu
-
-*Not recommended* because it will change system-installed packages
-```shell
-sudo apt install python3 python3-pygame python3-pip python3-imaging git
-git clone https://github.com/Tuxemon/Tuxemon.git
-cd Tuxemon
-sudo pip3 install -U -r requirements.txt
-python3 run_tuxemon.py
-```
-
-*Debian/Ubuntu optional rumble support*
-
-```shell
-sudo apt install build-essential
-git clone https://github.com/zear/libShake.git
-cd libShake/
-make BACKEND=LINUX; sudo make install BACKEND=LINUX
-```
-
-### Fedora Linux
-
-```shell
-sudo dnf install SDL2*-devel freetype-devel libjpeg-devel portmidi-devel python3-devel
-git clone https://github.com/Tuxemon/Tuxemon.git
-python3 -m venv venv
-source venv/bin/activate
-cd Tuxemon
-python3 -m pip install -U -r requirements.txt
-python3 run_tuxemon.py
-```
-
-### Arch Linux
-
-An [AUR package](https://aur.archlinux.org/packages/tuxemon-git/) is available however manual installation is recommended.
-
-```shell
-sudo pacman -S python python-pip python-pillow python-pygame python-pydantic git
-git clone https://github.com/Tuxemon/Tuxemon.git
-cd Tuxemon
-python -m pip install -U -r requirements.txt
-python run_tuxemon.py
-```
-
-
-### Smartphones
-
-Android builds are highly experimental. You will have to build Tuxemon yourself
-using the script located in the buildconfig folder.
-After this you will need to manually install the mods folder via the following instructions.
-Connect your device to your computer and make a folder called
-"Tuxemon" in "Internal Storage", then copy the mods folder.  Tuxemon
-will also need file system permissions, which you can set in your phone's
-settings.
-
-Caveat Emptor
-
-### Mac OS X (Yosemite)
-
-```shell
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew tap Homebrew/python
-brew update
-brew install python
-brew install sdl sdl_image sdl_ttf portmidi git
-brew install sdl_mixer --with-libvorbis
-sudo pip install git+https://github.com/pygame/pygame.git
-sudo pip install -U -r requirements.txt
-git clone https://github.com/Tuxemon/Tuxemon.git
-ulimit -n 10000; python run_tuxemon.py
-```
-
-### macOS Sequoia with [uv](https://github.com/astral-sh/uv)
-
-```shell
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew update
-brew install uv python git sdl sdl2_image sdl2_ttf sdl2_mixer portmidi libvorbis
-git clone https://github.com/Tuxemon/Tuxemon.git
-cd Tuxemon
-uv sync
-uv run python run_tuxemon.py
-```
 
 **Fedora Linux**
 
