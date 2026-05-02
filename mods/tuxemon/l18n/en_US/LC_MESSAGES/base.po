@@ -18573,6 +18573,124 @@ msgstr "MAPLE: I got a Fruitera!"
 msgid "mart_junkyard05"
 msgstr "CARY: Well, you won this time. But next time, we'll win."
 
+# Classic Gyms
+msgid "classic_gym_leader_granite"
+msgstr "Gym Leader Granite"
+
+msgid "classic_gym_leader_granite_pre"
+msgstr "You've climbed all the way here? Good. Let's see if your spirit is as solid as the stones beneath us."
+
+msgid "classic_gym_leader_granite_post"
+msgstr "Heh… even mountains crumble someday. You've earned this victory, challenger."
+
+msgid "classic_gym_leader_pyra"
+msgstr "Gym Leader Pyra"
+
+msgid "classic_gym_leader_pyra_pre"
+msgstr "Hope you brought sunscreen—'cause I battle HOT! Let's turn this arena into a blaze of glory!"
+
+msgid "classic_gym_leader_pyra_post"
+msgstr "Whoa! You out-burned me! Guess I'll have to turn up the heat in training."
+
+msgid "classic_gym_leader_astra"
+msgstr "Gym Leader Astra"
+
+msgid "classic_gym_leader_astra_pre"
+msgstr "The chill you feel isn't fear—it's focus. Let the frost sharpen your resolve."
+
+msgid "classic_gym_leader_astra_post"
+msgstr "A warm defeat… how ironic. You've melted through my defenses."
+
+msgid "classic_gym_leader_bravion"
+msgstr "Gym Leader Bravion"
+
+msgid "classic_gym_leader_bravion_pre"
+msgstr "Stand tall, challenger! A true hero never falters—show me the courage in your heart!"
+
+msgid "classic_gym_leader_bravion_post"
+msgstr "A noble victory! You fought with honor worthy of any hero's tale."
+
+msgid "classic_gym_leader_voltessa"
+msgstr "Gym Leader Voltessa"
+
+msgid "classic_gym_leader_voltessa_pre"
+msgstr "Alright, challenger! Time to plug in, power up, and get SHOCKED!"
+
+msgid "classic_gym_leader_voltessa_post"
+msgstr "You overloaded my circuits! What a jolt of a battle!"
+
+msgid "classic_gym_leader_orion"
+msgstr "Gym Leader Orion"
+
+msgid "classic_gym_leader_orion_pre"
+msgstr "The cosmos whispers of your arrival. Let the stars decide our fate."
+
+msgid "classic_gym_leader_orion_post"
+msgstr "A brilliant victory… your light outshone even the constellations today."
+
+msgid "classic_gym_leader_ferrum"
+msgstr "Gym Leader Ferrum"
+
+msgid "classic_gym_leader_ferrum_pre"
+msgstr "No rust, no weakness. Show me your strongest alloy in battle!"
+
+msgid "classic_gym_leader_ferrum_post"
+msgstr "Impressive… you forged a victory stronger than steel."
+
+msgid "classic_gym_leader_mila"
+msgstr "Gym Leader Mila"
+
+msgid "classic_gym_leader_mila_pre"
+msgstr "Let's keep this friendly, okay? But don't think I'll go easy on you!"
+
+msgid "classic_gym_leader_mila_post"
+msgstr "Wow! You're full of surprises. That was a really fun match!"
+
+msgid "classic_gym_leader_shade"
+msgstr "Gym Leader Shade"
+
+msgid "classic_gym_leader_shade_pre"
+msgstr "Step carefully… shadows have a way of swallowing the unprepared."
+
+msgid "classic_gym_leader_shade_post"
+msgstr "You pierced the darkness. Few manage to find their way out."
+
+msgid "classic_gym_leader_zephra"
+msgstr "Gym Leader Zephra"
+
+msgid "classic_gym_leader_zephra_pre"
+msgstr "Feel that breeze? That's your nerves. Let's see if you can stay grounded!"
+
+msgid "classic_gym_leader_zephra_post"
+msgstr "You soared higher than I expected! What a refreshing battle."
+
+msgid "classic_gym_leader_vyre"
+msgstr "Gym Leader Vyre"
+
+msgid "classic_gym_leader_vyre_pre"
+msgstr "Careful now… one wrong step and the toxins take over. Let's dance with danger!"
+
+msgid "classic_gym_leader_vyre_post"
+msgstr "Heh… looks like I'm the one who needs an antidote for defeat."
+
+msgid "classic_gym_leader_marin"
+msgstr "Gym Leader Marin"
+
+msgid "classic_gym_leader_marin_pre"
+msgstr "The tides rise and fall… let's see if you can ride the waves of battle."
+
+msgid "classic_gym_leader_marin_post"
+msgstr "You flowed right through my strategy. A graceful victory."
+
+msgid "classic_gym_leader_sylva"
+msgstr "Gym Leader Sylva"
+
+msgid "classic_gym_leader_sylva_pre"
+msgstr "Listen close—the forest speaks. Show me you can battle in harmony with nature."
+
+msgid "classic_gym_leader_sylva_post"
+msgstr "You fought with the heart of the wild. The grove welcomes your strength."
+
 # Water Way
 msgid "water_intro1"
 msgstr "You have just crossed the desert and finally arrived in the Water Region."
