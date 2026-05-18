@@ -14,6 +14,8 @@ level are welcome to join.
 [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/Tuxemon?style=social)](https://www.reddit.com/r/tuxemon)
 [![YouTube](https://img.shields.io/youtube/channel/subscribers/UC6BJ6H7dB2Dpb8wzcYhDU3w?style=social)](https://www.youtube.com/channel/UC6BJ6H7dB2Dpb8wzcYhDU3w)
 
+[![Build Status](https://travis-ci.org/Tuxemon/Tuxemon.svg?branch=development)](https://travis-ci.org/Tuxemon/Tuxemon)
+
 ![screenshot](https://www.tuxemon.org/images/featurette-01.png)
 
 
@@ -196,6 +198,14 @@ git clone https://github.com/Tuxemon/Tuxemon.git
 cd Tuxemon
 uv sync
 uv run python run_tuxemon.py
+```
+
+**Fedora Linux**
+
+```
+sudo dnf install SDL*-devel freetype-devel libjpeg-devel portmidi-devel python3-devel
+virtualenv venv
+pip install -r requirements.txt
 ```
 
 Controls
