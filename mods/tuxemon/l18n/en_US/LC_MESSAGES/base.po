@@ -1141,7 +1141,7 @@ msgstr ""
 msgid "tm_acid"
 msgstr "TM: Acid"
 
-msgid "tm_cavity_description"
+msgid "tm_acid_description"
 msgstr "Technique Manual that teaches the Acid technique."
 
 msgid "tm_frostbite"
@@ -1155,6 +1155,12 @@ msgstr "TM: Ubuntu"
 
 msgid "tm_ubuntu_description"
 msgstr "Technique Manual that teaches the Ubuntu technique."
+
+msgid "tm_leaf_barrage"
+msgstr "TM: Leaf Barrage"
+
+msgid "tm_leaf_barrage_description"
+msgstr "Technique Manual that teaches the Leaf Barrage technique."
 
 msgid "tm_ice_shield"
 msgstr "TM: Ice Shield"
