@@ -1851,7 +1851,7 @@ msgid "combat_state_confused_get"
 msgstr "{target} is confused."
 
 msgid "combat_state_confused_tech"
-msgstr "{target} gets muddled and not {name}!"
+msgstr "{target} gets muddled and does not use {name}!"
 
 msgid "combat_state_gold"
 msgstr "{name} gets {gold}!"
@@ -9104,10 +9104,10 @@ msgid "tastes"
 msgstr "Tastes"
 
 msgid "taste_warm"
-msgstr "Taste Warm"
+msgstr "Warm Taste"
 
 msgid "taste_cold"
-msgstr "Taste Cold"
+msgstr "Cold Taste"
 
 msgid "taste_peppy"
 msgstr "Peppy"
@@ -9188,6 +9188,9 @@ msgstr "Bland"
 
 msgid "taste_bland_description"
 msgstr "A vague, chalky taste, like powdered mashed potatoes made with a sigh instead of water."
+
+msgid "taste_change_report"
+msgstr "{name}'s {type} changed from {old} to {new}!"
 
 # Factions
 msgid "faction_enforcers"
