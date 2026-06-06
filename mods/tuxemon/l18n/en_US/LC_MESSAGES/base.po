@@ -9600,7 +9600,7 @@ msgstr ""
 "It's a statue of a former Tuxemon master. The name is weathered away..."
 
 msgid "famous_statue2"
-msgstr "It says: For our beloved friends and heroes of all, the wywen"
+msgstr "It says: For our beloved friends and heroes of all, the wywen" # If 'Wyven' is a name, it should be capitalised.
 
 msgid "cotton_town_fountain"
 msgstr "It's a fountain. A lot of coins are at the bottom."
@@ -11511,7 +11511,7 @@ msgstr ""
 "nickname?"
 
 msgid "happy_rename"
-msgstr "Happy: That's a great name! I'm sure your Tuxemon loves it :)"
+msgstr "Happy: That's a great name! I'm sure your Tuxemon loves it :)" 
 
 msgid "shady_guy_dialog"
 msgstr ""
@@ -11519,7 +11519,7 @@ msgstr ""
 "fix it for you..."
 
 msgid "shady_rename"
-msgstr "Shady Guy: Good luck with your new name, friend..."
+msgstr "Shady Guy: Good luck with your new name, friend..." 
 
 msgid "maple_bedroom_sign"
 msgstr "It's a calendar and the 27 April is circled in pink."

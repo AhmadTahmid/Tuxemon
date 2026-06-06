@@ -250,7 +250,7 @@ msgid "item_failure"
 msgstr "Es hat nicht funktioniert!"
 
 msgid "attempting_capture"
-msgstr "Versuche zu fangen..."
+msgstr "Versuche zu fangen…"
 
 msgid "gotcha"
 msgstr "Geschnappt!"
@@ -1924,6 +1924,7 @@ msgstr ""
 "Karrianna: Ich habe die letzten Monate trainiert! Keiner hat mich bischer "
 "geschlagen!"
 
+#, fuzzy
 msgid "karrianna_dialog2"
 msgstr "Nun... du warst der erste Trainer, dem ich begegnet bin..."
 

@@ -1085,6 +1085,7 @@ msgstr ""
 "Karrianna: ¡He estado entrenando durante el último mes! ¡Nadie me ha vencido"
 " todavía!"
 
+#, fuzzy
 msgid "karrianna_dialog2"
 msgstr "Bueno... Fuiste el primer entrenador al que me enfrenté..."
 
