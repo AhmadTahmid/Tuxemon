@@ -36,11 +36,6 @@ done in a particular way to fit our project goals. In some cases we will ask
 for changes before merging something. Asking the team first will reduce your
 effort involved with a merge.
 
-Before writing any code, discuss with the team on discord or open an issue -- there may be
-existing work on the topic or a team member with some tips on the problem. Sometimes we
-also have opinions about a feature or topic which we want done in a particular way to fit our
-project goals. In some cases we will ask for changes or reject something.  Asking the team
-first will reduce your effort involved with a merge.
 
 ## How do I contribute artistic content?
 Artistic content is defined as image files, sound files, and maps files. This

@@ -1068,7 +1068,6 @@ msgstr ""
 msgid "karrianna_dialog1"
 msgstr "Karrianna: Trénovala jsem celý měsíc! Zatím mě nikdo neporazil!"
 
-#, fuzzy
 msgid "karrianna_dialog2"
 msgstr "Dobře... Byl jsi první trenér, se kterým jsem se setkal..."
 

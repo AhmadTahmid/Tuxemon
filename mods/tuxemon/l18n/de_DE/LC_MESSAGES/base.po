@@ -1924,7 +1924,6 @@ msgstr ""
 "Karrianna: Ich habe die letzten Monate trainiert! Keiner hat mich bischer "
 "geschlagen!"
 
-#, fuzzy
 msgid "karrianna_dialog2"
 msgstr "Nun... du warst der erste Trainer, dem ich begegnet bin..."
 
