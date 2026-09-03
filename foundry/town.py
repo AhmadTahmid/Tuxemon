@@ -796,7 +796,10 @@ def _world_events(town: Town) -> dict[str, Any]:
         "conditions": ["not variable_set foundry_initialized"],
         "actions": [
             "set_environment grass",
-            f"add_monster {actors['starter_monster']},5",
+            (
+                "add_monster "
+                f"{actors['starter_monster']},{actors['starter_level']}"
+            ),
             "set_variable province_stage:arrival",
             "set_variable foundry_initialized:yes",
         ],
@@ -808,7 +811,11 @@ def _world_events(town: Town) -> dict[str, Any]:
             "not variable_set foundry_duelist_armed",
         ],
         "actions": [
-            f"add_monster {actors['duelist_monster']},5,{duelist}",
+            (
+                "add_monster "
+                f"{actors['duelist_monster']},{actors['duelist_level']},"
+                f"{duelist}"
+            ),
             "set_variable foundry_duelist_armed:yes",
         ],
     }

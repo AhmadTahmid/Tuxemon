@@ -51,5 +51,13 @@ seeds and retains a quality-diversity archive indexed by route length, path
 spread, and collision complexity. This replaces choosing one layout by taste
 with inspectable fitness plus behavioral diversity.
 
+`python -m foundry.selfplay` makes Tuxemon's own trainer AI control both teams
+inside the actual combat state across seeded level cohorts. The result is a
+machine-readable termination, duration, and difficulty-curve certificate—not
+a spreadsheet or a parallel combat approximation. Combatants, levels, sample
+size, desired win-rate band, and turn bounds live in the semantic world seed;
+the selected duel is rejected when its measured behavior violates that
+contract.
+
 On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
 keys move, Enter interacts, and Escape opens or closes menus.

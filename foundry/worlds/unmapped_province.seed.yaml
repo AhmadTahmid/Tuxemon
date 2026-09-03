@@ -57,6 +57,12 @@ admission:
   minimum_landmark_separation: 8
   require_road_cycle: true
   require_quest_witness: true
+  combat:
+    trials_per_level: 12
+    opponent_levels: [4, 5, 6]
+    target_player_win_rate: [0.55, 0.80]
+    target_turns: [2, 15]
+    require_monotonic_difficulty: true
 
 narrative_automaton:
   initial: arrival
@@ -72,4 +78,6 @@ actors:
   cartographer: bob
   duelist: npc_test
   starter_monster: bamboon
+  starter_level: 5
   duelist_monster: rockitten
+  duelist_level: 5

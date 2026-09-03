@@ -15,7 +15,7 @@
     60,
     42
   ],
-  "fingerprint": "d122e7d88a1f91e0aa12182662d1bc318e9b9f1445f9a616eea0994aa917dd79",
+  "fingerprint": "a4aa95227fcb8be770bf35b93b186f2902f667c0899d7b1db5641b471b0a4459",
   "proofs": [
     {
       "counterexamples": [],
@@ -62,7 +62,7 @@
   ],
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73467586,
-  "seed_genome_sha256": "caa23094b080030e9ed511c5bc9bcec688024d8de0d25256704fc81a72e3ef67",
+  "seed_genome_sha256": "883b2f912c63914250617830aa4142e9b6174d440c7a432442342cf9ab1ba426",
   "witnesses": {
     "landmark_approaches": {
       "archive": [

@@ -50,3 +50,20 @@ def test_compiler_outputs_are_deterministic(tmp_path: Path) -> None:
             == hashlib.sha256(second_bytes).digest()
         )
     assert first["fingerprint"] == second["fingerprint"]
+
+
+def test_semantic_combat_levels_are_compiled(tmp_path: Path) -> None:
+    output = tmp_path / "compiled"
+    compile_world(ROOT, SPEC, output)
+    payload = yaml.safe_load(
+        (output / "maps" / "unmapped_province.yaml").read_text(
+            encoding="utf-8"
+        )
+    )
+    events = payload["events"]
+    assert "add_monster bamboon,5" in events["Initialize semantic slice"][
+        "actions"
+    ]
+    assert "add_monster rockitten,5,npc_test" in events[
+        "Arm the duelist"
+    ]["actions"]

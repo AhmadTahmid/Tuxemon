@@ -30,6 +30,10 @@ foundry-build:
 foundry-evolve:
 	python -m foundry.evolve
 
+.PHONY: foundry-selfplay
+foundry-selfplay:
+	python -m foundry.selfplay
+
 .PHONY: foundry-probe
 foundry-probe:
 	python -m foundry.runtime --probe
