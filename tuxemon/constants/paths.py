@@ -23,11 +23,12 @@ BASEDIR = Path(sys.path[0]).resolve()
 logger.debug(f"basedir: {BASEDIR}")
 
 # mods
-# For cx_freeze builds, LIBDIR is in lib/tuxemon, so we need to go up two levels
-# For normal installs, LIBDIR is in tuxemon, so we go up one level
+# Frozen plugin modules and the core package must share one import root. Keeping
+# bundled mods beneath lib makes filesystem discovery resolve both
+# ``tuxemon.*`` and ``mods.*`` modules relative to the same sys.path entry.
 if hasattr(sys, "frozen") and sys.frozen:
-    # cx_freeze build: exe.win-amd64-3.12\lib\tuxemon -> exe.win-amd64-3.12\mods
-    mods_folder = (LIBDIR.parent.parent / "mods").resolve()
+    # cx_freeze build: executable\lib\tuxemon -> executable\lib\mods
+    mods_folder = (LIBDIR.parent / "mods").resolve()
 else:
     # normal install: tuxemon -> mods
     mods_folder = (LIBDIR.parent / "mods").resolve()

@@ -46,6 +46,14 @@ foundry-probe:
 foundry-play:
 	python -m foundry.runtime --play
 
+.PHONY: foundry-freeze
+foundry-freeze:
+	python buildconfig/setup_foundry_release.py build
+
+.PHONY: foundry-release
+foundry-release: foundry-freeze
+	python -m foundry.release
+
 # Format code
 .PHONY: format
 format:

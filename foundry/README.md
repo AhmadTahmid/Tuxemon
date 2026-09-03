@@ -70,3 +70,17 @@ proves a loss → recovery → retry → victory cycle.
 
 On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
 keys move, Enter interacts, and Escape opens or closes menus.
+
+## Proof-carrying Windows release
+
+`make foundry-release` freezes the compiler-selected game as a standalone
+Windows executable, boots that executable in a hidden smoke run, and promotes
+it only when five independently generated certificates agree on one world
+fingerprint: static admission, real-runtime traversal, actual-engine combat
+self-play, full campaign playthrough, and frozen-runtime loading.
+
+The release compiler writes `release-manifest.json` beside the executable. It
+contains hashes for every payload file and a hash-linked summary of every
+proof. The deterministic ZIP and its external receipt are written under
+`dist/`. This makes a release a consequence of machine-checkable evidence,
+not a manually assembled folder or a declaration that a build "seems done."

@@ -29,6 +29,7 @@ def _boot(root: Path, visible: bool):
         CONFIG.config_model.display.resolution_y = 360
 
     from tuxemon.constants.asset_loader import fetch_mod_asset_roots
+    from tuxemon.constants.paths import mods_folder
 
     fetch_mod_asset_roots(CONFIG, force=True)
     from tuxemon.prepare import headless_init, pygame_init
@@ -42,7 +43,7 @@ def _boot(root: Path, visible: bool):
     client = LocalPygameClient.create(CONFIG, context)
     local_session.set_client(client)
     metadata = ModMetadataLoader(
-        ["unmapped_province"], root / "mods"
+        ["unmapped_province"], mods_folder
     ).load_metadata()["unmapped_province"]
     GameLauncher(client).launch(local_session, metadata)
     return client, context, local_session

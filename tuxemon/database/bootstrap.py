@@ -22,6 +22,7 @@ def bootstrap_database() -> ModData:
     fetch_mod_asset_roots(CONFIG)
     config_path = fetch_asset(mods_folder.as_posix(), "db_config.yaml")
     config = load_config(config_path)
+    config.mod_base_path = str(mods_folder)
     model_map = load_model_map(config.model_map)
     loader = ModelLoader(model_map)
     db = ModData(config, loader)

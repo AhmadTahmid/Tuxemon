@@ -16,6 +16,19 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
+def _plugin_stems(folder: Path, excluded: set[str]) -> list[str]:
+    """Return source or frozen plugin names without duplicating their stems."""
+    return sorted(
+        {
+            file.stem
+            for file in folder.iterdir()
+            if file.is_file()
+            and file.suffix in {".py", ".pyc"}
+            and file.stem not in excluded
+        }
+    )
+
+
 class StateLoader:
     """
     Discovers and registers game state classes using the new plugin system.
@@ -63,11 +76,9 @@ class StateLoader:
 
         if state_folder.is_dir():
             plugin_folders.append(state_folder)
-            core_includes = [
-                f.stem
-                for f in state_folder.glob("*.py")
-                if f.is_file() and f.stem != "State"
-            ]
+            core_includes = _plugin_stems(
+                state_folder, {"__init__", "State"}
+            )
         else:
             logger.warning(
                 f"State discovery path does not exist: {state_folder}"
@@ -79,12 +90,13 @@ class StateLoader:
             subfolder=None,
         )
 
-        mod_includes = [
-            f.stem
-            for folder in mod_state_folders
-            for f in folder.glob("*.py")
-            if f.is_file() and f.stem != "__init__"
-        ]
+        mod_includes = sorted(
+            {
+                stem
+                for folder in mod_state_folders
+                for stem in _plugin_stems(folder, {"__init__", "State"})
+            }
+        )
 
         core_pm = self._build_plugin_manager(
             folders=[state_folder],
