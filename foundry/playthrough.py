@@ -324,6 +324,8 @@ def _execute_survey_region(
     alignment: str,
     execution_steps: list[dict[str, Any]],
     visited_regions: list[str],
+    root: Path,
+    context,
 ) -> dict[str, Any]:
     slug = region["slug"]
     if alignment not in region["alignment_values"]:
@@ -357,6 +359,45 @@ def _execute_survey_region(
     consequence["kind"] = "persistent_branch_consequence"
     consequence["alignment"] = alignment
     execution_steps.append(consequence)
+    events = _events_by_name(client)
+    echo = _run_event(
+        client,
+        session,
+        events[region["phenotypes"][alignment]["echo_event"]],
+    )
+    echo["kind"] = "spatial_branch_consequence"
+    echo["alignment"] = alignment
+    execution_steps.append(echo)
+
+    import pygame
+
+    client.draw()
+    phenotype_screenshot = (
+        root
+        / "foundry"
+        / "artifacts"
+        / f"unmapped_province.{alignment}.runtime.generated.png"
+    )
+    pygame.image.save(context.screen, phenotype_screenshot)
+    layer_color = client.map_renderer.layer_color
+    observed_overlay = (
+        ":".join(map(str, tuple(layer_color))) if layer_color else None
+    )
+    echo_actor = client.get_npc(
+        region["phenotypes"][alignment]["echo_actor"]
+    )
+    if echo_actor is None:
+        raise RuntimeError(f"The {alignment} spatial echo did not materialize.")
+    phenotype = {
+        **region["phenotypes"][alignment],
+        "alignment": alignment,
+        "observed_overlay": observed_overlay,
+        "observed_echo_position": list(echo_actor.tile_pos),
+        "screenshot": phenotype_screenshot.as_posix(),
+        "screenshot_sha256": hashlib.sha256(
+            phenotype_screenshot.read_bytes()
+        ).hexdigest(),
+    }
     reentry = _run_event(client, session, events[region["entry_event"]])
     reentry["kind"] = "survey_reentry"
     reentry["transition_frames"] = _pump_until_map(client, f"{slug}.tmx")
@@ -394,6 +435,8 @@ def _execute_survey_region(
         "choice": choice,
         "observations": observations,
         "consequence": consequence,
+        "echo": echo,
+        "phenotype": phenotype,
         "alignment": alignment,
     }
 
@@ -481,6 +524,8 @@ def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
                     survey_policy,
                     execution_steps,
                     visited_regions,
+                    root,
+                    context,
                 )
             transcript.extend(region_run["transitions"])
 
@@ -663,6 +708,27 @@ def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
             ],
         },
         {
+            "id": "survey-choice-projects-a-visible-spatial-phenotype",
+            "passed": all(
+                region["phenotype"]["observed_overlay"]
+                == region["phenotype"]["overlay"]
+                and region["phenotype"]["observed_echo_position"]
+                == region["phenotype"]["echo_position"]
+                and Path(region["phenotype"]["screenshot"]).is_file()
+                and hashlib.sha256(
+                    Path(region["phenotype"]["screenshot"]).read_bytes()
+                ).hexdigest()
+                == region["phenotype"]["screenshot_sha256"]
+                for region in region_runs
+                if region["mechanic"] == "survey"
+            ),
+            "detail": [
+                region["phenotype"]
+                for region in region_runs
+                if region["mechanic"] == "survey"
+            ],
+        },
+        {
             "id": "battle-loss-recovery-loop-is-executable",
             "passed": bool(all_sentinel_recoveries)
             and len(all_sentinel_recoveries)
@@ -698,6 +764,11 @@ def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
         "world_fingerprint": build["fingerprint"],
         "quest_witness": admission["witnesses"]["quest"],
         "survey_policy": survey_policy,
+        "branch_phenotypes": [
+            region["phenotype"]
+            for region in region_runs
+            if region["mechanic"] == "survey"
+        ],
         "transcript": transcript,
         "execution_steps": execution_steps,
         "region_screenshots": {

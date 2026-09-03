@@ -1415,3 +1415,21 @@ events:
     actions:
     - translated_dialog The monolith folds the Echo Wilds back into town.
     - transition_teleport player,unmapped_province.tmx,42,17,0.3
+  Clear unaligned projection for skyglass_garden_alignment:
+    type: init
+    conditions:
+    - not variable_set skyglass_garden_alignment
+    actions:
+    - set_layer none
+  Project visible phenotype skyglass_garden:chorus:
+    type: init
+    conditions:
+    - is variable_set skyglass_garden_alignment:chorus
+    actions:
+    - set_layer 71:255:71:44
+  Project visible phenotype skyglass_garden:silence:
+    type: init
+    conditions:
+    - is variable_set skyglass_garden_alignment:silence
+    actions:
+    - set_layer 255:71:255:44

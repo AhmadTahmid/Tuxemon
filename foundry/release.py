@@ -13,7 +13,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BUILD = ROOT / "build" / "unmapped-province-windows"
 DEFAULT_DIST = ROOT / "dist"
-RELEASE_NAME = "The-Unmapped-Province-0.5.0-windows-x86_64"
+RELEASE_NAME = "The-Unmapped-Province-0.6.0-windows-x86_64"
 SOURCE_CERTIFICATES = {
     "world-admission": (
         ROOT
@@ -155,7 +155,7 @@ def build_manifest(build_dir: Path) -> dict[str, Any]:
         "schema": "ai-native-proof-carrying-release/v1",
         "release": {
             "name": "The Unmapped Province",
-            "version": "0.5.0",
+            "version": "0.6.0",
             "platform": "windows-x86_64",
             "entrypoint": "UnmappedProvince.exe",
         },

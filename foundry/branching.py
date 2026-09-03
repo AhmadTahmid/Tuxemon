@@ -27,6 +27,7 @@ def _summary(document: dict[str, Any], path: Path) -> dict[str, Any]:
         "fingerprint": document["fingerprint"],
         "world_fingerprint": document["world_fingerprint"],
         "terminal": document["transcript"][-1]["stage_after"],
+        "phenotype": document["branch_phenotypes"][0],
         "consequence": next(
             step["event"]
             for step in document["execution_steps"]
@@ -89,6 +90,25 @@ def run(root: Path) -> dict[str, Any]:
             != branches["silence"]["consequence"],
             "detail": {
                 policy: branch["consequence"]
+                for policy, branch in branches.items()
+            },
+        },
+        {
+            "id": "branch-phenotypes-render-as-distinct-spatial-states",
+            "passed": (
+                branches["chorus"]["phenotype"]["screenshot_sha256"]
+                != branches["silence"]["phenotype"]["screenshot_sha256"]
+                and branches["chorus"]["phenotype"]["observed_overlay"]
+                != branches["silence"]["phenotype"]["observed_overlay"]
+                and branches["chorus"]["phenotype"][
+                    "observed_echo_position"
+                ]
+                != branches["silence"]["phenotype"][
+                    "observed_echo_position"
+                ]
+            ),
+            "detail": {
+                policy: branch["phenotype"]
                 for policy, branch in branches.items()
             },
         },

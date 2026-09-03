@@ -233,6 +233,36 @@ def generate_expedition(
     return expedition
 
 
+def _phenotype_projection_events(town: Town) -> dict[str, dict[str, Any]]:
+    campaign = town.spec.get("campaign", {}).get("selected")
+    survey_regions = (
+        [
+            region
+            for region in campaign["regions"]
+            if region.get("mechanic") == "survey"
+        ]
+        if campaign
+        else []
+    )
+    events: dict[str, dict[str, Any]] = {}
+    for region in survey_regions:
+        alignment_key = region["alignment_key"]
+        events[f"Clear unaligned projection for {alignment_key}"] = {
+            "type": "init",
+            "conditions": [f"not variable_set {alignment_key}"],
+            "actions": ["set_layer none"],
+        }
+        for alignment, phenotype in sorted(region["phenotypes"].items()):
+            events[f"Project visible phenotype {region['slug']}:{alignment}"] = {
+                "type": "init",
+                "conditions": [
+                    f"is variable_set {alignment_key}:{alignment}"
+                ],
+                "actions": [f"set_layer {phenotype['overlay']}"],
+            }
+    return events
+
+
 def expedition_events(
     expedition: Expedition, town: Town
 ) -> dict[str, dict[str, Any]]:
@@ -241,7 +271,9 @@ def expedition_events(
     town_return = (town.shard[0], town.shard[1] + 1)
     contract = expedition.contract
     if contract.get("mechanic") == "survey":
-        return _survey_events(expedition, town)
+        events = _survey_events(expedition, town)
+        events.update(_phenotype_projection_events(town))
+        return events
     ecology = contract["ecology"]
     selected = ecology.get("selected")
     if selected is None:
@@ -263,7 +295,7 @@ def expedition_events(
     entry_state = str(contract.get("entry_state", "chartered"))
     open_state = str(contract.get("open_state", "wilds_open"))
     complete_state = str(contract.get("complete_state", "shard_recovered"))
-    return {
+    events = {
         f"Initialize {slug}": {
             "type": "event",
             "conditions": [f"not variable_set {slug}_initialized"],
@@ -366,6 +398,8 @@ def expedition_events(
             ],
         },
     }
+    events.update(_phenotype_projection_events(town))
+    return events
 
 
 def _survey_events(

@@ -50,6 +50,22 @@ def test_campaign_assigns_proven_guardians_to_dramatic_roles() -> None:
         "metesaur",
         "vivipere",
     ]
+    survey = next(
+        region for region in regions if region["mechanic"] == "survey"
+    )
+    assert survey["phenotype_population"]["candidates_examined"] == 396
+    assert len(
+        {
+            phenotype["overlay"]
+            for phenotype in survey["phenotypes"].values()
+        }
+    ) == 2
+    assert len(
+        {
+            phenotype["anchor_role"]
+            for phenotype in survey["phenotypes"].values()
+        }
+    ) == 2
     transitions = result["selected"]["narrative_automaton"]["transitions"]
     assert transitions[0][0] == "arrival"
     assert transitions[-1][2] == "province_mapped"

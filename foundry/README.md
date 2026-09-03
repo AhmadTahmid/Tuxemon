@@ -104,6 +104,15 @@ survey facts across map transitions, and converge on the terminal state. The
 release therefore carries evidence for the choice not taken during the main
 playthrough as well as the choice that was taken.
 
+The branch is not represented by dialogue alone. Campaign synthesis enumerates
+396 paired visual/spatial phenotypes and selects the organism with the greatest
+overlay-color and landmark separation. The chosen alignment changes the
+rendered color field, materializes the survey witness at a different town
+landmark, and requires a different real-pathfinder traversal. Counterfactual
+playthroughs capture both resulting frames; the branch certificate rejects
+identical pixels, overlays, or witness positions. These screenshots are bundled
+beside the certificates in the frozen release.
+
 `python -m foundry.ecology` derives a sentinel population directly from the
 monster database using habitat and evolutionary-stage predicates, preserves
 elemental diversity, and evaluates every species/level candidate through

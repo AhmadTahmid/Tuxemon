@@ -6,6 +6,7 @@ import hashlib
 import json
 import random
 import sys
+import traceback
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +34,14 @@ def smoke_test(root: Path) -> dict[str, Any]:
         for _ in range(20):
             client.update(0.05)
         client.draw()
+        cache_was_enabled = client.map_loader.enable_cache
+        client.map_loader.set_cache_enabled(False)
+        try:
+            town_source = client.map_loader.load_map_data(
+                "unmapped_province.tmx"
+            )
+        finally:
+            client.map_loader.set_cache_enabled(cache_was_enabled)
         regions = {
             slug: client.map_loader.load_map_data(f"{slug}.tmx")
             for slug in admission["regions"]
@@ -41,7 +50,11 @@ def smoke_test(root: Path) -> dict[str, Any]:
         observed = {
             "map": client.get_map_name(),
             "screen": list(context.screen.get_size()),
-            "events": len(client.map_manager.current_map.events),
+            "events": len(town_source.events) + len(town_source.inits),
+            "active_events_after_init": len(
+                client.map_manager.current_map.events
+            )
+            + len(client.map_manager.current_map.inits),
             "npcs_including_player": len(client.npc_manager.npcs),
             "starter_party_size": len(session.player.monsters),
             "opponent_party_size": len(client.get_npc("npc_test").monsters),
@@ -49,7 +62,7 @@ def smoke_test(root: Path) -> dict[str, Any]:
                 slug: {
                     "map": region.name,
                     "dimensions": [region.width, region.height],
-                    "events": len(region.events),
+                    "events": len(region.events) + len(region.inits),
                     "collision_cells": len(region.collision_map),
                 }
                 for slug, region in regions.items()
@@ -132,7 +145,13 @@ def main() -> None:
     args = parser.parse_args()
     root = application_root()
     if args.smoke_test:
-        smoke_test(root)
+        try:
+            smoke_test(root)
+        except Exception:
+            (root / "release-smoke.error.log").write_text(
+                traceback.format_exc(), encoding="utf-8"
+            )
+            raise SystemExit(1) from None
     else:
         play(root)
 

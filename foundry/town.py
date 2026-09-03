@@ -388,6 +388,61 @@ def _compress_rectangles(cells: set[Coord]) -> list[tuple[int, int, int, int]]:
     )
 
 
+def _branch_projection_plan(town: Town) -> dict[str, dict[str, Any]]:
+    campaign = town.spec.get("campaign", {}).get("selected")
+    if not campaign:
+        return {}
+    reserved = {
+        town.spawn,
+        town.shard,
+        *town.actor_positions.values(),
+        *(landmark.approach for landmark in town.landmarks),
+    }
+    output: dict[str, dict[str, Any]] = {}
+    for region in campaign["regions"]:
+        if region.get("mechanic") != "survey":
+            continue
+        for alignment, phenotype in sorted(region["phenotypes"].items()):
+            anchor = next(
+                landmark
+                for landmark in town.landmarks
+                if landmark.role == phenotype["anchor_role"]
+            )
+            candidates = town.roads - town.blocked - reserved
+            if not candidates:
+                raise AdmissionRejected(
+                    f"No free town response cell for {region['slug']}:{alignment}."
+                )
+            position = min(
+                candidates,
+                key=lambda cell: (
+                    abs(
+                        abs(cell[0] - anchor.approach[0])
+                        + abs(cell[1] - anchor.approach[1])
+                        - 4
+                    ),
+                    abs(cell[0] - anchor.approach[0])
+                    + abs(cell[1] - anchor.approach[1]),
+                    cell[1],
+                    cell[0],
+                ),
+            )
+            reserved.add(position)
+            output[f"{region['slug']}:{alignment}"] = {
+                "survey_slug": region["slug"],
+                "alignment": alignment,
+                "alignment_key": region["alignment_key"],
+                "overlay": phenotype["overlay"],
+                "anchor_role": phenotype["anchor_role"],
+                "echo_actor": region["actor"],
+                "echo_position": list(position),
+                "echo_event": (
+                    f"Read spatial echo {region['slug']}:{alignment}"
+                ),
+            }
+    return output
+
+
 def certify(
     town: Town, expeditions=None, *, require_ecology_lock: bool = False
 ) -> dict[str, Any]:
@@ -419,6 +474,7 @@ def certify(
         for expedition in expedition_list
         if expedition.contract.get("mechanic", "combat") == "combat"
     ]
+    branch_projection = _branch_projection_plan(town)
     reachable = _reachable(town)
     walkable = {
         (x, y)
@@ -586,6 +642,39 @@ def certify(
         *(
             [
                 {
+                    "id": "branch-phenotypes-project-to-distinct-visible-town-states",
+                    "passed": all(
+                        tuple(projection["echo_position"]) in reachable
+                        for projection in branch_projection.values()
+                    )
+                    and len(
+                        {
+                            projection["overlay"]
+                            for projection in branch_projection.values()
+                        }
+                    )
+                    == len(branch_projection)
+                    and len(
+                        {
+                            tuple(projection["echo_position"])
+                            for projection in branch_projection.values()
+                        }
+                    )
+                    == len(branch_projection),
+                    "detail": branch_projection,
+                    "counterexamples": [
+                        key
+                        for key, projection in branch_projection.items()
+                        if tuple(projection["echo_position"]) not in reachable
+                    ],
+                }
+            ]
+            if branch_projection
+            else []
+        ),
+        *(
+            [
+                {
                     "id": "actual-engine-ecology-selection-is-locked",
                     "passed": all(selected_ecologies)
                     and bool(
@@ -664,6 +753,11 @@ def certify(
                 }
             )
         else:
+            projected_phenotypes = {
+                projection["alignment"]: projection
+                for projection in branch_projection.values()
+                if projection["survey_slug"] == expedition.slug
+            }
             region_witness.update(
                 {
                     "alignment_key": contract["alignment_key"],
@@ -687,6 +781,7 @@ def certify(
                         alignment: f"Cartographer responds to {alignment}"
                         for alignment in contract["alignment_values"]
                     },
+                    "phenotypes": projected_phenotypes,
                 }
             )
         campaign_region_witnesses.append(region_witness)
@@ -1026,6 +1121,7 @@ def _world_events(town: Town) -> dict[str, Any]:
     )
     events: dict[str, Any] = {}
     selected_campaign = town.spec.get("campaign", {}).get("selected")
+    branch_projection = _branch_projection_plan(town)
     duel_source_state = (
         selected_campaign.get("duel_source_state", "archive_restored")
         if selected_campaign
@@ -1036,6 +1132,46 @@ def _world_events(town: Town) -> dict[str, Any]:
             "type": "event",
             "conditions": [f"not char_exists {slug}"],
             "actions": [f"create_npc {slug},{position[0]},{position[1]}"],
+        }
+    for alignment_key in sorted(
+        {item["alignment_key"] for item in branch_projection.values()}
+    ):
+        events[f"Clear unaligned projection for {alignment_key}"] = {
+            "type": "init",
+            "conditions": [f"not variable_set {alignment_key}"],
+            "actions": ["set_layer none"],
+        }
+    for key, projection in sorted(branch_projection.items()):
+        alignment = projection["alignment"]
+        alignment_key = projection["alignment_key"]
+        actor = projection["echo_actor"]
+        position = projection["echo_position"]
+        events[f"Project visible phenotype {key}"] = {
+            "type": "init",
+            "conditions": [
+                f"is variable_set {alignment_key}:{alignment}"
+            ],
+            "actions": [f"set_layer {projection['overlay']}"],
+        }
+        events[f"Materialize spatial echo {key}"] = {
+            "type": "event",
+            "conditions": [
+                f"is variable_set {alignment_key}:{alignment}",
+                f"not char_exists {actor}",
+            ],
+            "actions": [
+                f"create_npc {actor},{position[0]},{position[1]}"
+            ],
+        }
+        events[projection["echo_event"]] = {
+            "type": "event",
+            "behav": [f"talk {actor}"],
+            "conditions": [
+                f"is variable_set {alignment_key}:{alignment}"
+            ],
+            "actions": [
+                f"translated_dialog The {alignment} echo has occupied a different place in town."
+            ],
         }
     events["Initialize semantic slice"] = {
         "type": "event",
@@ -1365,7 +1501,7 @@ def compile_world(
                 "slug": town.slug,
                 "description": "A proof-carrying multi-region RPG compiled by the AI-native foundry.",
                 "name": town.title,
-                "version": "0.5.0",
+                "version": "0.6.0",
                 "authors": ["AI Native Foundry"],
                 "startup_rules": [],
                 "starting_players": ["npc_red"],

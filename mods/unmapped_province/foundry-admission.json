@@ -1,5 +1,5 @@
 {
-  "compiled_semantics_sha256": "b13508d51fe9f5d8ae2688281a4ce7ede83e7cdd65869f08adb38339dfe5d910",
+  "compiled_semantics_sha256": "13661b14365ca6fe3f9f6d70badfc7abb4f4531d04e25d78383d0d4293cbb919",
   "counts": {
     "actors": 3,
     "collision_cells": 819,
@@ -12,14 +12,14 @@
     "regions": 4,
     "road_cells": 572,
     "road_cycle_rank": 317,
-    "runtime_events": 51,
+    "runtime_events": 67,
     "walkable_cells": 1701
   },
   "dimensions": [
     60,
     42
   ],
-  "fingerprint": "18388db96c4164e2fdd5ffab0ec1b4e1dc86c1d4aa2d0aa3d6dfc0e55e85e3d0",
+  "fingerprint": "5a997a9435f5e71b57c8136d7f77bb25877c5719a2ea3b21067eadfea60524a1",
   "proofs": [
     {
       "counterexamples": [],
@@ -77,6 +77,39 @@
         "unmapped_province -> root_vault -> unmapped_province"
       ],
       "id": "campaign-region-roundtrips-compile",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": {
+        "skyglass_garden:chorus": {
+          "alignment": "chorus",
+          "alignment_key": "skyglass_garden_alignment",
+          "anchor_role": "archive",
+          "echo_actor": "knight2",
+          "echo_event": "Read spatial echo skyglass_garden:chorus",
+          "echo_position": [
+            11,
+            14
+          ],
+          "overlay": "71:255:71:44",
+          "survey_slug": "skyglass_garden"
+        },
+        "skyglass_garden:silence": {
+          "alignment": "silence",
+          "alignment_key": "skyglass_garden_alignment",
+          "anchor_role": "clinic",
+          "echo_actor": "knight2",
+          "echo_event": "Read spatial echo skyglass_garden:silence",
+          "echo_position": [
+            37,
+            34
+          ],
+          "overlay": "255:71:255:44",
+          "survey_slug": "skyglass_garden"
+        }
+      },
+      "id": "branch-phenotypes-project-to-distinct-visible-town-states",
       "passed": true
     },
     {
@@ -414,7 +447,7 @@
         52,
         34
       ],
-      "events": 9
+      "events": 12
     },
     "root_vault": {
       "collision_cells": 485,
@@ -422,7 +455,7 @@
         56,
         36
       ],
-      "events": 9
+      "events": 12
     },
     "skyglass_garden": {
       "collision_cells": 300,
@@ -430,19 +463,19 @@
         48,
         32
       ],
-      "events": 10
+      "events": 13
     },
     "unmapped_province": {
       "dimensions": [
         60,
         42
       ],
-      "events": 23
+      "events": 30
     }
   },
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73467586,
-  "seed_genome_sha256": "004cd33ea47a44f21b1ff34bf7eef47d90ffd2664058c874b55d246d5cf85775",
+  "seed_genome_sha256": "9009c8cabd6d96615ae6da422c0686701876d7289d99520d559d4c5bd452f18d",
   "witnesses": {
     "battle_loss_recovery_event": "Inspect clinic",
     "campaign_regions": [
@@ -515,6 +548,34 @@
           "skyglass_garden_horizon_seen",
           "skyglass_garden_root_seen"
         ],
+        "phenotypes": {
+          "chorus": {
+            "alignment": "chorus",
+            "alignment_key": "skyglass_garden_alignment",
+            "anchor_role": "archive",
+            "echo_actor": "knight2",
+            "echo_event": "Read spatial echo skyglass_garden:chorus",
+            "echo_position": [
+              11,
+              14
+            ],
+            "overlay": "71:255:71:44",
+            "survey_slug": "skyglass_garden"
+          },
+          "silence": {
+            "alignment": "silence",
+            "alignment_key": "skyglass_garden_alignment",
+            "anchor_role": "clinic",
+            "echo_actor": "knight2",
+            "echo_event": "Read spatial echo skyglass_garden:silence",
+            "echo_position": [
+              37,
+              34
+            ],
+            "overlay": "255:71:255:44",
+            "survey_slug": "skyglass_garden"
+          }
+        },
         "recover_action": "recover_skyglass_garden_sigil",
         "return_event": "Return from skyglass_garden",
         "return_gate": [

@@ -78,11 +78,19 @@ def runtime_probe(
     screenshot.parent.mkdir(parents=True, exist_ok=True)
     pygame.image.save(context.screen, screenshot)
     current_map = client.map_manager.current_map
-    region_maps = {
-        slug: client.map_loader.load_map_data(f"{slug}.tmx")
-        for slug in expected["regions"]
-        if slug != "unmapped_province"
-    }
+    cache_was_enabled = client.map_loader.enable_cache
+    client.map_loader.set_cache_enabled(False)
+    try:
+        town_source = client.map_loader.load_map_data(
+            "unmapped_province.tmx"
+        )
+        region_maps = {
+            slug: client.map_loader.load_map_data(f"{slug}.tmx")
+            for slug in expected["regions"]
+            if slug != "unmapped_province"
+        }
+    finally:
+        client.map_loader.set_cache_enabled(cache_was_enabled)
     spec_path = root / "foundry" / "worlds" / "unmapped_province.seed.yaml"
     town = generate_town(yaml.safe_load(spec_path.read_text(encoding="utf-8")))
     occupied = {npc.tile_pos for npc in client.npc_manager.npcs.values()}
@@ -121,13 +129,15 @@ def runtime_probe(
     observed = {
         "map": client.get_map_name(),
         "dimensions": [current_map.width, current_map.height],
-        "events": len(current_map.events),
+        "events": len(town_source.events) + len(town_source.inits),
+        "active_events_after_init": len(current_map.events)
+        + len(current_map.inits),
         "collision_cells": len(current_map.collision_map),
         "regions": {
             slug: {
                 "map": region.name,
                 "dimensions": [region.width, region.height],
-                "events": len(region.events),
+                "events": len(region.events) + len(region.inits),
                 "collision_cells": len(region.collision_map),
             }
             for slug, region in region_maps.items()
@@ -168,6 +178,15 @@ def runtime_probe(
                 == expected["counts"]["collision_cells"]
             ),
             "detail": observed["collision_cells"],
+        },
+        {
+            "id": "runtime-loads-generated-town-events",
+            "passed": observed["events"]
+            == expected["regions"]["unmapped_province"]["events"],
+            "detail": {
+                "declared": observed["events"],
+                "active_after_init": observed["active_events_after_init"],
+            },
         },
         {
             "id": "runtime-loads-generated-campaign-regions",

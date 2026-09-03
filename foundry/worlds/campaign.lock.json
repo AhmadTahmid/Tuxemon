@@ -1,6 +1,6 @@
 {
   "ecology_fingerprint": "f1996da698e945434647542f81917cce0a11725071a46791ab17c3faa5809c5f",
-  "fingerprint": "b6a087873b056ab3b67ec332746933f3a9d922272aa01aff1dbad228eeeb07ab",
+  "fingerprint": "8f4d5858a60d0451a59a67e1ff7e1ffb2664a275363cebd0881a5effa6c663e3",
   "population": {
     "admitted": 2,
     "candidates_examined": 6,
@@ -72,6 +72,34 @@
         "combat"
       ],
       "id": "campaign-mechanics-are-not-uniform",
+      "passed": true
+    },
+    {
+      "detail": {
+        "skyglass_garden": {
+          "candidates_examined": 396,
+          "color_distance": 318.697,
+          "selection_score": 446.697,
+          "spatial_distance": 2
+        }
+      },
+      "id": "branch-phenotype-populations-were-enumerated",
+      "passed": true
+    },
+    {
+      "detail": {
+        "skyglass_garden": {
+          "chorus": {
+            "anchor_role": "archive",
+            "overlay": "71:255:71:44"
+          },
+          "silence": {
+            "anchor_role": "clinic",
+            "overlay": "255:71:255:44"
+          }
+        }
+      },
+      "id": "branch-phenotypes-are-observably-distinct",
       "passed": true
     }
   ],
@@ -185,6 +213,22 @@
           "skyglass_garden_root_seen"
         ],
         "palette_shift": 0.115,
+        "phenotype_population": {
+          "candidates_examined": 396,
+          "color_distance": 318.697,
+          "selection_score": 446.697,
+          "spatial_distance": 2
+        },
+        "phenotypes": {
+          "chorus": {
+            "anchor_role": "archive",
+            "overlay": "71:255:71:44"
+          },
+          "silence": {
+            "anchor_role": "clinic",
+            "overlay": "255:71:255:44"
+          }
+        },
         "recover_action": "recover_skyglass_garden_sigil",
         "seed_offset": 161803,
         "slug": "skyglass_garden",

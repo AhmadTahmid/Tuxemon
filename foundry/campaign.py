@@ -8,6 +8,7 @@ lowest-cost admitted arrangement as a proof-carrying lock.
 from __future__ import annotations
 
 import argparse
+import colorsys
 import copy
 import hashlib
 import itertools
@@ -44,6 +45,77 @@ def _battle_witness(candidate: dict[str, Any], winner: str) -> int:
             f"{winner} witness."
         )
     return int(min(outcomes, key=lambda outcome: outcome["seed"])["seed"])
+
+
+def _synthesize_branch_phenotypes(
+    spec: dict[str, Any], region: dict[str, Any]
+) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
+    """Select maximally distinct visual/spatial branch projections."""
+    alignments = sorted(map(str, region["alignment_values"]))
+    if len(alignments) != 2:
+        raise ValueError("The current phenotype search requires two branches.")
+
+    overlays = []
+    for index in range(12):
+        red, green, blue = colorsys.hsv_to_rgb(index / 12, 0.72, 1.0)
+        channels = tuple(round(channel * 255) for channel in (red, green, blue))
+        overlays.append((*channels, 44))
+
+    quadrant_positions = {
+        "northwest": (0, 0),
+        "northeast": (1, 0),
+        "southwest": (0, 1),
+        "southeast": (1, 1),
+    }
+    landmarks = sorted(
+        (
+            str(item["role"]),
+            quadrant_positions[str(item["quadrant"])],
+        )
+        for item in spec["intent"]["required_landmarks"]
+    )
+    organisms = []
+    for overlay_pair in itertools.combinations(overlays, 2):
+        color_distance = sum(
+            (left - right) ** 2
+            for left, right in zip(overlay_pair[0][:3], overlay_pair[1][:3])
+        ) ** 0.5
+        for anchor_pair in itertools.combinations(landmarks, 2):
+            spatial_distance = sum(
+                abs(left - right)
+                for left, right in zip(anchor_pair[0][1], anchor_pair[1][1])
+            )
+            organisms.append(
+                {
+                    "overlays": overlay_pair,
+                    "anchors": tuple(item[0] for item in anchor_pair),
+                    "color_distance": round(color_distance, 3),
+                    "spatial_distance": spatial_distance,
+                    "score": round(color_distance + spatial_distance * 64, 3),
+                }
+            )
+    selected = min(
+        organisms,
+        key=lambda organism: (
+            -organism["score"],
+            organism["overlays"],
+            organism["anchors"],
+        ),
+    )
+    phenotypes = {
+        alignment: {
+            "overlay": ":".join(map(str, selected["overlays"][index])),
+            "anchor_role": selected["anchors"][index],
+        }
+        for index, alignment in enumerate(alignments)
+    }
+    population = {
+        "candidates_examined": len(organisms),
+        "selection_score": selected["score"],
+        "color_distance": selected["color_distance"],
+        "spatial_distance": selected["spatial_distance"],
+    }
+    return phenotypes, population
 
 
 def _region_contract(
@@ -179,6 +251,13 @@ def synthesize(
             ],
         ),
     )
+    for region in regions:
+        if region["mechanic"] == "survey":
+            phenotypes, population = _synthesize_branch_phenotypes(
+                spec, region
+            )
+            region["phenotypes"] = phenotypes
+            region["phenotype_population"] = population
 
     transitions: list[list[str]] = [
         ["arrival", "speak_to_archivist", "chartered"]
@@ -292,6 +371,45 @@ def synthesize(
             "id": "campaign-mechanics-are-not-uniform",
             "passed": len({region["mechanic"] for region in regions}) > 1,
             "detail": [region["mechanic"] for region in regions],
+        },
+        {
+            "id": "branch-phenotype-populations-were-enumerated",
+            "passed": all(
+                region["phenotype_population"]["candidates_examined"] > 1
+                for region in regions
+                if region["mechanic"] == "survey"
+            ),
+            "detail": {
+                region["slug"]: region["phenotype_population"]
+                for region in regions
+                if region["mechanic"] == "survey"
+            },
+        },
+        {
+            "id": "branch-phenotypes-are-observably-distinct",
+            "passed": all(
+                len(
+                    {
+                        phenotype["overlay"]
+                        for phenotype in region["phenotypes"].values()
+                    }
+                )
+                == len(region["phenotypes"])
+                and len(
+                    {
+                        phenotype["anchor_role"]
+                        for phenotype in region["phenotypes"].values()
+                    }
+                )
+                == len(region["phenotypes"])
+                for region in regions
+                if region["mechanic"] == "survey"
+            ),
+            "detail": {
+                region["slug"]: region["phenotypes"]
+                for region in regions
+                if region["mechanic"] == "survey"
+            },
         },
     ]
     body = {
