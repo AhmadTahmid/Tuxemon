@@ -47,6 +47,20 @@ def _battle_witness(candidate: dict[str, Any], winner: str) -> int:
     return int(min(outcomes, key=lambda outcome: outcome["seed"])["seed"])
 
 
+def _guardian_payload(
+    actor: str, guardian: dict[str, Any]
+) -> dict[str, Any]:
+    return {
+        "actor": actor,
+        "monster": guardian["monster"],
+        "level": int(guardian["level"]),
+        "player_win_rate": guardian["player_win_rate"],
+        "mean_turns": guardian["mean_turns"],
+        "win_seed": _battle_witness(guardian, "player"),
+        "loss_seed": _battle_witness(guardian, "opponent"),
+    }
+
+
 def _synthesize_branch_phenotypes(
     spec: dict[str, Any], region: dict[str, Any]
 ) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
@@ -153,15 +167,7 @@ def _region_contract(
             "defeat_action": f"defeat_{slug}_sentinel",
             "ecology": {
                 "actor": atom["actor"],
-                "selected": {
-                    "actor": atom["actor"],
-                    "monster": guardian["monster"],
-                    "level": int(guardian["level"]),
-                    "player_win_rate": guardian["player_win_rate"],
-                    "mean_turns": guardian["mean_turns"],
-                    "win_seed": _battle_witness(guardian, "player"),
-                    "loss_seed": _battle_witness(guardian, "opponent"),
-                },
+                "selected": _guardian_payload(atom["actor"], guardian),
             },
         }
     )
@@ -258,6 +264,44 @@ def synthesize(
             )
             region["phenotypes"] = phenotypes
             region["phenotype_population"] = population
+    preceding_survey: dict[str, Any] | None = None
+    guardians_used_before: set[tuple[str, int]] = set()
+    for region in regions:
+        if region["mechanic"] == "survey":
+            preceding_survey = region
+            continue
+        base = region["ecology"]["selected"]
+        base_identity = (base["monster"], int(base["level"]))
+        if preceding_survey:
+            alternatives = [
+                guardian
+                for guardian in admitted_guardians
+                if (guardian["monster"], int(guardian["level"]))
+                not in guardians_used_before | {base_identity}
+            ]
+            if not alternatives:
+                raise RuntimeError(
+                    f"No alternate guardian survives for {region['slug']}."
+                )
+            alternate = max(
+                alternatives,
+                key=lambda guardian: (
+                    abs(float(guardian["mean_turns"]) - base["mean_turns"]),
+                    guardian["monster"],
+                    int(guardian["level"]),
+                ),
+            )
+            alignments = sorted(preceding_survey["phenotypes"])
+            region["conditional_ecologies"] = {
+                "alignment_key": preceding_survey["alignment_key"],
+                "selected": {
+                    alignments[0]: copy.deepcopy(base),
+                    alignments[1]: _guardian_payload(
+                        region["actor"], alternate
+                    ),
+                },
+            }
+        guardians_used_before.add(base_identity)
 
     transitions: list[list[str]] = [
         ["arrival", "speak_to_archivist", "chartered"]
@@ -409,6 +453,27 @@ def synthesize(
                 region["slug"]: region["phenotypes"]
                 for region in regions
                 if region["mechanic"] == "survey"
+            },
+        },
+        {
+            "id": "branches-select-distinct-downstream-combat-ecologies",
+            "passed": all(
+                len(
+                    {
+                        (ecology["monster"], ecology["level"])
+                        for ecology in region["conditional_ecologies"][
+                            "selected"
+                        ].values()
+                    }
+                )
+                == len(region["conditional_ecologies"]["selected"])
+                for region in regions
+                if "conditional_ecologies" in region
+            ),
+            "detail": {
+                region["slug"]: region["conditional_ecologies"]
+                for region in regions
+                if "conditional_ecologies" in region
             },
         },
     ]

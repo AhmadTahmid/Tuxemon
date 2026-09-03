@@ -113,6 +113,16 @@ playthroughs capture both resulting frames; the branch certificate rejects
 identical pixels, overlays, or witness positions. These screenshots are bundled
 beside the certificates in the frozen release.
 
+The phenotype now propagates into later combat rather than ending at the town
+boundary. The campaign compiler assigns a different admitted guardian ecology
+to each branch. The expedition compiler then searches the generated Root Vault
+graph for a maximally separated pair of reachable sentinel positions. Chorus
+materializes and battles Vivipere on one route; silence materializes and battles
+Toucanary on another. Both real-engine executions must observe the selected
+species, level, and position and still converge on the campaign terminal. This
+turns a narrative choice into downstream spatial pressure and combat behavior
+without a hand-authored branch script.
+
 `python -m foundry.ecology` derives a sentinel population directly from the
 monster database using habitat and evolutionary-stage predicates, preserves
 elemental diversity, and evaluates every species/level candidate through

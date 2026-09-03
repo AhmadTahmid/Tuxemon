@@ -1647,19 +1647,36 @@ events:
     actions:
     - set_environment grass
     - set_variable root_vault_initialized:yes
-  Materialize root_vault sentinel:
+  Materialize root_vault chorus sentinel:
     type: event
     conditions:
+    - is variable_set skyglass_garden_alignment:chorus
     - not char_exists knight3
     actions:
-    - create_npc knight3,28,18
-  Arm root_vault sentinel:
+    - create_npc knight3,12,27
+  Arm root_vault chorus sentinel:
     type: event
     conditions:
+    - is variable_set skyglass_garden_alignment:chorus
     - is char_exists knight3
     - is party_size knight3,equals,0
     actions:
     - add_monster vivipere,5,knight3
+  Materialize root_vault silence sentinel:
+    type: event
+    conditions:
+    - is variable_set skyglass_garden_alignment:silence
+    - not char_exists knight3
+    actions:
+    - create_npc knight3,46,10
+  Arm root_vault silence sentinel:
+    type: event
+    conditions:
+    - is variable_set skyglass_garden_alignment:silence
+    - is char_exists knight3
+    - is party_size knight3,equals,0
+    actions:
+    - add_monster toucanary,3,knight3
   Challenge root_vault sentinel:
     type: event
     behav:

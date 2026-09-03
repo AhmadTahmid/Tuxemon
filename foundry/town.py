@@ -750,6 +750,9 @@ def certify(
                         f"Challenge {expedition.slug} sentinel"
                     ),
                     "ecology": contract.get("ecology", {}).get("selected"),
+                    "ecologies": contract.get(
+                        "conditional_ecologies", {}
+                    ).get("selected", {}),
                 }
             )
         else:
@@ -1501,7 +1504,7 @@ def compile_world(
                 "slug": town.slug,
                 "description": "A proof-carrying multi-region RPG compiled by the AI-native foundry.",
                 "name": town.title,
-                "version": "0.6.0",
+                "version": "0.7.0",
                 "authors": ["AI Native Foundry"],
                 "startup_rules": [],
                 "starting_players": ["npc_red"],

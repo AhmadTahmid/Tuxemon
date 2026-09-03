@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import colorsys
+import itertools
 import random
+from collections import deque
 from dataclasses import dataclass
 from typing import Any
 
@@ -41,6 +43,8 @@ class Expedition:
     return_gate: Coord
     repaired_cells: int
     survey_sites: dict[str, Coord]
+    sentinel_positions: dict[str, Coord]
+    sentinel_population: dict[str, int]
 
 
 def _mutate_style(
@@ -70,6 +74,85 @@ def _mutate_style(
         )
         output[name] = f"#{red_byte:02x}{green_byte:02x}{blue_byte:02x}"
     return output
+
+
+def _distances_from(
+    expedition: Expedition, start: Coord
+) -> dict[Coord, int]:
+    distances = {start: 0}
+    queue = deque([start])
+    while queue:
+        x, y = queue.popleft()
+        for neighbor in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+            nx, ny = neighbor
+            if (
+                0 <= nx < expedition.width
+                and 0 <= ny < expedition.height
+                and neighbor not in expedition.blocked
+                and neighbor not in distances
+            ):
+                distances[neighbor] = distances[(x, y)] + 1
+                queue.append(neighbor)
+    return distances
+
+
+def _synthesize_sentinel_positions(
+    expedition: Expedition,
+) -> tuple[dict[str, Coord], dict[str, int]]:
+    central = min(
+        expedition.roads,
+        key=lambda cell: (
+            abs(cell[0] - expedition.width // 2)
+            + abs(cell[1] - expedition.height // 2),
+            cell,
+        ),
+    )
+    conditional = expedition.contract.get("conditional_ecologies")
+    if not conditional:
+        return {"default": central}, {"candidates_examined": 1}
+    alignments = sorted(conditional["selected"])
+    spawn_distances = _distances_from(expedition, expedition.spawn)
+    shrine_distances = _distances_from(expedition, expedition.shard)
+    candidates = sorted(
+        cell
+        for cell in expedition.roads
+        if cell in spawn_distances
+        and cell in shrine_distances
+        and spawn_distances[cell] >= expedition.width // 3
+        and shrine_distances[cell] >= max(6, expedition.height // 5)
+    )
+    organisms = []
+    for pair in itertools.combinations(candidates, 2):
+        separation = abs(pair[0][0] - pair[1][0]) + abs(
+            pair[0][1] - pair[1][1]
+        )
+        route_costs = [
+            spawn_distances[cell] + shrine_distances[cell] for cell in pair
+        ]
+        organisms.append(
+            (
+                separation,
+                abs(route_costs[0] - route_costs[1]),
+                pair,
+            )
+        )
+    if not organisms:
+        raise ValueError(
+            f"No conditional sentinel position pair for {expedition.slug}."
+        )
+    separation, route_cost_delta, selected = min(
+        organisms,
+        key=lambda organism: (
+            -organism[0],
+            -organism[1],
+            organism[2],
+        ),
+    )
+    return dict(zip(alignments, selected)), {
+        "candidates_examined": len(organisms),
+        "selected_separation": separation,
+        "selected_route_cost_delta": route_cost_delta,
+    }
 
 
 def generate_expedition(
@@ -110,6 +193,8 @@ def generate_expedition(
         return_gate=return_gate,
         repaired_cells=0,
         survey_sites={},
+        sentinel_positions={},
+        sentinel_population={},
     )
 
     expedition.blocked.update(
@@ -230,6 +315,11 @@ def generate_expedition(
     expedition.objects[return_gate[1]][return_gate[0]] = int(Tile.STATUE)
     expedition.blocked.add(return_gate)
     expedition.blocked.discard(expedition.spawn)
+    if contract.get("mechanic", "combat") == "combat":
+        (
+            expedition.sentinel_positions,
+            expedition.sentinel_population,
+        ) = _synthesize_sentinel_positions(expedition)
     return expedition
 
 
@@ -282,36 +372,53 @@ def expedition_events(
             "level": min(map(int, ecology["levels"])),
         }
     sentinel = str(ecology["actor"])
-    sentinel_position = min(
-        expedition.roads,
-        key=lambda cell: (
-            abs(cell[0] - expedition.width // 2)
-            + abs(cell[1] - expedition.height // 2),
-            cell,
-        ),
-    )
     slug = expedition.slug
     title = expedition.title
     entry_state = str(contract.get("entry_state", "chartered"))
     open_state = str(contract.get("open_state", "wilds_open"))
     complete_state = str(contract.get("complete_state", "shard_recovered"))
-    events = {
-        f"Initialize {slug}": {
-            "type": "event",
-            "conditions": [f"not variable_set {slug}_initialized"],
-            "actions": [
-                "set_environment grass",
-                f"set_variable {slug}_initialized:yes",
-            ],
-        },
-        f"Materialize {slug} sentinel": {
+    sentinel_setup_events: dict[str, dict[str, Any]] = {}
+    conditional = contract.get("conditional_ecologies")
+    if conditional:
+        alignment_key = conditional["alignment_key"]
+        for alignment, branch_ecology in sorted(
+            conditional["selected"].items()
+        ):
+            position = expedition.sentinel_positions[alignment]
+            sentinel_setup_events[
+                f"Materialize {slug} {alignment} sentinel"
+            ] = {
+                "type": "event",
+                "conditions": [
+                    f"is variable_set {alignment_key}:{alignment}",
+                    f"not char_exists {sentinel}",
+                ],
+                "actions": [
+                    f"create_npc {sentinel},{position[0]},{position[1]}"
+                ],
+            }
+            sentinel_setup_events[f"Arm {slug} {alignment} sentinel"] = {
+                "type": "event",
+                "conditions": [
+                    f"is variable_set {alignment_key}:{alignment}",
+                    f"is char_exists {sentinel}",
+                    f"is party_size {sentinel},equals,0",
+                ],
+                "actions": [
+                    "add_monster "
+                    f"{branch_ecology['monster']},{branch_ecology['level']},{sentinel}"
+                ],
+            }
+    else:
+        position = expedition.sentinel_positions["default"]
+        sentinel_setup_events[f"Materialize {slug} sentinel"] = {
             "type": "event",
             "conditions": [f"not char_exists {sentinel}"],
             "actions": [
-                f"create_npc {sentinel},{sentinel_position[0]},{sentinel_position[1]}"
+                f"create_npc {sentinel},{position[0]},{position[1]}"
             ],
-        },
-        f"Arm {slug} sentinel": {
+        }
+        sentinel_setup_events[f"Arm {slug} sentinel"] = {
             "type": "event",
             "conditions": [
                 f"is char_exists {sentinel}",
@@ -321,7 +428,17 @@ def expedition_events(
                 "add_monster "
                 f"{selected['monster']},{selected['level']},{sentinel}"
             ],
+        }
+    events = {
+        f"Initialize {slug}": {
+            "type": "event",
+            "conditions": [f"not variable_set {slug}_initialized"],
+            "actions": [
+                "set_environment grass",
+                f"set_variable {slug}_initialized:yes",
+            ],
         },
+        **sentinel_setup_events,
         f"Challenge {slug} sentinel": {
             "type": "event",
             "behav": [f"talk {sentinel}"],
@@ -538,14 +655,6 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
         (expedition.shard[0], expedition.shard[1] + 1),
     }
     return_front = (expedition.return_gate[0] + 1, expedition.return_gate[1])
-    sentinel_position = min(
-        expedition.roads,
-        key=lambda cell: (
-            abs(cell[0] - expedition.width // 2)
-            + abs(cell[1] - expedition.height // 2),
-            cell,
-        ),
-    )
     survey_fronts = {
         label: {
             (cell[0] - 1, cell[1]),
@@ -584,19 +693,43 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             }
         }
     else:
+        sentinel_positions = expedition.sentinel_positions
         mechanic_proofs = [
             {
-                "id": f"{expedition.slug}-sentinel-is-reachable",
-                "passed": sentinel_position in reachable,
-                "detail": list(sentinel_position),
-                "counterexamples": (
-                    []
-                    if sentinel_position in reachable
-                    else [list(sentinel_position)]
+                "id": f"{expedition.slug}-conditional-sentinels-are-reachable",
+                "passed": all(
+                    position in reachable
+                    for position in sentinel_positions.values()
+                )
+                and len(set(sentinel_positions.values()))
+                == len(sentinel_positions)
+                and (
+                    len(sentinel_positions) == 1
+                    or expedition.sentinel_population["candidates_examined"]
+                    > 1
                 ),
+                "detail": {
+                    "positions": {
+                        alignment: list(position)
+                        for alignment, position in sentinel_positions.items()
+                    },
+                    "population": expedition.sentinel_population,
+                },
+                "counterexamples": [
+                    alignment
+                    for alignment, position in sentinel_positions.items()
+                    if position not in reachable
+                ],
             }
         ]
-        mechanic_witness = {"sentinel": list(sentinel_position)}
+        mechanic_witness = {
+            "sentinel": list(next(iter(sentinel_positions.values()))),
+            "sentinel_positions": {
+                alignment: list(position)
+                for alignment, position in sentinel_positions.items()
+            },
+            "sentinel_population": expedition.sentinel_population,
+        }
     proofs = [
         {
             "id": f"{expedition.slug}-entry-is-walkable",

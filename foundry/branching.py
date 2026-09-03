@@ -28,6 +28,7 @@ def _summary(document: dict[str, Any], path: Path) -> dict[str, Any]:
         "world_fingerprint": document["world_fingerprint"],
         "terminal": document["transcript"][-1]["stage_after"],
         "phenotype": document["branch_phenotypes"][0],
+        "combat_ecologies": document["combat_ecologies"],
         "consequence": next(
             step["event"]
             for step in document["execution_steps"]
@@ -109,6 +110,40 @@ def run(root: Path) -> dict[str, Any]:
             ),
             "detail": {
                 policy: branch["phenotype"]
+                for policy, branch in branches.items()
+            },
+        },
+        {
+            "id": "branches-alter-downstream-combat-ecology-and-location",
+            "passed": any(
+                (
+                    (
+                        branches["chorus"]["combat_ecologies"][slug][
+                            "observed"
+                        ]["monster"],
+                        branches["chorus"]["combat_ecologies"][slug][
+                            "observed"
+                        ]["level"],
+                    )
+                    != (
+                        branches["silence"]["combat_ecologies"][slug][
+                            "observed"
+                        ]["monster"],
+                        branches["silence"]["combat_ecologies"][slug][
+                            "observed"
+                        ]["level"],
+                    )
+                    and branches["chorus"]["combat_ecologies"][slug][
+                        "observed"
+                    ]["position"]
+                    != branches["silence"]["combat_ecologies"][slug][
+                        "observed"
+                    ]["position"]
+                )
+                for slug in branches["chorus"]["combat_ecologies"]
+            ),
+            "detail": {
+                policy: branch["combat_ecologies"]
                 for policy, branch in branches.items()
             },
         },

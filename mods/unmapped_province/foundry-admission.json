@@ -1,5 +1,5 @@
 {
-  "compiled_semantics_sha256": "13661b14365ca6fe3f9f6d70badfc7abb4f4531d04e25d78383d0d4293cbb919",
+  "compiled_semantics_sha256": "116a0639b9228d3c0ef6bffb14a3cab8a1fd5e8f90cc5ba5a787f70f3d1dea5b",
   "counts": {
     "actors": 3,
     "collision_cells": 819,
@@ -12,14 +12,14 @@
     "regions": 4,
     "road_cells": 572,
     "road_cycle_rank": 317,
-    "runtime_events": 67,
+    "runtime_events": 69,
     "walkable_cells": 1701
   },
   "dimensions": [
     60,
     42
   ],
-  "fingerprint": "5a997a9435f5e71b57c8136d7f77bb25877c5719a2ea3b21067eadfea60524a1",
+  "fingerprint": "f41cf3269e3cb492d9a3bcd59a54149a11413fc4b44fbc2e550ca1ad42502c02",
   "proofs": [
     {
       "counterexamples": [],
@@ -180,11 +180,18 @@
     },
     {
       "counterexamples": [],
-      "detail": [
-        26,
-        19
-      ],
-      "id": "echo_wilds-sentinel-is-reachable",
+      "detail": {
+        "population": {
+          "candidates_examined": 1
+        },
+        "positions": {
+          "default": [
+            26,
+            19
+          ]
+        }
+      },
+      "id": "echo_wilds-conditional-sentinels-are-reachable",
       "passed": true
     },
     {
@@ -374,11 +381,24 @@
     },
     {
       "counterexamples": [],
-      "detail": [
-        28,
-        18
-      ],
-      "id": "root_vault-sentinel-is-reachable",
+      "detail": {
+        "population": {
+          "candidates_examined": 27966,
+          "selected_route_cost_delta": 8,
+          "selected_separation": 51
+        },
+        "positions": {
+          "chorus": [
+            12,
+            27
+          ],
+          "silence": [
+            46,
+            10
+          ]
+        }
+      },
+      "id": "root_vault-conditional-sentinels-are-reachable",
       "passed": true
     },
     {
@@ -455,7 +475,7 @@
         56,
         36
       ],
-      "events": 12
+      "events": 14
     },
     "skyglass_garden": {
       "collision_cells": 300,
@@ -475,13 +495,14 @@
   },
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73467586,
-  "seed_genome_sha256": "9009c8cabd6d96615ae6da422c0686701876d7289d99520d559d4c5bd452f18d",
+  "seed_genome_sha256": "ff7183db6b1d7fa2434fd76be0917dd1bbc06cd9057b1b4a2dcbc51fbaa398a7",
   "witnesses": {
     "battle_loss_recovery_event": "Inspect clinic",
     "campaign_regions": [
       {
         "complete_state": "echo_wilds_attuned",
         "defeat_action": "defeat_echo_wilds_sentinel",
+        "ecologies": {},
         "ecology": {
           "actor": "knight1",
           "level": 4,
@@ -506,6 +527,15 @@
           19
         ],
         "sentinel_event": "Challenge echo_wilds sentinel",
+        "sentinel_population": {
+          "candidates_examined": 1
+        },
+        "sentinel_positions": {
+          "default": [
+            26,
+            19
+          ]
+        },
         "shrine": [
           48,
           20
@@ -614,6 +644,26 @@
       {
         "complete_state": "archive_restored",
         "defeat_action": "defeat_root_vault_sentinel",
+        "ecologies": {
+          "chorus": {
+            "actor": "knight3",
+            "level": 5,
+            "loss_seed": 3210000,
+            "mean_turns": 7.333,
+            "monster": "vivipere",
+            "player_win_rate": 0.8333333333333334,
+            "win_seed": 3210001
+          },
+          "silence": {
+            "actor": "knight3",
+            "level": 3,
+            "loss_seed": 4020001,
+            "mean_turns": 2.5,
+            "monster": "toucanary",
+            "player_win_rate": 0.8333333333333334,
+            "win_seed": 4020000
+          }
+        },
         "ecology": {
           "actor": "knight3",
           "level": 5,
@@ -634,10 +684,25 @@
           18
         ],
         "sentinel": [
-          28,
-          18
+          12,
+          27
         ],
         "sentinel_event": "Challenge root_vault sentinel",
+        "sentinel_population": {
+          "candidates_examined": 27966,
+          "selected_route_cost_delta": 8,
+          "selected_separation": 51
+        },
+        "sentinel_positions": {
+          "chorus": [
+            12,
+            27
+          ],
+          "silence": [
+            46,
+            10
+          ]
+        },
         "shrine": [
           52,
           15

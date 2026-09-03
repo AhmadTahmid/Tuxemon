@@ -208,12 +208,23 @@ def _execute_combat_region(
     admission: dict[str, Any],
     execution_steps: list[dict[str, Any]],
     visited_regions: list[str],
+    survey_policy: str,
 ) -> dict[str, Any]:
     slug = region["slug"]
     expected_map = f"{slug}.tmx"
     events = _events_by_name(client)
-    ecology = region["ecology"]
+    ecology = region.get("ecologies", {}).get(
+        survey_policy, region["ecology"]
+    )
     sentinel_actor = ecology["actor"]
+    sentinel_npc = client.get_npc(sentinel_actor)
+    if sentinel_npc is None or not sentinel_npc.monsters:
+        raise RuntimeError(f"The selected sentinel for {slug} was not armed.")
+    observed_guardian = {
+        "monster": sentinel_npc.monsters[0].slug,
+        "level": sentinel_npc.monsters[0].level,
+        "position": list(sentinel_npc.tile_pos),
+    }
     sentinel_event = events[region["sentinel_event"]]
     attempts: list[dict[str, Any]] = []
     recoveries: list[dict[str, Any]] = []
@@ -308,6 +319,7 @@ def _execute_combat_region(
         "slug": slug,
         "mechanic": "combat",
         "ecology": ecology,
+        "observed_guardian": observed_guardian,
         "attempts": attempts,
         "recoveries": recoveries,
         "roundtrips": len(recoveries),
@@ -496,14 +508,19 @@ def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
             visited_regions.append(gateway["map_after"])
 
             client.draw()
+            screenshot_key = (
+                f"{slug}.{survey_policy}"
+                if region.get("ecologies")
+                else slug
+            )
             screenshot = (
                 root
                 / "foundry"
                 / "artifacts"
-                / f"{slug}.runtime.generated.png"
+                / f"{screenshot_key}.runtime.generated.png"
             )
             pygame.image.save(context.screen, screenshot)
-            region_screenshots[slug] = screenshot
+            region_screenshots[screenshot_key] = screenshot
 
             if region["mechanic"] == "combat":
                 region_run = _execute_combat_region(
@@ -514,6 +531,7 @@ def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
                     admission,
                     execution_steps,
                     visited_regions,
+                    survey_policy,
                 )
                 all_sentinel_recoveries.extend(region_run["recoveries"])
             else:
@@ -681,6 +699,26 @@ def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
             ],
         },
         {
+            "id": "selected-branch-ecology-materializes-in-downstream-combat",
+            "passed": all(
+                region["observed_guardian"]["monster"]
+                == region["ecology"]["monster"]
+                and region["observed_guardian"]["level"]
+                == region["ecology"]["level"]
+                for region in region_runs
+                if region["mechanic"] == "combat"
+            ),
+            "detail": [
+                {
+                    "region": region["slug"],
+                    "selected": region["ecology"],
+                    "observed": region["observed_guardian"],
+                }
+                for region in region_runs
+                if region["mechanic"] == "combat"
+            ],
+        },
+        {
             "id": "survey-choice-persists-and-changes-town-response",
             "passed": all(
                 region["choice"]["alignment"] == survey_policy
@@ -769,6 +807,14 @@ def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
             for region in region_runs
             if region["mechanic"] == "survey"
         ],
+        "combat_ecologies": {
+            region["slug"]: {
+                "selected": region["ecology"],
+                "observed": region["observed_guardian"],
+            }
+            for region in region_runs
+            if region["mechanic"] == "combat"
+        },
         "transcript": transcript,
         "execution_steps": execution_steps,
         "region_screenshots": {

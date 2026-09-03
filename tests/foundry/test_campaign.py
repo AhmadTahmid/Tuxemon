@@ -60,6 +60,15 @@ def test_campaign_assigns_proven_guardians_to_dramatic_roles() -> None:
             for phenotype in survey["phenotypes"].values()
         }
     ) == 2
+    conditional = next(
+        region["conditional_ecologies"]
+        for region in regions
+        if "conditional_ecologies" in region
+    )
+    assert {
+        ecology["monster"]
+        for ecology in conditional["selected"].values()
+    } == {"toucanary", "vivipere"}
     assert len(
         {
             phenotype["anchor_role"]

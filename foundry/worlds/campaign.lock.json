@@ -1,6 +1,6 @@
 {
   "ecology_fingerprint": "f1996da698e945434647542f81917cce0a11725071a46791ab17c3faa5809c5f",
-  "fingerprint": "8f4d5858a60d0451a59a67e1ff7e1ffb2664a275363cebd0881a5effa6c663e3",
+  "fingerprint": "e4887098415d52351b33e7e9290502b9839d16760e487415526ef407efa9ff33",
   "population": {
     "admitted": 2,
     "candidates_examined": 6,
@@ -100,6 +100,35 @@
         }
       },
       "id": "branch-phenotypes-are-observably-distinct",
+      "passed": true
+    },
+    {
+      "detail": {
+        "root_vault": {
+          "alignment_key": "skyglass_garden_alignment",
+          "selected": {
+            "chorus": {
+              "actor": "knight3",
+              "level": 5,
+              "loss_seed": 3210000,
+              "mean_turns": 7.333,
+              "monster": "vivipere",
+              "player_win_rate": 0.8333333333333334,
+              "win_seed": 3210001
+            },
+            "silence": {
+              "actor": "knight3",
+              "level": 3,
+              "loss_seed": 4020001,
+              "mean_turns": 2.5,
+              "monster": "toucanary",
+              "player_win_rate": 0.8333333333333334,
+              "win_seed": 4020000
+            }
+          }
+        }
+      },
+      "id": "branches-select-distinct-downstream-combat-ecologies",
       "passed": true
     }
   ],
@@ -241,6 +270,29 @@
           "minimum_reachable_fraction": 0.98
         },
         "complete_state": "archive_restored",
+        "conditional_ecologies": {
+          "alignment_key": "skyglass_garden_alignment",
+          "selected": {
+            "chorus": {
+              "actor": "knight3",
+              "level": 5,
+              "loss_seed": 3210000,
+              "mean_turns": 7.333,
+              "monster": "vivipere",
+              "player_win_rate": 0.8333333333333334,
+              "win_seed": 3210001
+            },
+            "silence": {
+              "actor": "knight3",
+              "level": 3,
+              "loss_seed": 4020001,
+              "mean_turns": 2.5,
+              "monster": "toucanary",
+              "player_win_rate": 0.8333333333333334,
+              "win_seed": 4020000
+            }
+          }
+        },
         "defeat_action": "defeat_root_vault_sentinel",
         "ecology": {
           "actor": "knight3",

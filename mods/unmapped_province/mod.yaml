@@ -1,7 +1,7 @@
 slug: unmapped_province
 description: A proof-carrying multi-region RPG compiled by the AI-native foundry.
 name: The Unmapped Province
-version: 0.6.0
+version: 0.7.0
 authors:
 - AI Native Foundry
 startup_rules: []
