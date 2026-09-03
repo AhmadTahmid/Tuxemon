@@ -857,14 +857,15 @@ events:
     - add_monster bamboon,5
     - set_variable province_stage:arrival
     - set_variable foundry_initialized:yes
+    - translated_dialog The province has no map yet. Find the archivist beneath the
+      northern slate roof.
   Arm the duelist:
     type: event
     conditions:
     - is char_exists npc_test
-    - not variable_set foundry_duelist_armed
+    - is party_size npc_test,equals,0
     actions:
     - add_monster rockitten,5,npc_test
-    - set_variable foundry_duelist_armed:yes
   Archivist offers charter:
     type: event
     behav:
@@ -884,7 +885,7 @@ events:
     actions:
     - translated_dialog Follow the loop road east. The shard waits below the indigo
       observatory.
-  Recover echo shard:
+  Enter Echo Wilds:
     type: event
     x: 42
     y: 16
@@ -893,8 +894,8 @@ events:
     - is button_pressed INTERACT
     - is variable_set province_stage:chartered
     actions:
-    - translated_dialog The crystal remembers every road at once.
-    - set_variable province_stage:shard_recovered
+    - translated_dialog The gate unfolds a forest from the echo shard's possible locations.
+    - transition_teleport player,echo_wilds.tmx,3,17,0.3
   Cartographer observes:
     type: event
     behav:
@@ -929,8 +930,7 @@ events:
     conditions:
     - is variable_set province_stage:trial_won
     actions:
-    - translated_dialog The province is mapped because you proved a path through it.
-      This slice is complete.
+    - translated_dialog The province remembers its name. You are its first true Cartographer.
     - set_variable province_stage:province_mapped
   Archivist epilogue:
     type: event
@@ -939,7 +939,8 @@ events:
     conditions:
     - is variable_set province_stage:province_mapped
     actions:
-    - translated_dialog Beyond the river are worlds the foundry has not admitted yet.
+    - translated_dialog The atlas is complete. Walk freely; every path you proved
+      remains open.
   Inspect archive:
     type: event
     x: 15

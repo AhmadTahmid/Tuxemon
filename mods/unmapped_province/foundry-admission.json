@@ -1,21 +1,25 @@
 {
+  "compiled_semantics_sha256": "4eeef086802bf9935951fed34b876c76c8fe7f2a2b4ba2448526949560243d66",
   "counts": {
     "actors": 3,
     "collision_cells": 819,
     "collision_rectangles": 166,
+    "expedition_collision_cells": 417,
+    "expedition_repair_cells": 0,
     "landmarks": 4,
     "quest_transitions": 4,
     "reachable_cells": 1701,
+    "regions": 2,
     "road_cells": 572,
     "road_cycle_rank": 317,
-    "runtime_events": 17,
+    "runtime_events": 21,
     "walkable_cells": 1701
   },
   "dimensions": [
     60,
     42
   ],
-  "fingerprint": "a3590b18aac0e9cb13936f0f968727909104f10cf53cd5c94ffba46750494599",
+  "fingerprint": "850716502b00a3e8ef9837e633088b855ee64940c13cf136586c7378bec96911",
   "proofs": [
     {
       "counterexamples": [],
@@ -64,17 +68,108 @@
       "detail": "Inspect clinic restores the party and its approach is included in the spatial reachability proof.",
       "id": "battle-loss-has-reachable-recovery",
       "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "unmapped_province -> echo_wilds -> unmapped_province",
+      "id": "expedition-roundtrip-compiles",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        3,
+        17
+      ],
+      "id": "expedition-entry-is-walkable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        [
+          47,
+          20
+        ],
+        [
+          48,
+          19
+        ],
+        [
+          48,
+          21
+        ],
+        [
+          49,
+          20
+        ]
+      ],
+      "id": "expedition-shrine-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        2,
+        17
+      ],
+      "id": "expedition-return-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "1351/1351 cells connect to entry (1.000; required 0.980).",
+      "id": "expedition-walkable-space-connected",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Expedition route cycle rank is 182.",
+      "id": "expedition-road-network-has-cycle",
+      "passed": true
     }
   ],
   "quest": {
     "initial": "arrival",
     "terminal": "province_mapped"
   },
+  "regions": {
+    "echo_wilds": {
+      "dimensions": [
+        52,
+        34
+      ],
+      "events": 4
+    },
+    "unmapped_province": {
+      "dimensions": [
+        60,
+        42
+      ],
+      "events": 17
+    }
+  },
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73467586,
-  "seed_genome_sha256": "6919c73bf50eb487fa3232c77d830ca3d9dd0a989950c7b29fea8c7415b88cc8",
+  "seed_genome_sha256": "01356beaa7949c42532319f1195aa4ee667d1fcd1c3d9eceff9ec10458043c19",
   "witnesses": {
     "battle_loss_recovery_event": "Inspect clinic",
+    "expedition": {
+      "entry_event": "Enter Echo Wilds",
+      "return_event": "Return to Unmapped Province",
+      "return_gate": [
+        1,
+        17
+      ],
+      "shrine": [
+        48,
+        20
+      ],
+      "spawn": [
+        3,
+        17
+      ]
+    },
     "landmark_approaches": {
       "archive": [
         15,
@@ -102,18 +197,22 @@
     "quest_event_bindings": [
       {
         "event": "Archivist offers charter",
+        "region": "unmapped_province",
         "transition": "speak_to_archivist"
       },
       {
         "event": "Recover echo shard",
+        "region": "echo_wilds",
         "transition": "recover_echo_shard"
       },
       {
         "event": "Record duel victory",
+        "region": "unmapped_province",
         "transition": "win_cartographers_duel"
       },
       {
         "event": "Archivist completes map",
+        "region": "unmapped_province",
         "transition": "report_to_archivist"
       }
     ]

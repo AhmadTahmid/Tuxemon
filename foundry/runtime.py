@@ -57,6 +57,9 @@ def runtime_probe(
     client, context, session = _boot(root, visible=False)
     for _ in range(12):
         client.update(1.0 / 60.0)
+        for state_name in ("DialogState", "WaitForInputState"):
+            if state_name in client.active_state_names:
+                client.remove_state_by_name(state_name)
     client.draw()
 
     import pygame
@@ -70,6 +73,7 @@ def runtime_probe(
     screenshot.parent.mkdir(parents=True, exist_ok=True)
     pygame.image.save(context.screen, screenshot)
     current_map = client.map_manager.current_map
+    expedition_map = client.map_loader.load_map_data("echo_wilds.tmx")
     expected = json.loads(
         Path(build["certificate"]).read_text(encoding="utf-8")
     )
@@ -113,6 +117,12 @@ def runtime_probe(
         "dimensions": [current_map.width, current_map.height],
         "events": len(current_map.events),
         "collision_cells": len(current_map.collision_map),
+        "expedition": {
+            "map": expedition_map.name,
+            "dimensions": [expedition_map.width, expedition_map.height],
+            "events": len(expedition_map.events),
+            "collision_cells": len(expedition_map.collision_map),
+        },
         "active_states": client.active_state_names,
         "npcs_including_player": len(client.npc_manager.npcs),
         "starter_party_size": len(session.player.monsters),
@@ -149,6 +159,17 @@ def runtime_probe(
                 == expected["counts"]["collision_cells"]
             ),
             "detail": observed["collision_cells"],
+        },
+        {
+            "id": "runtime-loads-generated-expedition",
+            "passed": (
+                observed["expedition"]["map"] == "echo_wilds"
+                and observed["expedition"]["dimensions"]
+                == expected["regions"]["echo_wilds"]["dimensions"]
+                and observed["expedition"]["collision_cells"]
+                == expected["counts"]["expedition_collision_cells"]
+            ),
+            "detail": observed["expedition"],
         },
         {
             "id": "runtime-materializes-actors",

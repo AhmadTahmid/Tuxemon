@@ -17,19 +17,21 @@ def application_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
-def _payload_fingerprint(root: Path) -> str:
+def _payload_certificate() -> dict[str, Any]:
     from tuxemon.constants.paths import mods_folder
 
     certificate = mods_folder / "unmapped_province" / "foundry-admission.json"
-    return json.loads(certificate.read_text(encoding="utf-8"))["fingerprint"]
+    return json.loads(certificate.read_text(encoding="utf-8"))
 
 
 def smoke_test(root: Path) -> dict[str, Any]:
+    admission = _payload_certificate()
     client, context, session = _boot(root, visible=False)
     try:
         for _ in range(20):
             client.update(0.05)
         client.draw()
+        expedition = client.map_loader.load_map_data("echo_wilds.tmx")
         observed = {
             "map": client.get_map_name(),
             "screen": list(context.screen.get_size()),
@@ -37,6 +39,12 @@ def smoke_test(root: Path) -> dict[str, Any]:
             "npcs_including_player": len(client.npc_manager.npcs),
             "starter_party_size": len(session.player.monsters),
             "opponent_party_size": len(client.get_npc("npc_test").monsters),
+            "expedition": {
+                "map": expedition.name,
+                "dimensions": [expedition.width, expedition.height],
+                "events": len(expedition.events),
+                "collision_cells": len(expedition.collision_map),
+            },
         }
         proofs = [
             {
@@ -58,6 +66,17 @@ def smoke_test(root: Path) -> dict[str, Any]:
                     "opponent": observed["opponent_party_size"],
                 },
             },
+            {
+                "id": "frozen-runtime-loads-expedition",
+                "passed": (
+                    observed["expedition"]["map"] == "echo_wilds"
+                    and observed["expedition"]["dimensions"]
+                    == admission["regions"]["echo_wilds"]["dimensions"]
+                    and observed["expedition"]["events"]
+                    == admission["regions"]["echo_wilds"]["events"]
+                ),
+                "detail": observed["expedition"],
+            },
         ]
     finally:
         import pygame
@@ -65,7 +84,7 @@ def smoke_test(root: Path) -> dict[str, Any]:
         pygame.quit()
     body = {
         "schema": "ai-native-frozen-smoke/v1",
-        "world_fingerprint": _payload_fingerprint(root),
+        "world_fingerprint": admission["fingerprint"],
         "observed": observed,
         "proofs": proofs,
     }

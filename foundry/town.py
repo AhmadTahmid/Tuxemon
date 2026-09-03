@@ -387,7 +387,15 @@ def _compress_rectangles(cells: set[Coord]) -> list[tuple[int, int, int, int]]:
     )
 
 
-def certify(town: Town) -> dict[str, Any]:
+def certify(town: Town, expedition=None) -> dict[str, Any]:
+    from foundry.expedition import (
+        certify_expedition,
+        expedition_events,
+        generate_expedition,
+    )
+
+    expedition = expedition or generate_expedition(town.spec)
+    expedition_certificate = certify_expedition(expedition)
     reachable = _reachable(town)
     walkable = {
         (x, y)
@@ -420,12 +428,23 @@ def certify(town: Town) -> dict[str, Any]:
         witness.append(action)
         state = target
     quest_passed = state == quest["terminal"]
-    runtime_events = _world_events(town)
+    town_events = _world_events(town)
+    wild_events = expedition_events(expedition, town)
+    regional_events = {
+        town.slug: town_events,
+        expedition.slug: wild_events,
+    }
     recovery_role = town.spec["resilience"]["battle_loss"]["recover_at"]
     recovery_event_name = f"Inspect {recovery_role}"
-    recovery_event = runtime_events.get(recovery_event_name, {})
+    recovery_event = town_events.get(recovery_event_name, {})
     recovery_compiled = "set_monster_health" in recovery_event.get(
         "actions", []
+    )
+    roundtrip_compiled = (
+        f"transition_teleport player,{expedition.slug}.tmx"
+        in " ".join(town_events["Enter Echo Wilds"]["actions"])
+        and f"transition_teleport player,{town.slug}.tmx"
+        in " ".join(wild_events["Return to Unmapped Province"]["actions"])
     )
     realized_transitions = []
     missing_transitions = []
@@ -433,14 +452,20 @@ def certify(town: Town) -> dict[str, Any]:
         source_condition = f"is variable_set province_stage:{source}"
         target_action = f"set_variable province_stage:{target}"
         matching_events = [
-            name
-            for name, event in runtime_events.items()
+            (region, name)
+            for region, events in regional_events.items()
+            for name, event in events.items()
             if source_condition in event.get("conditions", [])
             and target_action in event.get("actions", [])
         ]
         if matching_events:
+            region, event_name = matching_events[0]
             realized_transitions.append(
-                {"transition": action, "event": matching_events[0]}
+                {
+                    "transition": action,
+                    "event": event_name,
+                    "region": region,
+                }
             )
         else:
             missing_transitions.append(action)
@@ -514,7 +539,29 @@ def certify(town: Town) -> dict[str, Any]:
                 else [recovery_event_name]
             ),
         },
+        {
+            "id": "expedition-roundtrip-compiles",
+            "passed": roundtrip_compiled,
+            "detail": f"{town.slug} -> {expedition.slug} -> {town.slug}",
+            "counterexamples": []
+            if roundtrip_compiled
+            else ["broken_region_roundtrip"],
+        },
+        *expedition_certificate["proofs"],
     ]
+    compiled_semantics = {
+        world.slug: {
+            "ground": world.ground,
+            "objects": world.objects,
+            "above": world.above,
+            "blocked": sorted(world.blocked),
+            "events": events,
+        }
+        for world, events in (
+            (town, town_events),
+            (expedition, wild_events),
+        )
+    }
     body = {
         "schema": "ai-native-admission-certificate/v1",
         "world": town.slug,
@@ -524,7 +571,22 @@ def certify(town: Town) -> dict[str, Any]:
                 town.spec, sort_keys=True, separators=(",", ":")
             ).encode()
         ).hexdigest(),
+        "compiled_semantics_sha256": hashlib.sha256(
+            json.dumps(
+                compiled_semantics, sort_keys=True, separators=(",", ":")
+            ).encode()
+        ).hexdigest(),
         "dimensions": [town.width, town.height],
+        "regions": {
+            town.slug: {
+                "dimensions": [town.width, town.height],
+                "events": len(town_events),
+            },
+            expedition.slug: {
+                "dimensions": [expedition.width, expedition.height],
+                "events": len(wild_events),
+            },
+        },
         "quest": {
             "initial": quest["initial"],
             "terminal": quest["terminal"],
@@ -539,7 +601,14 @@ def certify(town: Town) -> dict[str, Any]:
             "landmarks": len(town.landmarks),
             "actors": len(town.actor_positions),
             "quest_transitions": len(quest["transitions"]),
-            "runtime_events": len(runtime_events),
+            "regions": len(regional_events),
+            "runtime_events": sum(map(len, regional_events.values())),
+            "expedition_collision_cells": expedition_certificate["counts"][
+                "collision_cells"
+            ],
+            "expedition_repair_cells": expedition_certificate["counts"][
+                "repair_cells"
+            ],
         },
         "witnesses": {
             "quest": witness,
@@ -547,6 +616,11 @@ def certify(town: Town) -> dict[str, Any]:
             "battle_loss_recovery_event": recovery_event_name,
             "landmark_approaches": {
                 role: list(cell) for role, cell in sorted(approaches.items())
+            },
+            "expedition": {
+                **expedition_certificate["witnesses"],
+                "entry_event": "Enter Echo Wilds",
+                "return_event": "Return to Unmapped Province",
             },
         },
         "proofs": proofs,
@@ -746,7 +820,7 @@ def _write_tmx(town: Town, path: Path) -> None:
     properties = ET.SubElement(root, "properties")
     for name, value in (
         ("edges", "clamped"),
-        ("map_type", "town"),
+        ("map_type", getattr(town, "map_type", "town")),
         ("slug", town.slug),
     ):
         ET.SubElement(properties, "property", {"name": name, "value": value})
@@ -835,13 +909,14 @@ def _world_events(town: Town) -> dict[str, Any]:
             ),
             "set_variable province_stage:arrival",
             "set_variable foundry_initialized:yes",
+            "translated_dialog The province has no map yet. Find the archivist beneath the northern slate roof.",
         ],
     }
     events["Arm the duelist"] = {
         "type": "event",
         "conditions": [
             f"is char_exists {duelist}",
-            "not variable_set foundry_duelist_armed",
+            f"is party_size {duelist},equals,0",
         ],
         "actions": [
             (
@@ -849,7 +924,6 @@ def _world_events(town: Town) -> dict[str, Any]:
                 f"{actors['duelist_monster']},{actors['duelist_level']},"
                 f"{duelist}"
             ),
-            "set_variable foundry_duelist_armed:yes",
         ],
     }
     events["Archivist offers charter"] = {
@@ -870,7 +944,9 @@ def _world_events(town: Town) -> dict[str, Any]:
         ],
     }
     shard_x, shard_y = town.shard
-    events["Recover echo shard"] = {
+    expedition = town.spec["expedition"]
+    expedition_spawn = (3, int(expedition["geometry"]["height"]) // 2)
+    events["Enter Echo Wilds"] = {
         "type": "event",
         "x": shard_x,
         "y": shard_y,
@@ -880,8 +956,12 @@ def _world_events(town: Town) -> dict[str, Any]:
             "is variable_set province_stage:chartered",
         ],
         "actions": [
-            "translated_dialog The crystal remembers every road at once.",
-            "set_variable province_stage:shard_recovered",
+            "translated_dialog The gate unfolds a forest from the echo shard's possible locations.",
+            (
+                "transition_teleport player,"
+                f"{expedition['slug']}.tmx,{expedition_spawn[0]},"
+                f"{expedition_spawn[1]},0.3"
+            ),
         ],
     }
     events["Cartographer observes"] = {
@@ -920,7 +1000,7 @@ def _world_events(town: Town) -> dict[str, Any]:
         "behav": [f"talk {archivist}"],
         "conditions": ["is variable_set province_stage:trial_won"],
         "actions": [
-            "translated_dialog The province is mapped because you proved a path through it. This slice is complete.",
+            "translated_dialog The province remembers its name. You are its first true Cartographer.",
             "set_variable province_stage:province_mapped",
         ],
     }
@@ -929,7 +1009,7 @@ def _world_events(town: Town) -> dict[str, Any]:
         "behav": [f"talk {archivist}"],
         "conditions": ["is variable_set province_stage:province_mapped"],
         "actions": [
-            "translated_dialog Beyond the river are worlds the foundry has not admitted yet."
+            "translated_dialog The atlas is complete. Walk freely; every path you proved remains open."
         ],
     }
     for landmark in town.landmarks:
@@ -981,7 +1061,10 @@ def compile_world(
     )
     spec = yaml.safe_load(spec_path.read_text(encoding="utf-8"))
     town = generate_town(spec)
-    certificate = certify(town)
+    from foundry.expedition import expedition_events, generate_expedition
+
+    expedition = generate_expedition(spec)
+    certificate = certify(town, expedition)
     failures = [
         proof for proof in certificate["proofs"] if not proof["passed"]
     ]
@@ -995,29 +1078,44 @@ def compile_world(
     maps.mkdir(parents=True, exist_ok=True)
     tilesets.mkdir(parents=True, exist_ok=True)
     artifacts.mkdir(parents=True, exist_ok=True)
-    atlas = _tile_atlas(town.style, town.seed)
-    atlas.save(tilesets / f"{town.slug}.png")
-    _write_tsx(town, tilesets / f"{town.slug}.tsx")
-    _write_tmx(town, maps / f"{town.slug}.tmx")
-    collisions = [
-        {"type": "collision", "x": x, "y": y, "width": w, "height": h}
-        for x, y, w, h in _compress_rectangles(town.blocked)
-    ]
-    (maps / f"{town.slug}.yaml").write_text(
-        yaml.safe_dump(
-            {"collisions": collisions, "events": _world_events(town)},
-            sort_keys=False,
-            allow_unicode=True,
-        ),
-        encoding="utf-8",
+    worlds = (
+        (town, _world_events(town)),
+        (expedition, expedition_events(expedition, town)),
     )
+    preview_paths: dict[str, str] = {}
+    for world, events in worlds:
+        atlas = _tile_atlas(world.style, world.seed)
+        atlas.save(tilesets / f"{world.slug}.png")
+        _write_tsx(world, tilesets / f"{world.slug}.tsx")
+        _write_tmx(world, maps / f"{world.slug}.tmx")
+        collisions = [
+            {
+                "type": "collision",
+                "x": x,
+                "y": y,
+                "width": width,
+                "height": height,
+            }
+            for x, y, width, height in _compress_rectangles(world.blocked)
+        ]
+        (maps / f"{world.slug}.yaml").write_text(
+            yaml.safe_dump(
+                {"collisions": collisions, "events": events},
+                sort_keys=False,
+                allow_unicode=True,
+            ),
+            encoding="utf-8",
+        )
+        preview_path = artifacts / f"{world.slug}.preview.generated.png"
+        _render_preview(world, atlas, preview_path)
+        preview_paths[world.slug] = preview_path.as_posix()
     (output_root / "mod.yaml").write_text(
         yaml.safe_dump(
             {
                 "slug": town.slug,
-                "description": "A proof-carrying spatial RPG slice compiled by the AI-native foundry.",
+                "description": "A proof-carrying multi-region RPG compiled by the AI-native foundry.",
                 "name": town.title,
-                "version": "0.1.0",
+                "version": "0.2.0",
                 "authors": ["AI Native Foundry"],
                 "startup_rules": [],
                 "starting_players": ["npc_red"],
@@ -1041,12 +1139,15 @@ def compile_world(
         json.dumps(certificate, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
-    preview_path = artifacts / f"{town.slug}.preview.generated.png"
-    _render_preview(town, atlas, preview_path)
     return {
         "mod": output_root.as_posix(),
         "map": (maps / f"{town.slug}.tmx").as_posix(),
-        "preview": preview_path.as_posix(),
+        "maps": [
+            (maps / f"{world.slug}.tmx").as_posix()
+            for world, _ in worlds
+        ],
+        "preview": preview_paths[town.slug],
+        "previews": preview_paths,
         "certificate": certificate_path.as_posix(),
         "fingerprint": certificate["fingerprint"],
         "counts": certificate["counts"],

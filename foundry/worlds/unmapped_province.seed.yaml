@@ -34,6 +34,17 @@ geometry:
   road_width: 3
   tree_density: 0.055
 
+expedition:
+  slug: echo_wilds
+  title: The Echo Wilds
+  seed_offset: 104729
+  geometry:
+    width: 52
+    height: 34
+    obstacle_density: 0.14
+  admission:
+    minimum_reachable_fraction: 0.98
+
 style_genome:
   grass: "#4f9a63"
   grass_dark: "#2f6848"

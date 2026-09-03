@@ -21,7 +21,7 @@ ROOT_MOD_FILES = [
 
 setup(
     name="The Unmapped Province",
-    version="0.1.0",
+    version="0.2.0",
     description="A proof-carrying turn-based RPG compiled by an AI foundry",
     options={
         "build_exe": {

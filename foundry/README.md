@@ -42,6 +42,13 @@ aesthetic genes, a quest automaton, and admission thresholds—not a hand-laid
 tile map. The compiler derives the pixel-art atlas, TMX layers, collision
 AABBs, events, quest witness, proof certificate, and visual preview.
 
+The same genome now projects a second region, the Echo Wilds. Its palette is
+mutated mathematically from the town style; a stochastic route trace is
+intersected with a cyclic circuit; sampled forest obstacles are admitted or
+repaired at the smallest disconnected cell set. The quest compiler places the
+relic there and emits a bidirectional map transition. No second TMX map,
+tileset, collision sheet, or transition script is authored by hand.
+
 `python -m foundry.runtime --probe` loads that output in the real Tuxemon
 runtime and writes a rendered-frame certificate. `python -m foundry.runtime
 --play` launches the explorable build.
@@ -67,6 +74,11 @@ and combat evidence into an executable campaign proof. Its first adverse run
 found that losing the duel stranded a fainted party; the semantic world now
 requires a reachable clinic recovery action, and the witness deliberately
 proves a loss → recovery → retry → victory cycle.
+
+The witness also walks from town into the generated Echo Wilds, traverses the
+runtime path to the relic, returns through the compiled gateway, and only then
+continues to the duel. This prevents a collection of individually valid maps
+from masquerading as a valid connected campaign.
 
 On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
 keys move, Enter interacts, and Escape opens or closes menus.

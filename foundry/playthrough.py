@@ -183,6 +183,23 @@ def _pump_until_stage(client, session, expected: str) -> int:
     return frames
 
 
+def _pump_until_map(client, expected: str) -> int:
+    frames = 0
+    while client.get_map_name() != expected and frames < 1000:
+        _dismiss_transient_states(client)
+        client.update(0.05)
+        frames += 1
+    if client.get_map_name() != expected:
+        raise RuntimeError(
+            f"Map transition stalled at {client.get_map_name()!r}; "
+            f"expected {expected!r}."
+        )
+    for _ in range(20):
+        _dismiss_transient_states(client)
+        client.update(0.05)
+    return frames
+
+
 def run(root: Path) -> dict[str, Any]:
     root = root.resolve()
     build = compile_world(root)
@@ -195,12 +212,13 @@ def run(root: Path) -> dict[str, Any]:
     }
     previous_logging_threshold = logging.root.manager.disable
     logging.disable(logging.CRITICAL)
-    client, _, session = _boot(root, visible=False)
+    client, context, session = _boot(root, visible=False)
     transcript: list[dict[str, Any]] = []
     execution_steps: list[dict[str, Any]] = []
     try:
         for _ in range(20):
             client.update(0.05)
+            _dismiss_transient_states(client)
         events = _events_by_name(client)
 
         charter = _run_event(
@@ -211,6 +229,33 @@ def run(root: Path) -> dict[str, Any]:
         charter["transition"] = "speak_to_archivist"
         transcript.append(charter)
         execution_steps.append(charter)
+
+        expedition_witness = admission["witnesses"]["expedition"]
+        gateway = _run_event(
+            client,
+            session,
+            events[expedition_witness["entry_event"]],
+        )
+        gateway["kind"] = "region_transition"
+        gateway["transition_frames"] = _pump_until_map(
+            client, "echo_wilds.tmx"
+        )
+        gateway["map_after"] = client.get_map_name()
+        execution_steps.append(gateway)
+        visited_regions = ["unmapped_province.tmx", gateway["map_after"]]
+
+        import pygame
+
+        client.draw()
+        expedition_screenshot = (
+            root
+            / "foundry"
+            / "artifacts"
+            / "echo_wilds.runtime.generated.png"
+        )
+        pygame.image.save(context.screen, expedition_screenshot)
+
+        events = _events_by_name(client)
         shard = _run_event(
             client,
             session,
@@ -219,6 +264,20 @@ def run(root: Path) -> dict[str, Any]:
         shard["transition"] = "recover_echo_shard"
         transcript.append(shard)
         execution_steps.append(shard)
+
+        return_step = _run_event(
+            client,
+            session,
+            events[expedition_witness["return_event"]],
+        )
+        return_step["kind"] = "region_transition"
+        return_step["transition_frames"] = _pump_until_map(
+            client, "unmapped_province.tmx"
+        )
+        return_step["map_after"] = client.get_map_name()
+        execution_steps.append(return_step)
+        visited_regions.append(return_step["map_after"])
+        events = _events_by_name(client)
 
         duel_event = next(
             event
@@ -310,6 +369,26 @@ def run(root: Path) -> dict[str, Any]:
             "detail": [entry["route"] for entry in execution_steps],
         },
         {
+            "id": "campaign-crosses-generated-expedition-and-returns",
+            "passed": visited_regions
+            == [
+                "unmapped_province.tmx",
+                "echo_wilds.tmx",
+                "unmapped_province.tmx",
+            ],
+            "detail": visited_regions,
+        },
+        {
+            "id": "generated-expedition-renders-in-real-runtime",
+            "passed": expedition_screenshot.stat().st_size > 0,
+            "detail": {
+                "path": expedition_screenshot.as_posix(),
+                "sha256": hashlib.sha256(
+                    expedition_screenshot.read_bytes()
+                ).hexdigest(),
+            },
+        },
+        {
             "id": "battle-loss-recovery-loop-is-executable",
             "passed": bool(recovery_steps)
             and len(recovery_steps)
@@ -342,6 +421,7 @@ def run(root: Path) -> dict[str, Any]:
         "quest_witness": admission["witnesses"]["quest"],
         "transcript": transcript,
         "execution_steps": execution_steps,
+        "expedition_screenshot": expedition_screenshot.as_posix(),
         "proofs": proofs,
     }
     canonical = json.dumps(body, sort_keys=True, separators=(",", ":"))

@@ -5,6 +5,7 @@ from pathlib import Path
 
 import yaml
 
+from foundry.expedition import certify_expedition, generate_expedition
 from foundry.town import certify, compile_world, generate_town
 
 ROOT = Path(__file__).parents[2]
@@ -29,6 +30,18 @@ def test_geometry_is_deterministic() -> None:
     assert first.blocked == second.blocked
 
 
+def test_expedition_is_admitted_and_deterministic() -> None:
+    spec = yaml.safe_load(SPEC.read_text(encoding="utf-8"))
+    first = generate_expedition(spec)
+    second = generate_expedition(spec)
+    certificate = certify_expedition(first)
+
+    assert first.ground == second.ground
+    assert first.objects == second.objects
+    assert first.blocked == second.blocked
+    assert all(proof["passed"] for proof in certificate["proofs"])
+
+
 def test_compiler_outputs_are_deterministic(tmp_path: Path) -> None:
     first_root = tmp_path / "first"
     second_root = tmp_path / "second"
@@ -40,6 +53,10 @@ def test_compiler_outputs_are_deterministic(tmp_path: Path) -> None:
         "maps/unmapped_province.yaml",
         "gfx/tilesets/unmapped_province.tsx",
         "gfx/tilesets/unmapped_province.png",
+        "maps/echo_wilds.tmx",
+        "maps/echo_wilds.yaml",
+        "gfx/tilesets/echo_wilds.tsx",
+        "gfx/tilesets/echo_wilds.png",
         "mod.yaml",
         "foundry-admission.json",
     ):
