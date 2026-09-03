@@ -220,6 +220,16 @@ collisions:
   width: 2
   height: 1
 - type: collision
+  x: 14
+  y: 8
+  width: 1
+  height: 1
+- type: collision
+  x: 33
+  y: 8
+  width: 1
+  height: 1
+- type: collision
   x: 39
   y: 8
   width: 1
@@ -595,6 +605,16 @@ collisions:
   width: 1
   height: 1
 - type: collision
+  x: 14
+  y: 24
+  width: 1
+  height: 1
+- type: collision
+  x: 33
+  y: 24
+  width: 1
+  height: 1
+- type: collision
   x: 42
   y: 24
   width: 1
@@ -777,71 +797,101 @@ events:
     actions:
     - set_environment grass
     - set_variable skyglass_garden_initialized:yes
-  Materialize skyglass_garden sentinel:
+  Materialize skyglass_garden witness:
     type: event
     conditions:
     - not char_exists knight2
     actions:
     - create_npc knight2,24,14
-  Arm skyglass_garden sentinel:
-    type: event
-    conditions:
-    - is char_exists knight2
-    - is party_size knight2,equals,0
-    actions:
-    - add_monster toucanary,3,knight2
-  Challenge skyglass_garden sentinel:
+  The Skyglass Garden witness explains:
     type: event
     behav:
     - talk knight2
     conditions:
     - is variable_set province_stage:echo_wilds_attuned
-    - not char_defeated knight2
     actions:
-    - translated_dialog The Skyglass Garden has chosen its own answer. Pass through
-      it, not around it.
-    - start_battle player,knight2
-  Record skyglass_garden sentinel victory:
+    - translated_dialog A survey cannot be won. Choose how to listen, then let the
+      horizon and root answer.
+  Choose chorus in skyglass_garden:
     type: event
+    x: 14
+    y: 8
     conditions:
-    - is battle_outcome player,won,knight2
-    - is current_state WorldState
+    - is char_facing_tile player
+    - is button_pressed INTERACT
     - is variable_set province_stage:echo_wilds_attuned
+    - not variable_set skyglass_garden_alignment
     actions:
-    - translated_dialog The sentinel yields. The Skyglass Garden opens toward its
-      sigil.
-    - set_variable province_stage:skyglass_garden_open
-  The Skyglass Garden sentinel remembers:
+    - translated_dialog You tune the first lens through chorus.
+    - set_variable skyglass_garden_alignment:chorus
+    - set_variable skyglass_garden_origin_seen:yes
+  Choose silence in skyglass_garden:
     type: event
-    behav:
-    - talk knight2
+    x: 33
+    y: 24
     conditions:
-    - is variable_set province_stage:skyglass_garden_open
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:echo_wilds_attuned
+    - not variable_set skyglass_garden_alignment
     actions:
-    - translated_dialog The path ahead is yours because you survived its reply.
-  Recover skyglass_garden sigil:
+    - translated_dialog You tune the first lens through silence.
+    - set_variable skyglass_garden_alignment:silence
+    - set_variable skyglass_garden_origin_seen:yes
+  Observe horizon in skyglass_garden:
+    type: event
+    x: 33
+    y: 8
+    conditions:
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:echo_wilds_attuned
+    - not variable_set skyglass_garden_horizon_seen
+    actions:
+    - translated_dialog The horizon returns a fact no battle could reveal.
+    - set_variable skyglass_garden_horizon_seen:yes
+  Observe root in skyglass_garden:
+    type: event
+    x: 14
+    y: 24
+    conditions:
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:echo_wilds_attuned
+    - not variable_set skyglass_garden_root_seen
+    actions:
+    - translated_dialog The root returns a fact no battle could reveal.
+    - set_variable skyglass_garden_root_seen:yes
+  Recover skyglass_garden sigil via chorus:
     type: event
     x: 44
     y: 13
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
-    - is variable_set province_stage:skyglass_garden_open
+    - is variable_set province_stage:echo_wilds_attuned
+    - is variable_set skyglass_garden_alignment:chorus
+    - is variable_set skyglass_garden_origin_seen:yes
+    - is variable_set skyglass_garden_horizon_seen:yes
+    - is variable_set skyglass_garden_root_seen:yes
     actions:
-    - translated_dialog The Skyglass Garden resolves into a sigil the archive can
-      remember.
+    - translated_dialog The Skyglass Garden preserves your chorus reading as a sigil.
     - set_variable province_stage:skyglass_garden_attuned
-  The Skyglass Garden shrine remembered:
+  Recover skyglass_garden sigil via silence:
     type: event
     x: 44
     y: 13
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
-    - is variable_set province_stage:skyglass_garden_attuned
+    - is variable_set province_stage:echo_wilds_attuned
+    - is variable_set skyglass_garden_alignment:silence
+    - is variable_set skyglass_garden_origin_seen:yes
+    - is variable_set skyglass_garden_horizon_seen:yes
+    - is variable_set skyglass_garden_root_seen:yes
     actions:
-    - translated_dialog The empty shrine points west, toward the monolith that remembers
-      home.
+    - translated_dialog The Skyglass Garden preserves your silence reading as a sigil.
+    - set_variable province_stage:skyglass_garden_attuned
   Return from skyglass_garden:
     type: event
     x: 1
@@ -850,5 +900,6 @@ events:
     - is char_facing_tile player
     - is button_pressed INTERACT
     actions:
-    - translated_dialog The monolith folds the Echo Wilds back into town.
+    - translated_dialog The Skyglass Garden folds back into town without erasing your
+      reading.
     - transition_teleport player,unmapped_province.tmx,42,17,0.3

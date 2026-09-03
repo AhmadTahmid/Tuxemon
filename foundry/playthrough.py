@@ -200,7 +200,205 @@ def _pump_until_map(client, expected: str) -> int:
     return frames
 
 
-def run(root: Path) -> dict[str, Any]:
+def _execute_combat_region(
+    client,
+    session,
+    region: dict[str, Any],
+    region_index: int,
+    admission: dict[str, Any],
+    execution_steps: list[dict[str, Any]],
+    visited_regions: list[str],
+) -> dict[str, Any]:
+    slug = region["slug"]
+    expected_map = f"{slug}.tmx"
+    events = _events_by_name(client)
+    ecology = region["ecology"]
+    sentinel_actor = ecology["actor"]
+    sentinel_event = events[region["sentinel_event"]]
+    attempts: list[dict[str, Any]] = []
+    recoveries: list[dict[str, Any]] = []
+    winner = None
+    battle_seeds = [
+        int(ecology["loss_seed"]),
+        *(int(ecology["win_seed"]) + offset for offset in range(16)),
+    ]
+    for attempt, battle_seed in enumerate(battle_seeds):
+        if region_index == 0 and attempt == 0:
+            session.player.monsters[0].current_hp = 1
+        battle = _run_event(
+            client, session, sentinel_event, battle_seed=battle_seed
+        )
+        battle["kind"] = "sentinel_battle_attempt"
+        battle["region"] = slug
+        if region_index == 0 and attempt == 0:
+            battle["fault_injection"] = "player_party_health=1"
+        battle["outcome"] = (
+            session.player.battle_handler.get_last_battle_outcome(
+                sentinel_actor
+            )
+        )
+        attempts.append(battle)
+        execution_steps.append(battle)
+        if battle["outcome"] == "won":
+            winner = battle
+            break
+
+        retreat = _run_event(
+            client, session, events[region["return_event"]]
+        )
+        retreat["kind"] = "sentinel_loss_retreat"
+        retreat["region"] = slug
+        retreat["transition_frames"] = _pump_until_map(
+            client, "unmapped_province.tmx"
+        )
+        retreat["map_after"] = client.get_map_name()
+        execution_steps.append(retreat)
+        visited_regions.append(retreat["map_after"])
+
+        events = _events_by_name(client)
+        recovery = _run_event(
+            client,
+            session,
+            events[admission["witnesses"]["battle_loss_recovery_event"]],
+        )
+        recovery["kind"] = "sentinel_loss_recovery"
+        recovery["region"] = slug
+        recoveries.append(recovery)
+        execution_steps.append(recovery)
+
+        reentry = _run_event(
+            client, session, events[region["entry_event"]]
+        )
+        reentry["kind"] = "sentinel_retry_transition"
+        reentry["region"] = slug
+        reentry["transition_frames"] = _pump_until_map(client, expected_map)
+        reentry["map_after"] = client.get_map_name()
+        execution_steps.append(reentry)
+        visited_regions.append(reentry["map_after"])
+        events = _events_by_name(client)
+        sentinel_event = events[region["sentinel_event"]]
+    if winner is None:
+        raise RuntimeError(
+            f"The selected sentinel for {slug} has no winning witness."
+        )
+    winner["transition"] = region["defeat_action"]
+    winner["post_battle_frames"] = _pump_until_stage(
+        client, session, region["open_state"]
+    )
+    winner["stage_after"] = _stage(session)
+    winner["attempts"] = len(attempts)
+    events = _events_by_name(client)
+    sigil = _run_event(
+        client,
+        session,
+        events[
+            next(
+                binding["event"]
+                for binding in admission["witnesses"][
+                    "quest_event_bindings"
+                ]
+                if binding["transition"] == region["recover_action"]
+            )
+        ],
+    )
+    sigil["transition"] = region["recover_action"]
+    sigil["region"] = slug
+    execution_steps.append(sigil)
+    return {
+        "slug": slug,
+        "mechanic": "combat",
+        "ecology": ecology,
+        "attempts": attempts,
+        "recoveries": recoveries,
+        "roundtrips": len(recoveries),
+        "winner": winner,
+        "completion": sigil,
+        "transitions": [winner, sigil],
+    }
+
+
+def _execute_survey_region(
+    client,
+    session,
+    region: dict[str, Any],
+    alignment: str,
+    execution_steps: list[dict[str, Any]],
+    visited_regions: list[str],
+) -> dict[str, Any]:
+    slug = region["slug"]
+    if alignment not in region["alignment_values"]:
+        raise ValueError(f"Unknown {slug} alignment policy: {alignment}")
+    events = _events_by_name(client)
+    choice = _run_event(
+        client, session, events[region["choice_events"][alignment]]
+    )
+    choice["kind"] = "survey_alignment_choice"
+    choice["region"] = slug
+    choice["alignment"] = alignment
+    execution_steps.append(choice)
+
+    # Deliberately leave mid-survey. Partial observations must survive a map
+    # roundtrip and the same semantic entry gate must admit re-entry.
+    retreat = _run_event(client, session, events[region["return_event"]])
+    retreat["kind"] = "survey_partial_roundtrip"
+    retreat["transition_frames"] = _pump_until_map(
+        client, "unmapped_province.tmx"
+    )
+    retreat["map_after"] = client.get_map_name()
+    execution_steps.append(retreat)
+    visited_regions.append(retreat["map_after"])
+
+    events = _events_by_name(client)
+    consequence = _run_event(
+        client,
+        session,
+        events[region["consequence_events"][alignment]],
+    )
+    consequence["kind"] = "persistent_branch_consequence"
+    consequence["alignment"] = alignment
+    execution_steps.append(consequence)
+    reentry = _run_event(client, session, events[region["entry_event"]])
+    reentry["kind"] = "survey_reentry"
+    reentry["transition_frames"] = _pump_until_map(client, f"{slug}.tmx")
+    reentry["map_after"] = client.get_map_name()
+    execution_steps.append(reentry)
+    visited_regions.append(reentry["map_after"])
+
+    events = _events_by_name(client)
+    observations = []
+    for event_name in region["observation_events"]:
+        observation = _run_event(client, session, events[event_name])
+        observation["kind"] = "survey_observation"
+        observation["region"] = slug
+        observations.append(observation)
+        execution_steps.append(observation)
+    completion = _run_event(
+        client,
+        session,
+        events[region["completion_events"][alignment]],
+    )
+    completion["transition"] = region["recover_action"]
+    completion["region"] = slug
+    completion["alignment"] = alignment
+    execution_steps.append(completion)
+    return {
+        "slug": slug,
+        "mechanic": "survey",
+        "ecology": None,
+        "attempts": [],
+        "recoveries": [],
+        "roundtrips": 1,
+        "winner": None,
+        "completion": completion,
+        "transitions": [completion],
+        "choice": choice,
+        "observations": observations,
+        "consequence": consequence,
+        "alignment": alignment,
+    }
+
+
+def run(root: Path, survey_policy: str = "chorus") -> dict[str, Any]:
     root = root.resolve()
     build = compile_world(root)
     admission = json.loads(
@@ -264,104 +462,29 @@ def run(root: Path) -> dict[str, Any]:
             pygame.image.save(context.screen, screenshot)
             region_screenshots[slug] = screenshot
 
+            if region["mechanic"] == "combat":
+                region_run = _execute_combat_region(
+                    client,
+                    session,
+                    region,
+                    region_index,
+                    admission,
+                    execution_steps,
+                    visited_regions,
+                )
+                all_sentinel_recoveries.extend(region_run["recoveries"])
+            else:
+                region_run = _execute_survey_region(
+                    client,
+                    session,
+                    region,
+                    survey_policy,
+                    execution_steps,
+                    visited_regions,
+                )
+            transcript.extend(region_run["transitions"])
+
             events = _events_by_name(client)
-            ecology = region["ecology"]
-            sentinel_actor = ecology["actor"]
-            sentinel_event = events[region["sentinel_event"]]
-            attempts: list[dict[str, Any]] = []
-            recoveries: list[dict[str, Any]] = []
-            winner = None
-            battle_seeds = [
-                int(ecology["loss_seed"]),
-                *(int(ecology["win_seed"]) + offset for offset in range(16)),
-            ]
-            for attempt, battle_seed in enumerate(battle_seeds):
-                if region_index == 0 and attempt == 0:
-                    session.player.monsters[0].current_hp = 1
-                battle = _run_event(
-                    client,
-                    session,
-                    sentinel_event,
-                    battle_seed=battle_seed,
-                )
-                battle["kind"] = "sentinel_battle_attempt"
-                battle["region"] = slug
-                if region_index == 0 and attempt == 0:
-                    battle["fault_injection"] = "player_party_health=1"
-                battle["outcome"] = (
-                    session.player.battle_handler.get_last_battle_outcome(
-                        sentinel_actor
-                    )
-                )
-                attempts.append(battle)
-                execution_steps.append(battle)
-                if battle["outcome"] == "won":
-                    winner = battle
-                    break
-
-                retreat = _run_event(
-                    client, session, events[region["return_event"]]
-                )
-                retreat["kind"] = "sentinel_loss_retreat"
-                retreat["region"] = slug
-                retreat["transition_frames"] = _pump_until_map(
-                    client, "unmapped_province.tmx"
-                )
-                retreat["map_after"] = client.get_map_name()
-                execution_steps.append(retreat)
-                visited_regions.append(retreat["map_after"])
-
-                events = _events_by_name(client)
-                recovery = _run_event(
-                    client,
-                    session,
-                    events[
-                        admission["witnesses"][
-                            "battle_loss_recovery_event"
-                        ]
-                    ],
-                )
-                recovery["kind"] = "sentinel_loss_recovery"
-                recovery["region"] = slug
-                recoveries.append(recovery)
-                all_sentinel_recoveries.append(recovery)
-                execution_steps.append(recovery)
-
-                reentry = _run_event(
-                    client, session, events[region["entry_event"]]
-                )
-                reentry["kind"] = "sentinel_retry_transition"
-                reentry["region"] = slug
-                reentry["transition_frames"] = _pump_until_map(
-                    client, expected_map
-                )
-                reentry["map_after"] = client.get_map_name()
-                execution_steps.append(reentry)
-                visited_regions.append(reentry["map_after"])
-                events = _events_by_name(client)
-                sentinel_event = events[region["sentinel_event"]]
-            if winner is None:
-                raise RuntimeError(
-                    f"The selected sentinel for {slug} has no winning witness."
-                )
-            winner["transition"] = region["defeat_action"]
-            winner["post_battle_frames"] = _pump_until_stage(
-                client, session, region["open_state"]
-            )
-            winner["stage_after"] = _stage(session)
-            winner["attempts"] = len(attempts)
-            transcript.append(winner)
-
-            sigil = _run_event(
-                client,
-                session,
-                events[event_bindings[region["recover_action"]]],
-            )
-            sigil["transition"] = region["recover_action"]
-            sigil["region"] = slug
-            transcript.append(sigil)
-            execution_steps.append(sigil)
-
             return_step = _run_event(
                 client, session, events[region["return_event"]]
             )
@@ -374,16 +497,7 @@ def run(root: Path) -> dict[str, Any]:
             execution_steps.append(return_step)
             visited_regions.append(return_step["map_after"])
             events = _events_by_name(client)
-            region_runs.append(
-                {
-                    "slug": slug,
-                    "ecology": ecology,
-                    "attempts": attempts,
-                    "recoveries": recoveries,
-                    "winner": winner,
-                    "sigil": sigil,
-                }
-            )
+            region_runs.append(region_run)
 
         duel_event = next(
             event
@@ -455,7 +569,7 @@ def run(root: Path) -> dict[str, Any]:
     for region in region_runs:
         region_map = f"{region['slug']}.tmx"
         expected_visits.append(region_map)
-        for _ in region["recoveries"]:
+        for _ in range(region["roundtrips"]):
             expected_visits.extend(["unmapped_province.tmx", region_map])
         expected_visits.append("unmapped_province.tmx")
     proofs = [
@@ -507,6 +621,7 @@ def run(root: Path) -> dict[str, Any]:
                     if witness["slug"] == region["slug"]
                 )
                 for region in region_runs
+                if region["mechanic"] == "combat"
             ),
             "detail": [
                 {
@@ -517,6 +632,34 @@ def run(root: Path) -> dict[str, Any]:
                     ],
                 }
                 for region in region_runs
+                if region["mechanic"] == "combat"
+            ],
+        },
+        {
+            "id": "survey-choice-persists-and-changes-town-response",
+            "passed": all(
+                region["choice"]["alignment"] == survey_policy
+                and region["completion"]["stage_after"]
+                == next(
+                    witness["complete_state"]
+                    for witness in admission["witnesses"]["campaign_regions"]
+                    if witness["slug"] == region["slug"]
+                )
+                and all(
+                    condition["passed"]
+                    for condition in region["consequence"]["conditions"]
+                )
+                for region in region_runs
+                if region["mechanic"] == "survey"
+            ),
+            "detail": [
+                {
+                    "region": region["slug"],
+                    "alignment": region["alignment"],
+                    "consequence": region["consequence"]["event"],
+                }
+                for region in region_runs
+                if region["mechanic"] == "survey"
             ],
         },
         {
@@ -554,6 +697,7 @@ def run(root: Path) -> dict[str, Any]:
         "schema": "ai-native-tuxemon-playthrough/v1",
         "world_fingerprint": build["fingerprint"],
         "quest_witness": admission["witnesses"]["quest"],
+        "survey_policy": survey_policy,
         "transcript": transcript,
         "execution_steps": execution_steps,
         "region_screenshots": {
@@ -563,7 +707,12 @@ def run(root: Path) -> dict[str, Any]:
     }
     canonical = json.dumps(body, sort_keys=True, separators=(",", ":"))
     body["fingerprint"] = hashlib.sha256(canonical.encode()).hexdigest()
-    output = root / "foundry" / "artifacts" / "playthrough.generated.json"
+    filename = (
+        "playthrough.generated.json"
+        if survey_policy == "chorus"
+        else f"playthrough.{survey_policy}.generated.json"
+    )
+    output = root / "foundry" / "artifacts" / filename
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         json.dumps(body, indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -580,8 +729,11 @@ def main() -> None:
         description="Execute the compiled quest as a real-engine witness."
     )
     parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument(
+        "--survey-policy", choices=("chorus", "silence"), default="chorus"
+    )
     args = parser.parse_args()
-    result = run(args.root)
+    result = run(args.root, args.survey_policy)
     summary = {
         "output": result["output"],
         "schema": result["schema"],

@@ -1,6 +1,6 @@
 {
-  "ecology_fingerprint": "9098c3bea0b96ee0cb6528fd54ffd4f4bb5512e02fcadd7410c9a924372b6f35",
-  "fingerprint": "c74b0c89da862402a0a9d576c51f96eb78b0455b229bd4e91c6874c781320321",
+  "ecology_fingerprint": "f1996da698e945434647542f81917cce0a11725071a46791ab17c3faa5809c5f",
+  "fingerprint": "b6a087873b056ab3b67ec332746933f3a9d922272aa01aff1dbad228eeeb07ab",
   "population": {
     "admitted": 2,
     "candidates_examined": 6,
@@ -21,7 +21,6 @@
     {
       "detail": [
         "metesaur",
-        "toucanary",
         "vivipere"
       ],
       "id": "campaign-guardians-are-unique",
@@ -41,7 +40,6 @@
         "speak_to_archivist",
         "defeat_echo_wilds_sentinel",
         "recover_echo_wilds_sigil",
-        "defeat_skyglass_garden_sentinel",
         "recover_skyglass_garden_sigil",
         "defeat_root_vault_sentinel",
         "recover_root_vault_sigil",
@@ -59,17 +57,21 @@
           "win": 3500000
         },
         {
-          "loss": 4020001,
-          "region": "skyglass_garden",
-          "win": 4020000
-        },
-        {
           "loss": 3210000,
           "region": "root_vault",
           "win": 3210001
         }
       ],
       "id": "every-guardian-has-win-and-loss-witnesses",
+      "passed": true
+    },
+    {
+      "detail": [
+        "combat",
+        "survey",
+        "combat"
+      ],
+      "id": "campaign-mechanics-are-not-uniform",
       "passed": true
     }
   ],
@@ -97,11 +99,6 @@
         ],
         [
           "echo_wilds_attuned",
-          "defeat_skyglass_garden_sentinel",
-          "skyglass_garden_open"
-        ],
-        [
-          "skyglass_garden_open",
           "recover_skyglass_garden_sigil",
           "skyglass_garden_attuned"
         ],
@@ -153,6 +150,7 @@
           "obstacle_density": 0.14,
           "width": 52
         },
+        "mechanic": "combat",
         "narrative_role": "ordeal",
         "open_state": "echo_wilds_open",
         "palette_shift": 0.055,
@@ -167,28 +165,25 @@
         "admission": {
           "minimum_reachable_fraction": 0.98
         },
+        "alignment_key": "skyglass_garden_alignment",
+        "alignment_values": [
+          "chorus",
+          "silence"
+        ],
         "complete_state": "skyglass_garden_attuned",
-        "defeat_action": "defeat_skyglass_garden_sentinel",
-        "ecology": {
-          "actor": "knight2",
-          "selected": {
-            "actor": "knight2",
-            "level": 3,
-            "loss_seed": 4020001,
-            "mean_turns": 2.5,
-            "monster": "toucanary",
-            "player_win_rate": 0.8333333333333334,
-            "win_seed": 4020000
-          }
-        },
         "entry_state": "echo_wilds_attuned",
         "geometry": {
           "height": 32,
           "obstacle_density": 0.09,
           "width": 48
         },
+        "mechanic": "survey",
         "narrative_role": "respite",
-        "open_state": "skyglass_garden_open",
+        "observation_keys": [
+          "skyglass_garden_origin_seen",
+          "skyglass_garden_horizon_seen",
+          "skyglass_garden_root_seen"
+        ],
         "palette_shift": 0.115,
         "recover_action": "recover_skyglass_garden_sigil",
         "seed_offset": 161803,
@@ -221,6 +216,7 @@
           "obstacle_density": 0.18,
           "width": 56
         },
+        "mechanic": "combat",
         "narrative_role": "culmination",
         "open_state": "root_vault_open",
         "palette_shift": 0.205,
@@ -232,5 +228,5 @@
       }
     ]
   },
-  "source_genome_sha256": "40297c9c83a0eb946e36ba08fc634f7c1e6742250e290b78626392a2204a95dd"
+  "source_genome_sha256": "6368fb3f363e105764ad0ea10ad703bac1a120640a6c6db92a13f10cd880f4a8"
 }

@@ -8558,7 +8558,7 @@
     "stage": "basic",
     "trials_per_candidate": 6
   },
-  "fingerprint": "9098c3bea0b96ee0cb6528fd54ffd4f4bb5512e02fcadd7410c9a924372b6f35",
+  "fingerprint": "f1996da698e945434647542f81917cce0a11725071a46791ab17c3faa5809c5f",
   "proofs": [
     {
       "detail": {
@@ -8620,5 +8620,5 @@
     "player_win_rate": 0.6666666666666666,
     "win_seed": 3500000
   },
-  "source_genome_sha256": "7b6e34ded0d471c5ad509b072e26db43892e938821a38da9c9d4103fe7a00991"
+  "source_genome_sha256": "667de96b56c3f4aeed68685ba970a6326bb32eaffcf64a8073e9d8372432ba1b"
 }

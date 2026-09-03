@@ -48,33 +48,52 @@ def _battle_witness(candidate: dict[str, Any], winner: str) -> int:
 
 def _region_contract(
     atom: dict[str, Any],
-    guardian: dict[str, Any],
+    guardian: dict[str, Any] | None,
     entry_state: str,
     final: bool,
 ) -> dict[str, Any]:
     slug = str(atom["slug"])
-    open_state = f"{slug}_open"
     complete_state = "archive_restored" if final else f"{slug}_attuned"
-    return {
+    contract = {
         **copy.deepcopy(atom),
         "entry_state": entry_state,
-        "open_state": open_state,
         "complete_state": complete_state,
-        "defeat_action": f"defeat_{slug}_sentinel",
         "recover_action": f"recover_{slug}_sigil",
-        "ecology": {
-            "actor": atom["actor"],
-            "selected": {
-                "actor": atom["actor"],
-                "monster": guardian["monster"],
-                "level": int(guardian["level"]),
-                "player_win_rate": guardian["player_win_rate"],
-                "mean_turns": guardian["mean_turns"],
-                "win_seed": _battle_witness(guardian, "player"),
-                "loss_seed": _battle_witness(guardian, "opponent"),
-            },
-        },
     }
+    if atom["mechanic"] == "survey":
+        contract.update(
+            {
+                "alignment_key": f"{slug}_alignment",
+                "alignment_values": ["chorus", "silence"],
+                "observation_keys": [
+                    f"{slug}_origin_seen",
+                    f"{slug}_horizon_seen",
+                    f"{slug}_root_seen",
+                ],
+            }
+        )
+        return contract
+    if guardian is None:
+        raise ValueError(f"Combat region {slug} has no guardian.")
+    contract.update(
+        {
+            "open_state": f"{slug}_open",
+            "defeat_action": f"defeat_{slug}_sentinel",
+            "ecology": {
+                "actor": atom["actor"],
+                "selected": {
+                    "actor": atom["actor"],
+                    "monster": guardian["monster"],
+                    "level": int(guardian["level"]),
+                    "player_win_rate": guardian["player_win_rate"],
+                    "mean_turns": guardian["mean_turns"],
+                    "win_seed": _battle_witness(guardian, "player"),
+                    "loss_seed": _battle_witness(guardian, "opponent"),
+                },
+            },
+        }
+    )
+    return contract
 
 
 def synthesize(
@@ -88,9 +107,10 @@ def synthesize(
         for candidate in ecology_lock["candidates"]
         if candidate.get("admitted")
     ]
-    if len(admitted_guardians) < len(atoms):
+    combat_atoms = [atom for atom in atoms if atom["mechanic"] == "combat"]
+    if len(admitted_guardians) < len(combat_atoms):
         raise RuntimeError(
-            "Campaign synthesis needs at least one admitted guardian per region."
+            "Campaign synthesis needs one admitted guardian per combat region."
         )
 
     candidates_examined = 0
@@ -99,13 +119,15 @@ def synthesize(
     maximum_deviation = float(
         spec["campaign"]["admission"]["maximum_guardian_turn_deviation"]
     )
-    for assignment in itertools.permutations(admitted_guardians, len(atoms)):
+    for assignment in itertools.permutations(
+        admitted_guardians, len(combat_atoms)
+    ):
         candidates_examined += 1
         identities = {
             (candidate["monster"], int(candidate["level"]))
             for candidate in assignment
         }
-        if len(identities) != len(atoms):
+        if len(identities) != len(combat_atoms):
             rejected["guardian_identity_reused"] += 1
             continue
         roles = {atom["narrative_role"] for atom in atoms}
@@ -117,7 +139,7 @@ def synthesize(
                 float(atom["target_mean_turns"])
                 - float(guardian["mean_turns"])
             )
-            for atom, guardian in zip(atoms, assignment)
+            for atom, guardian in zip(combat_atoms, assignment)
         ]
         if any(deviation > maximum_deviation for deviation in deviations):
             rejected["role_curve_outside_tolerance"] += 1
@@ -125,7 +147,13 @@ def synthesize(
 
         regions: list[dict[str, Any]] = []
         state = "chartered"
-        for index, (atom, guardian) in enumerate(zip(atoms, assignment)):
+        guardian_iterator = iter(assignment)
+        for index, atom in enumerate(atoms):
+            guardian = (
+                next(guardian_iterator)
+                if atom["mechanic"] == "combat"
+                else None
+            )
             region = _region_contract(
                 atom, guardian, state, index == len(atoms) - 1
             )
@@ -142,8 +170,10 @@ def synthesize(
             item[0],
             [
                 (
-                    region["ecology"]["selected"]["monster"],
-                    region["ecology"]["selected"]["level"],
+                    region["mechanic"],
+                    region.get("ecology", {})
+                    .get("selected", {})
+                    .get("monster", ""),
                 )
                 for region in item[1]
             ],
@@ -154,20 +184,29 @@ def synthesize(
         ["arrival", "speak_to_archivist", "chartered"]
     ]
     for region in regions:
-        transitions.extend(
-            [
+        if region["mechanic"] == "combat":
+            transitions.extend(
+                [
+                    [
+                        region["entry_state"],
+                        region["defeat_action"],
+                        region["open_state"],
+                    ],
+                    [
+                        region["open_state"],
+                        region["recover_action"],
+                        region["complete_state"],
+                    ],
+                ]
+            )
+        else:
+            transitions.append(
                 [
                     region["entry_state"],
-                    region["defeat_action"],
-                    region["open_state"],
-                ],
-                [
-                    region["open_state"],
                     region["recover_action"],
                     region["complete_state"],
-                ],
-            ]
-        )
+                ]
+            )
     transitions.extend(
         [
             ["archive_restored", "win_cartographers_duel", "trial_won"],
@@ -210,12 +249,14 @@ def synthesize(
                         region["ecology"]["selected"]["level"],
                     )
                     for region in regions
+                    if region["mechanic"] == "combat"
                 }
             )
-            == len(regions),
+            == len(combat_atoms),
             "detail": [
                 region["ecology"]["selected"]["monster"]
                 for region in regions
+                if region["mechanic"] == "combat"
             ],
         },
         {
@@ -235,6 +276,7 @@ def synthesize(
                 region["ecology"]["selected"]["win_seed"]
                 != region["ecology"]["selected"]["loss_seed"]
                 for region in regions
+                if region["mechanic"] == "combat"
             ),
             "detail": [
                 {
@@ -243,7 +285,13 @@ def synthesize(
                     "loss": region["ecology"]["selected"]["loss_seed"],
                 }
                 for region in regions
+                if region["mechanic"] == "combat"
             ],
+        },
+        {
+            "id": "campaign-mechanics-are-not-uniform",
+            "passed": len({region["mechanic"] for region in regions}) > 1,
+            "detail": [region["mechanic"] for region in regions],
         },
     ]
     body = {

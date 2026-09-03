@@ -40,6 +40,7 @@ class Expedition:
     map_type: str
     return_gate: Coord
     repaired_cells: int
+    survey_sites: dict[str, Coord]
 
 
 def _mutate_style(
@@ -108,6 +109,7 @@ def generate_expedition(
         map_type="route",
         return_gate=return_gate,
         repaired_cells=0,
+        survey_sites={},
     )
 
     expedition.blocked.update(
@@ -198,6 +200,17 @@ def generate_expedition(
             ):
                 expedition.ground[y][x] = int(Tile.FLOWERS)
 
+    if contract.get("mechanic") == "survey":
+        expedition.survey_sites = {
+            "chorus": (ring_left + 4, ring_top),
+            "silence": (ring_right - 4, ring_bottom),
+            "horizon": (ring_right - 4, ring_top),
+            "root": (ring_left + 4, ring_bottom),
+        }
+        for cell in expedition.survey_sites.values():
+            expedition.objects[cell[1]][cell[0]] = int(Tile.STATUE)
+            expedition.blocked.add(cell)
+
     # Smallest-atom repair: any pocket isolated by the sampled forest becomes
     # solid vegetation instead of forcing a designer to reconnect it by hand.
     reachable = _reachable(expedition)  # type: ignore[arg-type]
@@ -227,6 +240,8 @@ def expedition_events(
     return_x, return_y = expedition.return_gate
     town_return = (town.shard[0], town.shard[1] + 1)
     contract = expedition.contract
+    if contract.get("mechanic") == "survey":
+        return _survey_events(expedition, town)
     ecology = contract["ecology"]
     selected = ecology.get("selected")
     if selected is None:
@@ -353,6 +368,127 @@ def expedition_events(
     }
 
 
+def _survey_events(
+    expedition: Expedition, town: Town
+) -> dict[str, dict[str, Any]]:
+    contract = expedition.contract
+    slug, title = expedition.slug, expedition.title
+    return_x, return_y = expedition.return_gate
+    town_return = (town.shard[0], town.shard[1] + 1)
+    entry_state = str(contract["entry_state"])
+    complete_state = str(contract["complete_state"])
+    alignment_key = str(contract["alignment_key"])
+    origin_key, horizon_key, root_key = contract["observation_keys"]
+    actor = str(contract["actor"])
+    guide_position = min(
+        expedition.roads,
+        key=lambda cell: (
+            abs(cell[0] - expedition.width // 2)
+            + abs(cell[1] - expedition.height // 2),
+            cell,
+        ),
+    )
+    events: dict[str, dict[str, Any]] = {
+        f"Initialize {slug}": {
+            "type": "event",
+            "conditions": [f"not variable_set {slug}_initialized"],
+            "actions": [
+                "set_environment grass",
+                f"set_variable {slug}_initialized:yes",
+            ],
+        },
+        f"Materialize {slug} witness": {
+            "type": "event",
+            "conditions": [f"not char_exists {actor}"],
+            "actions": [
+                f"create_npc {actor},{guide_position[0]},{guide_position[1]}"
+            ],
+        },
+        f"{title} witness explains": {
+            "type": "event",
+            "behav": [f"talk {actor}"],
+            "conditions": [
+                f"is variable_set province_stage:{entry_state}"
+            ],
+            "actions": [
+                "translated_dialog A survey cannot be won. Choose how to listen, then let the horizon and root answer."
+            ],
+        },
+    }
+    for alignment in contract["alignment_values"]:
+        x, y = expedition.survey_sites[alignment]
+        events[f"Choose {alignment} in {slug}"] = {
+            "type": "event",
+            "x": x,
+            "y": y,
+            "conditions": [
+                "is char_facing_tile player",
+                "is button_pressed INTERACT",
+                f"is variable_set province_stage:{entry_state}",
+                f"not variable_set {alignment_key}",
+            ],
+            "actions": [
+                f"translated_dialog You tune the first lens through {alignment}.",
+                f"set_variable {alignment_key}:{alignment}",
+                f"set_variable {origin_key}:yes",
+            ],
+        }
+    for label, key in (("horizon", horizon_key), ("root", root_key)):
+        x, y = expedition.survey_sites[label]
+        events[f"Observe {label} in {slug}"] = {
+            "type": "event",
+            "x": x,
+            "y": y,
+            "conditions": [
+                "is char_facing_tile player",
+                "is button_pressed INTERACT",
+                f"is variable_set province_stage:{entry_state}",
+                f"not variable_set {key}",
+            ],
+            "actions": [
+                f"translated_dialog The {label} returns a fact no battle could reveal.",
+                f"set_variable {key}:yes",
+            ],
+        }
+    shrine_x, shrine_y = expedition.shard
+    for alignment in contract["alignment_values"]:
+        events[f"Recover {slug} sigil via {alignment}"] = {
+            "type": "event",
+            "x": shrine_x,
+            "y": shrine_y,
+            "conditions": [
+                "is char_facing_tile player",
+                "is button_pressed INTERACT",
+                f"is variable_set province_stage:{entry_state}",
+                f"is variable_set {alignment_key}:{alignment}",
+                f"is variable_set {origin_key}:yes",
+                f"is variable_set {horizon_key}:yes",
+                f"is variable_set {root_key}:yes",
+            ],
+            "actions": [
+                f"translated_dialog {title} preserves your {alignment} reading as a sigil.",
+                f"set_variable province_stage:{complete_state}",
+            ],
+        }
+    events[f"Return from {slug}"] = {
+        "type": "event",
+        "x": return_x,
+        "y": return_y,
+        "conditions": [
+            "is char_facing_tile player",
+            "is button_pressed INTERACT",
+        ],
+        "actions": [
+            f"translated_dialog {title} folds back into town without erasing your reading.",
+            (
+                "transition_teleport player,"
+                f"{town.slug}.tmx,{town_return[0]},{town_return[1]},0.3"
+            ),
+        ],
+    }
+    return events
+
+
 def certify_expedition(expedition: Expedition) -> dict[str, Any]:
     reachable = _reachable(expedition)  # type: ignore[arg-type]
     walkable = {
@@ -376,11 +512,57 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             cell,
         ),
     )
+    survey_fronts = {
+        label: {
+            (cell[0] - 1, cell[1]),
+            (cell[0] + 1, cell[1]),
+            (cell[0], cell[1] - 1),
+            (cell[0], cell[1] + 1),
+        }
+        & reachable
+        for label, cell in expedition.survey_sites.items()
+    }
     fraction = len(reachable) / max(1, len(walkable))
     threshold = float(
         expedition.contract["admission"]["minimum_reachable_fraction"]
     )
     cycle_rank = _road_cycle_rank(expedition)  # type: ignore[arg-type]
+    if expedition.contract.get("mechanic", "combat") == "survey":
+        mechanic_proofs = [
+            {
+                "id": f"{expedition.slug}-survey-sites-are-reachable",
+                "passed": all(survey_fronts.values()),
+                "detail": {
+                    label: sorted(fronts)
+                    for label, fronts in survey_fronts.items()
+                },
+                "counterexamples": [
+                    label
+                    for label, fronts in survey_fronts.items()
+                    if not fronts
+                ],
+            }
+        ]
+        mechanic_witness = {
+            "survey_sites": {
+                label: list(cell)
+                for label, cell in expedition.survey_sites.items()
+            }
+        }
+    else:
+        mechanic_proofs = [
+            {
+                "id": f"{expedition.slug}-sentinel-is-reachable",
+                "passed": sentinel_position in reachable,
+                "detail": list(sentinel_position),
+                "counterexamples": (
+                    []
+                    if sentinel_position in reachable
+                    else [list(sentinel_position)]
+                ),
+            }
+        ]
+        mechanic_witness = {"sentinel": list(sentinel_position)}
     proofs = [
         {
             "id": f"{expedition.slug}-entry-is-walkable",
@@ -406,14 +588,7 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             if return_front in reachable
             else [list(return_front)],
         },
-        {
-            "id": f"{expedition.slug}-sentinel-is-reachable",
-            "passed": sentinel_position in reachable,
-            "detail": list(sentinel_position),
-            "counterexamples": []
-            if sentinel_position in reachable
-            else [list(sentinel_position)],
-        },
+        *mechanic_proofs,
         {
             "id": f"{expedition.slug}-walkable-space-connected",
             "passed": fraction >= threshold,
@@ -449,6 +624,6 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             "spawn": list(expedition.spawn),
             "shrine": list(expedition.shard),
             "return_gate": list(expedition.return_gate),
-            "sentinel": list(sentinel_position),
+            **mechanic_witness,
         },
     }

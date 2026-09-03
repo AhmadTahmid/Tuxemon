@@ -50,6 +50,10 @@ foundry-playthrough:
 foundry-persistence:
 	python -m foundry.persistence
 
+.PHONY: foundry-branches
+foundry-branches:
+	python -m foundry.branching
+
 .PHONY: foundry-probe
 foundry-probe:
 	python -m foundry.runtime --probe
@@ -75,6 +79,7 @@ foundry-certify:
 	python -m foundry.runtime --probe
 	python -m foundry.selfplay
 	python -m foundry.playthrough
+	python -m foundry.branching
 	python -m foundry.persistence
 
 .PHONY: foundry-release

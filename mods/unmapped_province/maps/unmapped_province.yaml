@@ -919,16 +919,6 @@ events:
     - translated_dialog The gate compiles The Skyglass Garden from the next unresolved
       promise.
     - transition_teleport player,skyglass_garden.tmx,3,16,0.3
-  Reenter The Skyglass Garden:
-    type: event
-    x: 42
-    y: 16
-    conditions:
-    - is char_facing_tile player
-    - is button_pressed INTERACT
-    - is variable_set province_stage:skyglass_garden_open
-    actions:
-    - transition_teleport player,skyglass_garden.tmx,3,16,0.3
   Enter The Root Vault:
     type: event
     x: 42
@@ -955,9 +945,29 @@ events:
     type: event
     behav:
     - talk bob
+    conditions:
+    - not variable_set skyglass_garden_alignment
     actions:
     - translated_dialog This town was compiled from promises. Its walls are consequences
       rather than drawings.
+  Cartographer responds to chorus:
+    type: event
+    behav:
+    - talk bob
+    conditions:
+    - is variable_set skyglass_garden_alignment:chorus
+    actions:
+    - translated_dialog Your chorus survey changed what the atlas believes about every
+      later path.
+  Cartographer responds to silence:
+    type: event
+    behav:
+    - talk bob
+    conditions:
+    - is variable_set skyglass_garden_alignment:silence
+    actions:
+    - translated_dialog Your silence survey changed what the atlas believes about
+      every later path.
   Duel for the map seal:
     type: event
     behav:

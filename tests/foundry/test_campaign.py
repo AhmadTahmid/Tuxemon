@@ -35,9 +35,19 @@ def test_campaign_assigns_proven_guardians_to_dramatic_roles() -> None:
         "respite",
         "culmination",
     ]
-    assert [region["ecology"]["selected"]["monster"] for region in regions] == [
+    assert [region["mechanic"] for region in regions] == [
+        "combat",
+        "survey",
+        "combat",
+    ]
+    combat_regions = [
+        region for region in regions if region["mechanic"] == "combat"
+    ]
+    assert [
+        region["ecology"]["selected"]["monster"]
+        for region in combat_regions
+    ] == [
         "metesaur",
-        "toucanary",
         "vivipere",
     ]
     transitions = result["selected"]["narrative_automaton"]["transitions"]

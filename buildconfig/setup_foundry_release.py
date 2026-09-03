@@ -31,13 +31,18 @@ PROOF_FILES = [
     / "unmapped_province.runtime.generated.json",
     ROOT / "foundry" / "artifacts" / "combat-selfplay.generated.json",
     ROOT / "foundry" / "artifacts" / "playthrough.generated.json",
+    ROOT
+    / "foundry"
+    / "artifacts"
+    / "playthrough.silence.generated.json",
+    ROOT / "foundry" / "artifacts" / "branching.generated.json",
     ROOT / "foundry" / "artifacts" / "persistence.generated.json",
 ]
 
 
 setup(
     name="The Unmapped Province",
-    version="0.4.0",
+    version="0.5.0",
     description="A proof-carrying turn-based RPG compiled by an AI foundry",
     options={
         "build_exe": {

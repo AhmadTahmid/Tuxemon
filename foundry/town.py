@@ -417,6 +417,7 @@ def certify(
     selected_ecologies = [
         expedition.contract.get("ecology", {}).get("selected")
         for expedition in expedition_list
+        if expedition.contract.get("mechanic", "combat") == "combat"
     ]
     reachable = _reachable(town)
     walkable = {
@@ -631,6 +632,64 @@ def certify(
     seed_genome = copy.deepcopy(town.spec)
     seed_genome["expedition"]["ecology"].pop("selection_certificate", None)
     seed_genome.get("campaign", {}).pop("selection_certificate", None)
+    campaign_region_witnesses = []
+    for expedition in expedition_list:
+        contract = expedition.contract
+        region_witness = {
+            **expedition_certificates[expedition.slug]["witnesses"],
+            "slug": expedition.slug,
+            "title": expedition.title,
+            "mechanic": contract.get("mechanic", "combat"),
+            "entry_state": contract.get("entry_state", "chartered"),
+            "complete_state": contract.get(
+                "complete_state", "shard_recovered"
+            ),
+            "recover_action": contract.get(
+                "recover_action", "recover_echo_shard"
+            ),
+            "entry_event": f"Enter {expedition.title}",
+            "return_event": f"Return from {expedition.slug}",
+        }
+        if contract.get("mechanic", "combat") == "combat":
+            region_witness.update(
+                {
+                    "open_state": contract.get("open_state", "wilds_open"),
+                    "defeat_action": contract.get(
+                        "defeat_action", "defeat_echo_sentinel"
+                    ),
+                    "sentinel_event": (
+                        f"Challenge {expedition.slug} sentinel"
+                    ),
+                    "ecology": contract.get("ecology", {}).get("selected"),
+                }
+            )
+        else:
+            region_witness.update(
+                {
+                    "alignment_key": contract["alignment_key"],
+                    "alignment_values": contract["alignment_values"],
+                    "observation_keys": contract["observation_keys"],
+                    "choice_events": {
+                        alignment: f"Choose {alignment} in {expedition.slug}"
+                        for alignment in contract["alignment_values"]
+                    },
+                    "observation_events": [
+                        f"Observe horizon in {expedition.slug}",
+                        f"Observe root in {expedition.slug}",
+                    ],
+                    "completion_events": {
+                        alignment: (
+                            f"Recover {expedition.slug} sigil via {alignment}"
+                        )
+                        for alignment in contract["alignment_values"]
+                    },
+                    "consequence_events": {
+                        alignment: f"Cartographer responds to {alignment}"
+                        for alignment in contract["alignment_values"]
+                    },
+                }
+            )
+        campaign_region_witnesses.append(region_witness)
     body = {
         "schema": "ai-native-admission-certificate/v1",
         "world": town.slug,
@@ -695,33 +754,7 @@ def certify(
             "landmark_approaches": {
                 role: list(cell) for role, cell in sorted(approaches.items())
             },
-            "campaign_regions": [
-                {
-                    **expedition_certificates[expedition.slug]["witnesses"],
-                    "slug": expedition.slug,
-                    "title": expedition.title,
-                    "entry_state": expedition.contract.get(
-                        "entry_state", "chartered"
-                    ),
-                    "open_state": expedition.contract.get(
-                        "open_state", "wilds_open"
-                    ),
-                    "complete_state": expedition.contract.get(
-                        "complete_state", "shard_recovered"
-                    ),
-                    "defeat_action": expedition.contract.get(
-                        "defeat_action", "defeat_echo_sentinel"
-                    ),
-                    "recover_action": expedition.contract.get(
-                        "recover_action", "recover_echo_shard"
-                    ),
-                    "entry_event": f"Enter {expedition.title}",
-                    "return_event": f"Return from {expedition.slug}",
-                    "sentinel_event": f"Challenge {expedition.slug} sentinel",
-                    "ecology": selected_ecologies[index],
-                }
-                for index, expedition in enumerate(expedition_list)
-            ],
+            "campaign_regions": campaign_region_witnesses,
         },
         "proofs": proofs,
     }
@@ -1076,29 +1109,55 @@ def _world_events(town: Town) -> dict[str, Any]:
                 ),
             ],
         }
-        events[f"Reenter {region['title']}"] = {
-            "type": "event",
-            "x": shard_x,
-            "y": shard_y,
-            "conditions": [
-                "is char_facing_tile player",
-                "is button_pressed INTERACT",
-                f"is variable_set province_stage:{open_state}",
-            ],
-            "actions": [
-                (
-                    "transition_teleport player,"
-                    f"{region['slug']}.tmx,{spawn[0]},{spawn[1]},0.3"
-                ),
-            ],
-        }
+        if region.get("mechanic", "combat") == "combat":
+            events[f"Reenter {region['title']}"] = {
+                "type": "event",
+                "x": shard_x,
+                "y": shard_y,
+                "conditions": [
+                    "is char_facing_tile player",
+                    "is button_pressed INTERACT",
+                    f"is variable_set province_stage:{open_state}",
+                ],
+                "actions": [
+                    (
+                        "transition_teleport player,"
+                        f"{region['slug']}.tmx,{spawn[0]},{spawn[1]},0.3"
+                    ),
+                ],
+            }
+    survey_region = next(
+        (
+            region
+            for region in region_contracts
+            if region.get("mechanic") == "survey"
+        ),
+        None,
+    )
     events["Cartographer observes"] = {
         "type": "event",
         "behav": [f"talk {cartographer}"],
+        "conditions": (
+            [f"not variable_set {survey_region['alignment_key']}"]
+            if survey_region
+            else []
+        ),
         "actions": [
             "translated_dialog This town was compiled from promises. Its walls are consequences rather than drawings."
         ],
     }
+    if survey_region:
+        for alignment in survey_region["alignment_values"]:
+            events[f"Cartographer responds to {alignment}"] = {
+                "type": "event",
+                "behav": [f"talk {cartographer}"],
+                "conditions": [
+                    f"is variable_set {survey_region['alignment_key']}:{alignment}"
+                ],
+                "actions": [
+                    f"translated_dialog Your {alignment} survey changed what the atlas believes about every later path."
+                ],
+            }
     events["Duel for the map seal"] = {
         "type": "event",
         "behav": [f"talk {duelist}"],
@@ -1306,7 +1365,7 @@ def compile_world(
                 "slug": town.slug,
                 "description": "A proof-carrying multi-region RPG compiled by the AI-native foundry.",
                 "name": town.title,
-                "version": "0.4.0",
+                "version": "0.5.0",
                 "authors": ["AI Native Foundry"],
                 "startup_rules": [],
                 "starting_players": ["npc_red"],

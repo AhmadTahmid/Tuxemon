@@ -43,19 +43,26 @@ tile map. The compiler derives the pixel-art atlas, TMX layers, collision
 AABBs, events, quest witness, proof certificate, and visual preview.
 
 The same genome now projects three expedition regions: the Echo Wilds,
-Skyglass Garden, and Root Vault. Their palettes are mutated mathematically
-from the town style; stochastic route traces are intersected with cyclic
-circuits; sampled obstacles are admitted or repaired at the smallest
-disconnected cell set. No regional TMX map, tileset, collision sheet, or
-transition script is authored by hand.
+Skyglass Garden, and Root Vault. This is a visual, walkable campaign rather
+than a text adventure: the compiler emits four illustrated maps, collision
+geometry, landmarks, NPCs, portals, and interaction sites for Tuxemon's real
+renderer and pathfinder. Their palettes are mutated mathematically from the
+town style; stochastic route traces are intersected with cyclic circuits;
+sampled obstacles are admitted or repaired at the smallest disconnected cell
+set. No regional TMX map, tileset, collision sheet, or transition script is
+authored by hand.
 
 `python -m foundry.campaign` treats the ecology tournament's admitted
 survivors and semantic region roles as atoms. It enumerates whole campaign
 assignments and minimizes distance from the requested dramatic curve. The
-current campaign organism assigns Metesaur to the opening ordeal, Toucanary to
-the short respite, and Vivipere to the long culmination. It also synthesizes
-the nine-transition quest automaton consumed by the compiler and generic
-playthrough interpreter; neither component contains a hard-coded map list.
+current campaign organism assigns Metesaur to the opening ordeal and Vivipere
+to the culmination. Instead of repeating a third guardian fight, the Skyglass
+respite becomes a spatial survey: the player chooses chorus or silence, leaves
+the region mid-investigation, receives a branch-specific town response,
+returns with the partial facts intact, and completes two observation sites. It
+also synthesizes the eight-transition quest automaton consumed by the compiler
+and generic playthrough interpreter; neither component contains a hard-coded
+map list.
 
 `python -m foundry.runtime --probe` loads that output in the real Tuxemon
 runtime and writes a rendered-frame certificate. `python -m foundry.runtime
@@ -89,6 +96,13 @@ then continues to the duel. It executes whatever campaign is present in the
 lock rather than a scripted Echo Wilds walkthrough. This prevents a
 collection of individually valid maps from masquerading as a connected
 campaign.
+
+`python -m foundry.branching` executes both Skyglass policies through the real
+runtime. It rejects the campaign unless chorus and silence share one compiled
+world, produce observably different consequences in town, retain all partial
+survey facts across map transitions, and converge on the terminal state. The
+release therefore carries evidence for the choice not taken during the main
+playthrough as well as the choice that was taken.
 
 `python -m foundry.ecology` derives a sentinel population directly from the
 monster database using habitat and evolutionary-stage predicates, preserves
@@ -125,11 +139,11 @@ keys move, Enter interacts, and Escape opens or closes menus.
 
 `make foundry-release` freezes the compiler-selected game as a standalone
 Windows executable, boots that executable in a hidden smoke run, and promotes
-it only when nine independently generated certificates are valid and every
+it only when ten independently generated certificates are valid and every
 world-bound certificate agrees on one fingerprint: world admission, ecology
 selection, campaign selection, semantic asset identity, real-runtime probing,
-actual-engine combat self-play, full campaign playthrough, persistence replay,
-and frozen-runtime loading.
+actual-engine combat self-play, full campaign playthrough, counterfactual
+branch execution, persistence replay, and frozen-runtime loading.
 
 The release compiler writes `release-manifest.json` beside the executable. It
 contains hashes for every payload file and a hash-linked summary of every
