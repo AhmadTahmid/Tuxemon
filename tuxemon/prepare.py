@@ -103,7 +103,12 @@ def headless_init() -> DisplayContext:
     pg.display.init()
     pg.font.init()
 
-    screen = pg.Surface(CONFIG.resolution)
+    # Pygame image conversion still needs a display pixel format in headless
+    # mode. SDL's dummy driver creates no visible window, but set_mode gives
+    # TMX tiles and sprites the format required by Surface.convert(). A plain
+    # off-screen Surface made the advertised headless client unable to load
+    # any graphical map.
+    screen = pg.display.set_mode(CONFIG.resolution)
     rect = screen.get_rect()
 
     DISPLAY_CONTEXT = DisplayContext(

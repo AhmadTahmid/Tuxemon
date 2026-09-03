@@ -1,0 +1,20 @@
+slug: unmapped_province
+description: A proof-carrying spatial RPG slice compiled by the AI-native foundry.
+name: The Unmapped Province
+version: 0.1.0
+authors:
+- AI Native Foundry
+startup_rules: []
+starting_players:
+- npc_red
+starting_map: unmapped_province.tmx
+starting_position:
+- 31
+- 27
+starting_money:
+- 120
+- 120
+starting_names:
+- Cartographer
+sprite: adventurer
+combat_sheet: adventurer

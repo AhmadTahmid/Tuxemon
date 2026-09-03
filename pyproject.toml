@@ -48,7 +48,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["tuxemon*"]
+include = ["tuxemon*", "foundry*"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = "requirements.txt"}

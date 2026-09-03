@@ -1,0 +1,48 @@
+version: 1
+title: The Unmapped Province
+objective: >-
+  Compile a finished, spatially explorable, turn-based monster RPG from a
+  compact semantic world genome while using Tuxemon only as the deterministic
+  execution substrate.
+
+authority:
+  source_of_intent: foundry/genomes
+  compiler_targets:
+    - TMX maps
+    - event YAML
+    - database YAML
+    - gettext catalogs
+    - raster and audio projections
+  runtime: tuxemon
+  generated_mod: mods/unmapped_province
+
+experience:
+  target_hours: [6, 10]
+  spatial_exploration: required
+  turn_based_combat: required
+  endings_minimum: 3
+  critical_path_softlocks: 0
+  mandatory_grinding_gates: 0
+  declared_enemy_intent: preferred
+
+foundry_laws:
+  - probabilistic proposals never mutate runtime truth directly
+  - generated artifacts require a certificate before entering play
+  - simulation imports the runtime mechanics it evaluates
+  - rejected candidates retain minimized counterexamples
+  - repair targets the smallest failing semantic atom
+  - admitted siblings remain frozen during repair
+  - tolerances cannot be relaxed after observing candidates
+  - human judgment selects among mechanically valid survivors
+
+milestones:
+  - id: substrate_ontology
+    exit: Existing mod content is represented as a deterministic typed graph.
+  - id: round_trip
+    exit: Importing and recompiling a fixture mod preserves runtime behavior.
+  - id: generated_walkable_slice
+    exit: A generated 30–60 minute campaign is physically traversable.
+  - id: autonomous_repair
+    exit: Failed maps, quests, battles, and assets repair within fixed budgets.
+  - id: finished_build
+    exit: The complete campaign passes mechanical, replay, packaging, and human taste gates.

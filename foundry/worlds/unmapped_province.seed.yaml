@@ -1,0 +1,75 @@
+schema: ai-native-world-seed/v1
+identity:
+  slug: unmapped_province
+  title: The Unmapped Province
+  seed: 73190421
+
+intent:
+  experience: A strange but welcoming fantasy town whose streets form a navigable loop.
+  play_minutes: [20, 40]
+  required_landmarks:
+    - role: archive
+      quadrant: northwest
+      roof: amber
+    - role: observatory
+      quadrant: northeast
+      roof: indigo
+    - role: guild
+      quadrant: southwest
+      roof: indigo
+    - role: clinic
+      quadrant: southeast
+      roof: amber
+  required_systems:
+    - spatial_exploration
+    - collision
+    - dialogue
+    - quest_state
+    - turn_based_battle
+
+geometry:
+  width: 60
+  height: 42
+  river_edge: east
+  road_width: 3
+  tree_density: 0.055
+
+style_genome:
+  grass: "#4f9a63"
+  grass_dark: "#2f6848"
+  grass_light: "#79bd68"
+  path: "#c9ad78"
+  path_dark: "#8f7350"
+  stone: "#8795a1"
+  stone_dark: "#596873"
+  water: "#347ba3"
+  water_light: "#62b4c4"
+  roof_amber: "#c76a35"
+  roof_amber_light: "#eb9a48"
+  roof_indigo: "#5a5a9c"
+  roof_indigo_light: "#8782c1"
+  wall: "#e5d3a5"
+  wall_blue: "#bacbd1"
+  ink: "#26343a"
+
+admission:
+  minimum_reachable_fraction: 0.80
+  minimum_landmark_separation: 8
+  require_road_cycle: true
+  require_quest_witness: true
+
+narrative_automaton:
+  initial: arrival
+  terminal: province_mapped
+  transitions:
+    - [arrival, speak_to_archivist, chartered]
+    - [chartered, recover_echo_shard, shard_recovered]
+    - [shard_recovered, win_cartographers_duel, trial_won]
+    - [trial_won, report_to_archivist, province_mapped]
+
+actors:
+  archivist: maple_wren
+  cartographer: bob
+  duelist: npc_test
+  starter_monster: bamboon
+

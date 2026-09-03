@@ -1,0 +1,86 @@
+{
+  "counts": {
+    "actors": 3,
+    "collision_cells": 811,
+    "collision_rectangles": 162,
+    "landmarks": 4,
+    "quest_transitions": 4,
+    "reachable_cells": 1709,
+    "road_cells": 576,
+    "road_cycle_rank": 348,
+    "walkable_cells": 1709
+  },
+  "dimensions": [
+    60,
+    42
+  ],
+  "fingerprint": "d868fc617f2370845ee1ad4ce16d19ab3d6c1f1c939e1abf46607fa4d5278bf3",
+  "proofs": [
+    {
+      "counterexamples": [],
+      "detail": "Spawn (31, 27) is outside derived collision geometry.",
+      "id": "spawn-is-walkable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Reached 5 required interaction fronts.",
+      "id": "landmarks-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "1709/1709 walkable cells connect to spawn (1.000; required 0.800).",
+      "id": "walkable-space-connected",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Road graph cycle rank is 348.",
+      "id": "road-network-has-cycle",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Minimum anchor separation is 16; required 8.",
+      "id": "landmarks-separated",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Witness reaches province_mapped: speak_to_archivist -> recover_echo_shard -> win_cartographers_duel -> report_to_archivist.",
+      "id": "quest-has-terminal-witness",
+      "passed": true
+    }
+  ],
+  "schema": "ai-native-admission-certificate/v1",
+  "seed": 73190421,
+  "seed_genome_sha256": "97404559df90f1635b1e929f15b4ae438ca1552993443e5ed325b483bb8a7776",
+  "witnesses": {
+    "landmark_approaches": {
+      "archive": [
+        16,
+        15
+      ],
+      "clinic": [
+        39,
+        32
+      ],
+      "guild": [
+        17,
+        31
+      ],
+      "observatory": [
+        38,
+        15
+      ]
+    },
+    "quest": [
+      "speak_to_archivist",
+      "recover_echo_shard",
+      "win_cartographers_duel",
+      "report_to_archivist"
+    ]
+  },
+  "world": "unmapped_province"
+}
