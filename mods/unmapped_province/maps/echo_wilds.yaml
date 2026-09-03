@@ -1342,6 +1342,48 @@ events:
     actions:
     - set_environment grass
     - set_variable echo_wilds_initialized:yes
+  Materialize echo sentinel:
+    type: event
+    conditions:
+    - not char_exists knight1
+    actions:
+    - create_npc knight1,26,19
+  Arm echo sentinel:
+    type: event
+    conditions:
+    - is char_exists knight1
+    - is party_size knight1,equals,0
+    actions:
+    - add_monster metesaur,4,knight1
+  Challenge echo sentinel:
+    type: event
+    behav:
+    - talk knight1
+    conditions:
+    - is variable_set province_stage:chartered
+    - not char_defeated knight1
+    actions:
+    - translated_dialog The forest has chosen its own answer. Pass through it, not
+      around it.
+    - start_battle player,knight1
+  Record echo sentinel victory:
+    type: event
+    conditions:
+    - is battle_outcome player,won,knight1
+    - is current_state WorldState
+    - is variable_set province_stage:chartered
+    actions:
+    - translated_dialog The sentinel yields. The eastern circuit opens toward the
+      shard.
+    - set_variable province_stage:wilds_open
+  Echo sentinel remembers:
+    type: event
+    behav:
+    - talk knight1
+    conditions:
+    - is variable_set province_stage:wilds_open
+    actions:
+    - translated_dialog The path ahead is yours because you survived its reply.
   Recover echo shard:
     type: event
     x: 48
@@ -1349,7 +1391,7 @@ events:
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
-    - is variable_set province_stage:chartered
+    - is variable_set province_stage:wilds_open
     actions:
     - 'translated_dialog The wild circuit resolves into one memory: every path can
       return.'

@@ -1,0 +1,8624 @@
+{
+  "candidates": [
+    {
+      "admitted": false,
+      "fitness": 76.0,
+      "level": 4,
+      "max_turns": 4,
+      "mean_turns": 3.0,
+      "min_turns": 2,
+      "monster": "tweesher",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 272,
+          "opponent_hp": [
+            8
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2000000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            9
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2000001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 273,
+          "opponent_hp": [
+            5
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2000002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            23
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2000003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 181,
+          "opponent_hp": [
+            12
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2000004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 178,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2000005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2000000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 58.3343,
+      "level": 5,
+      "max_turns": 5,
+      "mean_turns": 3.333,
+      "min_turns": 2,
+      "monster": "tweesher",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 181,
+          "opponent_hp": [
+            8
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2010000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 246,
+          "opponent_hp": [
+            10
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2010001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 255,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2010002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2010003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            19
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2010004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 243,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 2010005,
+          "turns": 5,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 2010000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 58.8323,
+      "level": 3,
+      "max_turns": 4,
+      "mean_turns": 3.167,
+      "min_turns": 3,
+      "monster": "tweesher",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 191,
+          "opponent_hp": [
+            3
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2020000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 260,
+          "opponent_hp": [
+            6
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2020001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 168,
+          "opponent_hp": [
+            15
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2020002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 192,
+          "opponent_hp": [
+            15
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2020003,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 191,
+          "opponent_hp": [
+            4
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2020004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 153,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 2020005,
+          "turns": 3,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 2020000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 108.001,
+      "level": 4,
+      "max_turns": 21,
+      "mean_turns": 17.667,
+      "min_turns": 13,
+      "monster": "sprightly",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 1326,
+          "opponent_hp": [
+            86
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2100000,
+          "turns": 21,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1196,
+          "opponent_hp": [
+            92
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2100001,
+          "turns": 20,
+          "winner": "opponent"
+        },
+        {
+          "frames": 811,
+          "opponent_hp": [
+            97
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2100002,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1003,
+          "opponent_hp": [
+            94
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2100003,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1286,
+          "opponent_hp": [
+            90
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2100004,
+          "turns": 21,
+          "winner": "opponent"
+        },
+        {
+          "frames": 885,
+          "opponent_hp": [
+            92
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2100005,
+          "turns": 15,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2100000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 101.5,
+      "level": 5,
+      "max_turns": 19,
+      "mean_turns": 15.5,
+      "min_turns": 11,
+      "monster": "sprightly",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 624,
+          "opponent_hp": [
+            84
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2110000,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 943,
+          "opponent_hp": [
+            97
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2110001,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1181,
+          "opponent_hp": [
+            104
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2110002,
+          "turns": 19,
+          "winner": "opponent"
+        },
+        {
+          "frames": 840,
+          "opponent_hp": [
+            100
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2110003,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1046,
+          "opponent_hp": [
+            101
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2110004,
+          "turns": 17,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1072,
+          "opponent_hp": [
+            108
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2110005,
+          "turns": 17,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2110000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 181.999,
+      "level": 3,
+      "max_turns": 56,
+      "mean_turns": 42.333,
+      "min_turns": 28,
+      "monster": "sprightly",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 2807,
+          "opponent_hp": [
+            89
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2120000,
+          "turns": 44,
+          "winner": "opponent"
+        },
+        {
+          "frames": 3440,
+          "opponent_hp": [
+            90
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2120001,
+          "turns": 56,
+          "winner": "opponent"
+        },
+        {
+          "frames": 3011,
+          "opponent_hp": [
+            90
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2120002,
+          "turns": 48,
+          "winner": "opponent"
+        },
+        {
+          "frames": 2498,
+          "opponent_hp": [
+            89
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2120003,
+          "turns": 39,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1808,
+          "opponent_hp": [
+            80
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2120004,
+          "turns": 28,
+          "winner": "opponent"
+        },
+        {
+          "frames": 2514,
+          "opponent_hp": [
+            89
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2120005,
+          "turns": 39,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2120000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 13.8343,
+      "level": 4,
+      "max_turns": 9,
+      "mean_turns": 5.167,
+      "min_turns": 3,
+      "monster": "scarlant",
+      "opponent_wins": 1,
+      "outcomes": [
+        {
+          "frames": 153,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            48
+          ],
+          "seed": 2200000,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 516,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2200001,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 282,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            25
+          ],
+          "seed": 2200002,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 153,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            46
+          ],
+          "seed": 2200003,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 281,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            35
+          ],
+          "seed": 2200004,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 335,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            34
+          ],
+          "seed": 2200005,
+          "turns": 6,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.8333333333333334,
+      "player_wins": 5,
+      "seed_origin": 2200000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 32.001,
+      "level": 5,
+      "max_turns": 9,
+      "mean_turns": 5.667,
+      "min_turns": 4,
+      "monster": "scarlant",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 282,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            22
+          ],
+          "seed": 2210000,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 229,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            24
+          ],
+          "seed": 2210001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 197,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            3
+          ],
+          "seed": 2210002,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 510,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 2210003,
+          "turns": 9,
+          "winner": "player"
+        },
+        {
+          "frames": 342,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            13
+          ],
+          "seed": 2210004,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 326,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            18
+          ],
+          "seed": 2210005,
+          "turns": 6,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 2210000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 35.001,
+      "level": 3,
+      "max_turns": 4,
+      "mean_turns": 3.333,
+      "min_turns": 3,
+      "monster": "scarlant",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 229,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            41
+          ],
+          "seed": 2220000,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 228,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 2220001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 176,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            28
+          ],
+          "seed": 2220002,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 175,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            45
+          ],
+          "seed": 2220003,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 176,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            40
+          ],
+          "seed": 2220004,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 175,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            51
+          ],
+          "seed": 2220005,
+          "turns": 3,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 2220000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 30.501,
+      "level": 4,
+      "max_turns": 6,
+      "mean_turns": 4.833,
+      "min_turns": 4,
+      "monster": "forturtle",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 216,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 2300000,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 215,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 2300001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 296,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            39
+          ],
+          "seed": 2300002,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 269,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            38
+          ],
+          "seed": 2300003,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 280,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            41
+          ],
+          "seed": 2300004,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 286,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            43
+          ],
+          "seed": 2300005,
+          "turns": 6,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 2300000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 30.501,
+      "level": 5,
+      "max_turns": 7,
+      "mean_turns": 4.833,
+      "min_turns": 4,
+      "monster": "forturtle",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 339,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 2310000,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 228,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            36
+          ],
+          "seed": 2310001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 207,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            29
+          ],
+          "seed": 2310002,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 298,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            26
+          ],
+          "seed": 2310003,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 206,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            27
+          ],
+          "seed": 2310004,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 246,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            31
+          ],
+          "seed": 2310005,
+          "turns": 5,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 2310000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.0,
+      "level": 3,
+      "max_turns": 5,
+      "mean_turns": 4.0,
+      "min_turns": 3,
+      "monster": "forturtle",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 142,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            54
+          ],
+          "seed": 2320000,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 244,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            45
+          ],
+          "seed": 2320001,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 217,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            37
+          ],
+          "seed": 2320002,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 164,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            47
+          ],
+          "seed": 2320003,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 245,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            49
+          ],
+          "seed": 2320004,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 193,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            50
+          ],
+          "seed": 2320005,
+          "turns": 4,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 2320000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 58.8323,
+      "level": 4,
+      "max_turns": 5,
+      "mean_turns": 3.167,
+      "min_turns": 2,
+      "monster": "hatchling",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 244,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 2400000,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 103,
+          "opponent_hp": [
+            47
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2400001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 235,
+          "opponent_hp": [
+            2
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2400002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            28
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2400003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 281,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2400004,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 125,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2400005,
+          "turns": 2,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 2400000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 76.0,
+      "level": 5,
+      "max_turns": 4,
+      "mean_turns": 3.0,
+      "min_turns": 2,
+      "monster": "hatchling",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 235,
+          "opponent_hp": [
+            26
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2410000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 180,
+          "opponent_hp": [
+            34
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2410001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 239,
+          "opponent_hp": [
+            9
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2410002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 113,
+          "opponent_hp": [
+            44
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2410003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 113,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2410004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 157,
+          "opponent_hp": [
+            31
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2410005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2410000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 41.6677,
+      "level": 3,
+      "max_turns": 5,
+      "mean_turns": 3.333,
+      "min_turns": 2,
+      "monster": "hatchling",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 262,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2420000,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 206,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 2420001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 232,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            18
+          ],
+          "seed": 2420002,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            4
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2420003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            9
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2420004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 168,
+          "opponent_hp": [
+            2
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2420005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 2420000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 102.499,
+      "level": 4,
+      "max_turns": 18,
+      "mean_turns": 15.833,
+      "min_turns": 13,
+      "monster": "katapill",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 867,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2500000,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 675,
+          "opponent_hp": [
+            23
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2500001,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 920,
+          "opponent_hp": [
+            27
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2500002,
+          "turns": 17,
+          "winner": "opponent"
+        },
+        {
+          "frames": 823,
+          "opponent_hp": [
+            27
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2500003,
+          "turns": 15,
+          "winner": "opponent"
+        },
+        {
+          "frames": 868,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2500004,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 972,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2500005,
+          "turns": 18,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2500000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 94.501,
+      "level": 5,
+      "max_turns": 16,
+      "mean_turns": 13.167,
+      "min_turns": 12,
+      "monster": "katapill",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 659,
+          "opponent_hp": [
+            64
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2510000,
+          "turns": 12,
+          "winner": "opponent"
+        },
+        {
+          "frames": 896,
+          "opponent_hp": [
+            45
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2510001,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 686,
+          "opponent_hp": [
+            62
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2510002,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 697,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2510003,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 660,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2510004,
+          "turns": 12,
+          "winner": "opponent"
+        },
+        {
+          "frames": 721,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2510005,
+          "turns": 13,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2510000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 52.3323,
+      "level": 3,
+      "max_turns": 24,
+      "mean_turns": 21.333,
+      "min_turns": 19,
+      "monster": "katapill",
+      "opponent_wins": 2,
+      "outcomes": [
+        {
+          "frames": 1196,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2520000,
+          "turns": 22,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1020,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            7
+          ],
+          "seed": 2520001,
+          "turns": 19,
+          "winner": "player"
+        },
+        {
+          "frames": 1237,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            6
+          ],
+          "seed": 2520002,
+          "turns": 23,
+          "winner": "player"
+        },
+        {
+          "frames": 1263,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 2520003,
+          "turns": 24,
+          "winner": "player"
+        },
+        {
+          "frames": 985,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            5
+          ],
+          "seed": 2520004,
+          "turns": 19,
+          "winner": "player"
+        },
+        {
+          "frames": 1141,
+          "opponent_hp": [
+            16
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2520005,
+          "turns": 21,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.6666666666666666,
+      "player_wins": 4,
+      "seed_origin": 2520000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 77.5,
+      "level": 4,
+      "max_turns": 4,
+      "mean_turns": 2.5,
+      "min_turns": 1,
+      "monster": "elofly",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 192,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2600000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 84,
+          "opponent_hp": [
+            55
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2600001,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 238,
+          "opponent_hp": [
+            20
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2600002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 83,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2600003,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 204,
+          "opponent_hp": [
+            14
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2600004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 174,
+          "opponent_hp": [
+            14
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2600005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2600000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 79.0,
+      "level": 5,
+      "max_turns": 3,
+      "mean_turns": 2.0,
+      "min_turns": 1,
+      "monster": "elofly",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 97,
+          "opponent_hp": [
+            45
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2610000,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 96,
+          "opponent_hp": [
+            31
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2610001,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 128,
+          "opponent_hp": [
+            26
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2610002,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 177,
+          "opponent_hp": [
+            45
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2610003,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 188,
+          "opponent_hp": [
+            47
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2610004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 150,
+          "opponent_hp": [
+            28
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2610005,
+          "turns": 2,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2610000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 76.0,
+      "level": 3,
+      "max_turns": 4,
+      "mean_turns": 3.0,
+      "min_turns": 2,
+      "monster": "elofly",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 123,
+          "opponent_hp": [
+            44
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2620000,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 123,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2620001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 221,
+          "opponent_hp": [
+            13
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2620002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 142,
+          "opponent_hp": [
+            10
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2620003,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 249,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2620004,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 142,
+          "opponent_hp": [
+            4
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2620005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2620000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 78.499,
+      "level": 4,
+      "max_turns": 6,
+      "mean_turns": 2.167,
+      "min_turns": 1,
+      "monster": "cardiling",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 71,
+          "opponent_hp": [
+            56
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2700000,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 158,
+          "opponent_hp": [
+            23
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2700001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            46
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2700002,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            54
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2700003,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 321,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2700004,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            47
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2700005,
+          "turns": 1,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2700000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 81.001,
+      "level": 5,
+      "max_turns": 3,
+      "mean_turns": 1.333,
+      "min_turns": 1,
+      "monster": "cardiling",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 71,
+          "opponent_hp": [
+            48
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2710000,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            56
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2710001,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            60
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2710002,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            57
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2710003,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 179,
+          "opponent_hp": [
+            46
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2710004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            63
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2710005,
+          "turns": 1,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2710000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 58.3343,
+      "level": 3,
+      "max_turns": 8,
+      "mean_turns": 3.333,
+      "min_turns": 1,
+      "monster": "cardiling",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 490,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 2720000,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 225,
+          "opponent_hp": [
+            17
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2720001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            45
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2720002,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 263,
+          "opponent_hp": [
+            16
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2720003,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            45
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2720004,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            44
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2720005,
+          "turns": 1,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 2720000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 63.3323,
+      "level": 4,
+      "max_turns": 11,
+      "mean_turns": 8.333,
+      "min_turns": 6,
+      "monster": "caper",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 459,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2800000,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 613,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            27
+          ],
+          "seed": 2800001,
+          "turns": 11,
+          "winner": "player"
+        },
+        {
+          "frames": 330,
+          "opponent_hp": [
+            33
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2800002,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 553,
+          "opponent_hp": [
+            10
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2800003,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 509,
+          "opponent_hp": [
+            13
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2800004,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 351,
+          "opponent_hp": [
+            65
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2800005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 2800000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 79.0,
+      "level": 5,
+      "max_turns": 11,
+      "mean_turns": 8.0,
+      "min_turns": 5,
+      "monster": "caper",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 440,
+          "opponent_hp": [
+            59
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2810000,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 578,
+          "opponent_hp": [
+            14
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2810001,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 371,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2810002,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 633,
+          "opponent_hp": [
+            36
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2810003,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 283,
+          "opponent_hp": [
+            78
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2810004,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 358,
+          "opponent_hp": [
+            55
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2810005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2810000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 59.3333,
+      "level": 3,
+      "max_turns": 8,
+      "mean_turns": 7.0,
+      "min_turns": 6,
+      "monster": "caper",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 398,
+          "opponent_hp": [
+            15
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2820000,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 393,
+          "opponent_hp": [
+            31
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2820001,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 381,
+          "opponent_hp": [
+            20
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2820002,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 393,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2820003,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 447,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            11
+          ],
+          "seed": 2820004,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 309,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2820005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 2820000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 71.5,
+      "level": 4,
+      "max_turns": 7,
+      "mean_turns": 4.5,
+      "min_turns": 3,
+      "monster": "anoleaf",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 244,
+          "opponent_hp": [
+            38
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2900000,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 165,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2900001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 232,
+          "opponent_hp": [
+            62
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2900002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 274,
+          "opponent_hp": [
+            33
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2900003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 371,
+          "opponent_hp": [
+            48
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2900004,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 197,
+          "opponent_hp": [
+            46
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2900005,
+          "turns": 4,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2900000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 73.501,
+      "level": 5,
+      "max_turns": 5,
+      "mean_turns": 3.833,
+      "min_turns": 3,
+      "monster": "anoleaf",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 179,
+          "opponent_hp": [
+            63
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2910000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 178,
+          "opponent_hp": [
+            79
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2910001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 226,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2910002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 283,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2910003,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 228,
+          "opponent_hp": [
+            65
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2910004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 262,
+          "opponent_hp": [
+            46
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2910005,
+          "turns": 5,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2910000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 73.0,
+      "level": 3,
+      "max_turns": 7,
+      "mean_turns": 6.0,
+      "min_turns": 5,
+      "monster": "anoleaf",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 392,
+          "opponent_hp": [
+            22
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2920000,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 267,
+          "opponent_hp": [
+            48
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2920001,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 316,
+          "opponent_hp": [
+            16
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2920002,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 299,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2920003,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 298,
+          "opponent_hp": [
+            20
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2920004,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 373,
+          "opponent_hp": [
+            24
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 2920005,
+          "turns": 7,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 2920000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 73.999,
+      "level": 4,
+      "max_turns": 5,
+      "mean_turns": 3.667,
+      "min_turns": 2,
+      "monster": "devidin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 238,
+          "opponent_hp": [
+            68
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3000000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 239,
+          "opponent_hp": [
+            53
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3000001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 296,
+          "opponent_hp": [
+            91
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3000002,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 278,
+          "opponent_hp": [
+            54
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3000003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 190,
+          "opponent_hp": [
+            73
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3000004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 136,
+          "opponent_hp": [
+            83
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3000005,
+          "turns": 2,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3000000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 76.0,
+      "level": 5,
+      "max_turns": 4,
+      "mean_turns": 3.0,
+      "min_turns": 2,
+      "monster": "devidin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 189,
+          "opponent_hp": [
+            89
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3010000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 221,
+          "opponent_hp": [
+            68
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3010001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 264,
+          "opponent_hp": [
+            72
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3010002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 135,
+          "opponent_hp": [
+            98
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3010003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 136,
+          "opponent_hp": [
+            100
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3010004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 190,
+          "opponent_hp": [
+            88
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3010005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3010000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 75.499,
+      "level": 3,
+      "max_turns": 4,
+      "mean_turns": 3.167,
+      "min_turns": 2,
+      "monster": "devidin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 206,
+          "opponent_hp": [
+            75
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3020000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 137,
+          "opponent_hp": [
+            67
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3020001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 259,
+          "opponent_hp": [
+            61
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3020002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 224,
+          "opponent_hp": [
+            47
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3020003,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 278,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3020004,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 224,
+          "opponent_hp": [
+            52
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3020005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3020000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 60.8333,
+      "level": 4,
+      "max_turns": 3,
+      "mean_turns": 2.5,
+      "min_turns": 1,
+      "monster": "flacono",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 70,
+          "opponent_hp": [
+            54
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3100000,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 132,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            3
+          ],
+          "seed": 3100001,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 168,
+          "opponent_hp": [
+            8
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3100002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 178,
+          "opponent_hp": [
+            34
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3100003,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 178,
+          "opponent_hp": [
+            38
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3100004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            10
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3100005,
+          "turns": 2,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 3100000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 79.999,
+      "level": 5,
+      "max_turns": 2,
+      "mean_turns": 1.667,
+      "min_turns": 1,
+      "monster": "flacono",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 102,
+          "opponent_hp": [
+            40
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3110000,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 70,
+          "opponent_hp": [
+            61
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3110001,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            17
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3110002,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3110003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3110004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 70,
+          "opponent_hp": [
+            63
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3110005,
+          "turns": 1,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3110000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 45.1657,
+      "level": 3,
+      "max_turns": 3,
+      "mean_turns": 2.167,
+      "min_turns": 1,
+      "monster": "flacono",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 115,
+          "opponent_hp": [
+            8
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3120000,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 70,
+          "opponent_hp": [
+            44
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3120001,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 176,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3120002,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 100,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            16
+          ],
+          "seed": 3120003,
+          "turns": 2,
+          "winner": "player"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            22
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3120004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 168,
+          "opponent_hp": [
+            2
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3120005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 3120000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 34.5,
+      "level": 4,
+      "max_turns": 8,
+      "mean_turns": 6.5,
+      "min_turns": 5,
+      "monster": "vivipere",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 442,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            13
+          ],
+          "seed": 3200000,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 341,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            33
+          ],
+          "seed": 3200001,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 339,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 3200002,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 261,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            41
+          ],
+          "seed": 3200003,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 329,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            36
+          ],
+          "seed": 3200004,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 437,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            20
+          ],
+          "seed": 3200005,
+          "turns": 8,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 3200000,
+      "trials": 6
+    },
+    {
+      "admitted": true,
+      "fitness": 20.3323,
+      "level": 5,
+      "max_turns": 8,
+      "mean_turns": 7.333,
+      "min_turns": 6,
+      "monster": "vivipere",
+      "opponent_wins": 1,
+      "outcomes": [
+        {
+          "frames": 466,
+          "opponent_hp": [
+            2
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3210000,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 353,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            17
+          ],
+          "seed": 3210001,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 320,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            28
+          ],
+          "seed": 3210002,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 457,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            17
+          ],
+          "seed": 3210003,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 412,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            22
+          ],
+          "seed": 3210004,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 436,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            21
+          ],
+          "seed": 3210005,
+          "turns": 8,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.8333333333333334,
+      "player_wins": 5,
+      "seed_origin": 3210000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 30.501,
+      "level": 3,
+      "max_turns": 7,
+      "mean_turns": 5.167,
+      "min_turns": 3,
+      "monster": "vivipere",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 132,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            49
+          ],
+          "seed": 3220000,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 285,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            21
+          ],
+          "seed": 3220001,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 262,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            26
+          ],
+          "seed": 3220002,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 342,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            44
+          ],
+          "seed": 3220003,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 410,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            30
+          ],
+          "seed": 3220004,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 259,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            26
+          ],
+          "seed": 3220005,
+          "turns": 5,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 3220000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 70.999,
+      "level": 4,
+      "max_turns": 7,
+      "mean_turns": 5.333,
+      "min_turns": 3,
+      "monster": "thumpurn",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 374,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3300000,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 180,
+          "opponent_hp": [
+            57
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3300001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 147,
+          "opponent_hp": [
+            53
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3300002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 349,
+          "opponent_hp": [
+            62
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3300003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 228,
+          "opponent_hp": [
+            56
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3300004,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 413,
+          "opponent_hp": [
+            68
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3300005,
+          "turns": 7,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3300000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 72.001,
+      "level": 5,
+      "max_turns": 9,
+      "mean_turns": 5.667,
+      "min_turns": 3,
+      "monster": "thumpurn",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 179,
+          "opponent_hp": [
+            68
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3310000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 169,
+          "opponent_hp": [
+            80
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3310001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 314,
+          "opponent_hp": [
+            67
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3310002,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 402,
+          "opponent_hp": [
+            62
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3310003,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 514,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3310004,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 350,
+          "opponent_hp": [
+            70
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3310005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3310000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 80.5,
+      "level": 3,
+      "max_turns": 10,
+      "mean_turns": 8.5,
+      "min_turns": 7,
+      "monster": "thumpurn",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 523,
+          "opponent_hp": [
+            16
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3320000,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 590,
+          "opponent_hp": [
+            34
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3320001,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 338,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3320002,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 574,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3320003,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 427,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3320004,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 412,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3320005,
+          "turns": 8,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3320000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 78.499,
+      "level": 4,
+      "max_turns": 14,
+      "mean_turns": 7.833,
+      "min_turns": 3,
+      "monster": "rosarin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 545,
+          "opponent_hp": [
+            29
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3400000,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 212,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3400001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 797,
+          "opponent_hp": [
+            15
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3400002,
+          "turns": 14,
+          "winner": "opponent"
+        },
+        {
+          "frames": 359,
+          "opponent_hp": [
+            2
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3400003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 527,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3400004,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 228,
+          "opponent_hp": [
+            26
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3400005,
+          "turns": 5,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3400000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 75.499,
+      "level": 5,
+      "max_turns": 12,
+      "mean_turns": 6.833,
+      "min_turns": 5,
+      "monster": "rosarin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 301,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3410000,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 681,
+          "opponent_hp": [
+            52
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3410001,
+          "turns": 12,
+          "winner": "opponent"
+        },
+        {
+          "frames": 420,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3410002,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 356,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3410003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 273,
+          "opponent_hp": [
+            19
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3410004,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 359,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3410005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3410000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 55.8323,
+      "level": 3,
+      "max_turns": 10,
+      "mean_turns": 5.833,
+      "min_turns": 4,
+      "monster": "rosarin",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 244,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3420000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 283,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3420001,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 281,
+          "opponent_hp": [
+            33
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3420002,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 333,
+          "opponent_hp": [
+            32
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3420003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 573,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3420004,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 278,
+          "opponent_hp": [
+            48
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3420005,
+          "turns": 5,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 3420000,
+      "trials": 6
+    },
+    {
+      "admitted": true,
+      "fitness": 5.3343,
+      "level": 4,
+      "max_turns": 6,
+      "mean_turns": 4.333,
+      "min_turns": 3,
+      "monster": "metesaur",
+      "opponent_wins": 2,
+      "outcomes": [
+        {
+          "frames": 289,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3500000,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 347,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            8
+          ],
+          "seed": 3500001,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 132,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            28
+          ],
+          "seed": 3500002,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 308,
+          "opponent_hp": [
+            7
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3500003,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 177,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            30
+          ],
+          "seed": 3500004,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 234,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3500005,
+          "turns": 4,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.6666666666666666,
+      "player_wins": 4,
+      "seed_origin": 3500000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 41.1667,
+      "level": 5,
+      "max_turns": 4,
+      "mean_turns": 3.5,
+      "min_turns": 2,
+      "monster": "metesaur",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 210,
+          "opponent_hp": [
+            19
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3510000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 192,
+          "opponent_hp": [
+            8
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3510001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 113,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3510002,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 246,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            14
+          ],
+          "seed": 3510003,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 245,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            19
+          ],
+          "seed": 3510004,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 210,
+          "opponent_hp": [
+            16
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3510005,
+          "turns": 4,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 3510000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.999,
+      "level": 3,
+      "max_turns": 5,
+      "mean_turns": 3.667,
+      "min_turns": 2,
+      "monster": "metesaur",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 292,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            6
+          ],
+          "seed": 3520000,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 177,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            12
+          ],
+          "seed": 3520001,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 232,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            2
+          ],
+          "seed": 3520002,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 208,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3520003,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 100,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            44
+          ],
+          "seed": 3520004,
+          "turns": 2,
+          "winner": "player"
+        },
+        {
+          "frames": 231,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            29
+          ],
+          "seed": 3520005,
+          "turns": 4,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 3520000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 42.6667,
+      "level": 4,
+      "max_turns": 4,
+      "mean_turns": 3.0,
+      "min_turns": 2,
+      "monster": "pairagrin",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 115,
+          "opponent_hp": [
+            7
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3600000,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 251,
+          "opponent_hp": [
+            8
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3600001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 177,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3600002,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 169,
+          "opponent_hp": [
+            7
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3600003,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 181,
+          "opponent_hp": [
+            29
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3600004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 203,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3600005,
+          "turns": 3,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 3600000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 78.001,
+      "level": 5,
+      "max_turns": 3,
+      "mean_turns": 2.333,
+      "min_turns": 1,
+      "monster": "pairagrin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 103,
+          "opponent_hp": [
+            40
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3610000,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 152,
+          "opponent_hp": [
+            28
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3610001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 177,
+          "opponent_hp": [
+            36
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3610002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 71,
+          "opponent_hp": [
+            61
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3610003,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 181,
+          "opponent_hp": [
+            14
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3610004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            41
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3610005,
+          "turns": 2,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3610000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 41.6677,
+      "level": 3,
+      "max_turns": 4,
+      "mean_turns": 3.333,
+      "min_turns": 2,
+      "monster": "pairagrin",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 234,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3620000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 204,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3620001,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 181,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 3620002,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 234,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3620003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 104,
+          "opponent_hp": [
+            24
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3620004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 212,
+          "opponent_hp": [
+            12
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3620005,
+          "turns": 4,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 3620000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.501,
+      "level": 4,
+      "max_turns": 7,
+      "mean_turns": 6.167,
+      "min_turns": 5,
+      "monster": "aardorn",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 372,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            9
+          ],
+          "seed": 3700000,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 331,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            21
+          ],
+          "seed": 3700001,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 337,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            5
+          ],
+          "seed": 3700002,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 372,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            28
+          ],
+          "seed": 3700003,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 272,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            31
+          ],
+          "seed": 3700004,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 250,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            14
+          ],
+          "seed": 3700005,
+          "turns": 5,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 3700000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 41.6677,
+      "level": 5,
+      "max_turns": 8,
+      "mean_turns": 6.667,
+      "min_turns": 5,
+      "monster": "aardorn",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 426,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3710000,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 273,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            16
+          ],
+          "seed": 3710001,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 330,
+          "opponent_hp": [
+            7
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3710002,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 383,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            16
+          ],
+          "seed": 3710003,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 300,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3710004,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 330,
+          "opponent_hp": [
+            3
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3710005,
+          "turns": 7,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 3710000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 30.999,
+      "level": 3,
+      "max_turns": 6,
+      "mean_turns": 5.333,
+      "min_turns": 4,
+      "monster": "aardorn",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 248,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            30
+          ],
+          "seed": 3720000,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 304,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            31
+          ],
+          "seed": 3720001,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 331,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            36
+          ],
+          "seed": 3720002,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 340,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            17
+          ],
+          "seed": 3720003,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 243,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            31
+          ],
+          "seed": 3720004,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 282,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            34
+          ],
+          "seed": 3720005,
+          "turns": 5,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 3720000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 76.501,
+      "level": 4,
+      "max_turns": 5,
+      "mean_turns": 2.833,
+      "min_turns": 1,
+      "monster": "bursa",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 184,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3800000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 246,
+          "opponent_hp": [
+            15
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3800001,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 150,
+          "opponent_hp": [
+            20
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3800002,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 95,
+          "opponent_hp": [
+            52
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3800003,
+          "turns": 1,
+          "winner": "opponent"
+        },
+        {
+          "frames": 224,
+          "opponent_hp": [
+            49
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3800004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 168,
+          "opponent_hp": [
+            32
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3800005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3800000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 78.499,
+      "level": 5,
+      "max_turns": 4,
+      "mean_turns": 2.167,
+      "min_turns": 1,
+      "monster": "bursa",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 218,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3810000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 127,
+          "opponent_hp": [
+            44
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3810001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            40
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3810002,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 137,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3810003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 101,
+          "opponent_hp": [
+            45
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3810004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 96,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3810005,
+          "turns": 1,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3810000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 74.5,
+      "level": 3,
+      "max_turns": 4,
+      "mean_turns": 3.5,
+      "min_turns": 3,
+      "monster": "bursa",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 238,
+          "opponent_hp": [
+            19
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3820000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 185,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3820001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 162,
+          "opponent_hp": [
+            18
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3820002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 242,
+          "opponent_hp": [
+            24
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3820003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 235,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3820004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 261,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3820005,
+          "turns": 4,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 3820000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 83.3333,
+      "level": 4,
+      "max_turns": 24,
+      "mean_turns": 15.0,
+      "min_turns": 7,
+      "monster": "turnipper",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 802,
+          "opponent_hp": [
+            23
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3900000,
+          "turns": 14,
+          "winner": "opponent"
+        },
+        {
+          "frames": 856,
+          "opponent_hp": [
+            48
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3900001,
+          "turns": 15,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1378,
+          "opponent_hp": [
+            51
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3900002,
+          "turns": 24,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1057,
+          "opponent_hp": [
+            16
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3900003,
+          "turns": 18,
+          "winner": "opponent"
+        },
+        {
+          "frames": 392,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            5
+          ],
+          "seed": 3900004,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 640,
+          "opponent_hp": [
+            34
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3900005,
+          "turns": 12,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 3900000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 61.1677,
+      "level": 5,
+      "max_turns": 18,
+      "mean_turns": 13.167,
+      "min_turns": 8,
+      "monster": "turnipper",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 910,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            12
+          ],
+          "seed": 3910000,
+          "turns": 16,
+          "winner": "player"
+        },
+        {
+          "frames": 445,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            34
+          ],
+          "seed": 3910001,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 681,
+          "opponent_hp": [
+            63
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3910002,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 806,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3910003,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1093,
+          "opponent_hp": [
+            17
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3910004,
+          "turns": 18,
+          "winner": "opponent"
+        },
+        {
+          "frames": 765,
+          "opponent_hp": [
+            69
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3910005,
+          "turns": 13,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 3910000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 79.3343,
+      "level": 3,
+      "max_turns": 21,
+      "mean_turns": 13.667,
+      "min_turns": 9,
+      "monster": "turnipper",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 1218,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3920000,
+          "turns": 21,
+          "winner": "opponent"
+        },
+        {
+          "frames": 757,
+          "opponent_hp": [
+            64
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3920001,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 715,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            14
+          ],
+          "seed": 3920002,
+          "turns": 12,
+          "winner": "player"
+        },
+        {
+          "frames": 1082,
+          "opponent_hp": [
+            62
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3920003,
+          "turns": 18,
+          "winner": "opponent"
+        },
+        {
+          "frames": 528,
+          "opponent_hp": [
+            34
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3920004,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 550,
+          "opponent_hp": [
+            28
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 3920005,
+          "turns": 9,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 3920000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 75.499,
+      "level": 4,
+      "max_turns": 4,
+      "mean_turns": 3.167,
+      "min_turns": 2,
+      "monster": "toucanary",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 102,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4000000,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 135,
+          "opponent_hp": [
+            9
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4000001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 136,
+          "opponent_hp": [
+            4
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4000002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 235,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4000003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 188,
+          "opponent_hp": [
+            15
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4000004,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 156,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4000005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4000000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 76.999,
+      "level": 5,
+      "max_turns": 4,
+      "mean_turns": 2.667,
+      "min_turns": 1,
+      "monster": "toucanary",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 180,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4010000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 234,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4010001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 115,
+          "opponent_hp": [
+            16
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4010002,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 234,
+          "opponent_hp": [
+            14
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4010003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 103,
+          "opponent_hp": [
+            38
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4010004,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 83,
+          "opponent_hp": [
+            40
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4010005,
+          "turns": 1,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4010000,
+      "trials": 6
+    },
+    {
+      "admitted": true,
+      "fitness": 20.8333,
+      "level": 3,
+      "max_turns": 3,
+      "mean_turns": 2.5,
+      "min_turns": 2,
+      "monster": "toucanary",
+      "opponent_wins": 1,
+      "outcomes": [
+        {
+          "frames": 177,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            28
+          ],
+          "seed": 4020000,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            15
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4020001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 177,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            14
+          ],
+          "seed": 4020002,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 100,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            34
+          ],
+          "seed": 4020003,
+          "turns": 2,
+          "winner": "player"
+        },
+        {
+          "frames": 177,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            17
+          ],
+          "seed": 4020004,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 100,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            37
+          ],
+          "seed": 4020005,
+          "turns": 2,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.8333333333333334,
+      "player_wins": 5,
+      "seed_origin": 4020000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.0,
+      "level": 4,
+      "max_turns": 9,
+      "mean_turns": 6.0,
+      "min_turns": 4,
+      "monster": "komodraw",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 513,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            22
+          ],
+          "seed": 4100000,
+          "turns": 9,
+          "winner": "player"
+        },
+        {
+          "frames": 244,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            41
+          ],
+          "seed": 4100001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 243,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            60
+          ],
+          "seed": 4100002,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 271,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            17
+          ],
+          "seed": 4100003,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 418,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            52
+          ],
+          "seed": 4100004,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 397,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 4100005,
+          "turns": 7,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 4100000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.501,
+      "level": 5,
+      "max_turns": 12,
+      "mean_turns": 6.167,
+      "min_turns": 3,
+      "monster": "komodraw",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 457,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            10
+          ],
+          "seed": 4110000,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 352,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            17
+          ],
+          "seed": 4110001,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 694,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            18
+          ],
+          "seed": 4110002,
+          "turns": 12,
+          "winner": "player"
+        },
+        {
+          "frames": 218,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            20
+          ],
+          "seed": 4110003,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 244,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            47
+          ],
+          "seed": 4110004,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 166,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 4110005,
+          "turns": 3,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 4110000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.501,
+      "level": 3,
+      "max_turns": 6,
+      "mean_turns": 3.833,
+      "min_turns": 2,
+      "monster": "komodraw",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 124,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            57
+          ],
+          "seed": 4120000,
+          "turns": 2,
+          "winner": "player"
+        },
+        {
+          "frames": 155,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            39
+          ],
+          "seed": 4120001,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 163,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            39
+          ],
+          "seed": 4120002,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 242,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            50
+          ],
+          "seed": 4120003,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 339,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            7
+          ],
+          "seed": 4120004,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 296,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            12
+          ],
+          "seed": 4120005,
+          "turns": 5,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 4120000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 72.499,
+      "level": 4,
+      "max_turns": 6,
+      "mean_turns": 4.167,
+      "min_turns": 3,
+      "monster": "pantherafira",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 144,
+          "opponent_hp": [
+            37
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4200000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 212,
+          "opponent_hp": [
+            51
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4200001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 314,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4200002,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 158,
+          "opponent_hp": [
+            21
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4200003,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 299,
+          "opponent_hp": [
+            4
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4200004,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 320,
+          "opponent_hp": [
+            30
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4200005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4200000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 72.001,
+      "level": 5,
+      "max_turns": 6,
+      "mean_turns": 4.333,
+      "min_turns": 3,
+      "monster": "pantherafira",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 340,
+          "opponent_hp": [
+            6
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4210000,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 166,
+          "opponent_hp": [
+            54
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4210001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 289,
+          "opponent_hp": [
+            20
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4210002,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 350,
+          "opponent_hp": [
+            17
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4210003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 146,
+          "opponent_hp": [
+            29
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4210004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 144,
+          "opponent_hp": [
+            49
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4210005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4210000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.999,
+      "level": 3,
+      "max_turns": 7,
+      "mean_turns": 6.333,
+      "min_turns": 5,
+      "monster": "pantherafira",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 261,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            38
+          ],
+          "seed": 4220000,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 322,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            7
+          ],
+          "seed": 4220001,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 401,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            5
+          ],
+          "seed": 4220002,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 376,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            23
+          ],
+          "seed": 4220003,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 390,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 4220004,
+          "turns": 7,
+          "winner": "player"
+        },
+        {
+          "frames": 346,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            4
+          ],
+          "seed": 4220005,
+          "turns": 6,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 4220000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 70.999,
+      "level": 4,
+      "max_turns": 7,
+      "mean_turns": 5.333,
+      "min_turns": 3,
+      "monster": "fordin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 299,
+          "opponent_hp": [
+            60
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4300000,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 261,
+          "opponent_hp": [
+            66
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4300001,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 188,
+          "opponent_hp": [
+            81
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4300002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 399,
+          "opponent_hp": [
+            66
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4300003,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 321,
+          "opponent_hp": [
+            73
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4300004,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 336,
+          "opponent_hp": [
+            75
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4300005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4300000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 73.999,
+      "level": 5,
+      "max_turns": 6,
+      "mean_turns": 3.667,
+      "min_turns": 2,
+      "monster": "fordin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 134,
+          "opponent_hp": [
+            90
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4310000,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 243,
+          "opponent_hp": [
+            86
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4310001,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 342,
+          "opponent_hp": [
+            84
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4310002,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 230,
+          "opponent_hp": [
+            92
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4310003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 165,
+          "opponent_hp": [
+            102
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4310004,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 143,
+          "opponent_hp": [
+            83
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4310005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4310000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 78.499,
+      "level": 3,
+      "max_turns": 13,
+      "mean_turns": 7.833,
+      "min_turns": 6,
+      "monster": "fordin",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 290,
+          "opponent_hp": [
+            53
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4320000,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 730,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4320001,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 310,
+          "opponent_hp": [
+            53
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4320002,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 330,
+          "opponent_hp": [
+            53
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4320003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 477,
+          "opponent_hp": [
+            55
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4320004,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 420,
+          "opponent_hp": [
+            52
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4320005,
+          "turns": 8,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4320000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 37.1677,
+      "level": 4,
+      "max_turns": 6,
+      "mean_turns": 5.167,
+      "min_turns": 3,
+      "monster": "pickoon",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 234,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4400000,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 338,
+          "opponent_hp": [
+            13
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4400001,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 328,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4400002,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 316,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4400003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 275,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 4400004,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 129,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            52
+          ],
+          "seed": 4400005,
+          "turns": 3,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 4400000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 23.0,
+      "level": 5,
+      "max_turns": 5,
+      "mean_turns": 4.0,
+      "min_turns": 3,
+      "monster": "pickoon",
+      "opponent_wins": 3,
+      "outcomes": [
+        {
+          "frames": 272,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            13
+          ],
+          "seed": 4410000,
+          "turns": 5,
+          "winner": "player"
+        },
+        {
+          "frames": 229,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            14
+          ],
+          "seed": 4410001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 171,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4410002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 247,
+          "opponent_hp": [
+            11
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4410003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 219,
+          "opponent_hp": [
+            3
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4410004,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 205,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            28
+          ],
+          "seed": 4410005,
+          "turns": 4,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.5,
+      "player_wins": 3,
+      "seed_origin": 4410000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 33.501,
+      "level": 3,
+      "max_turns": 6,
+      "mean_turns": 3.833,
+      "min_turns": 2,
+      "monster": "pickoon",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 175,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            32
+          ],
+          "seed": 4420000,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 217,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            27
+          ],
+          "seed": 4420001,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 320,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 4420002,
+          "turns": 6,
+          "winner": "player"
+        },
+        {
+          "frames": 158,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            36
+          ],
+          "seed": 4420003,
+          "turns": 4,
+          "winner": "player"
+        },
+        {
+          "frames": 99,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            45
+          ],
+          "seed": 4420004,
+          "turns": 2,
+          "winner": "player"
+        },
+        {
+          "frames": 217,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            25
+          ],
+          "seed": 4420005,
+          "turns": 4,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 4420000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 79.0,
+      "level": 4,
+      "max_turns": 11,
+      "mean_turns": 8.0,
+      "min_turns": 5,
+      "monster": "banling",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 257,
+          "opponent_hp": [
+            54
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4500000,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 645,
+          "opponent_hp": [
+            22
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4500001,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 333,
+          "opponent_hp": [
+            61
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4500002,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 536,
+          "opponent_hp": [
+            32
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4500003,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 456,
+          "opponent_hp": [
+            49
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4500004,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 410,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4500005,
+          "turns": 8,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4500000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 75.499,
+      "level": 5,
+      "max_turns": 10,
+      "mean_turns": 6.833,
+      "min_turns": 5,
+      "monster": "banling",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 390,
+          "opponent_hp": [
+            70
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4510000,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 237,
+          "opponent_hp": [
+            74
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4510001,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 258,
+          "opponent_hp": [
+            61
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4510002,
+          "turns": 5,
+          "winner": "opponent"
+        },
+        {
+          "frames": 565,
+          "opponent_hp": [
+            49
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4510003,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 312,
+          "opponent_hp": [
+            61
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4510004,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 398,
+          "opponent_hp": [
+            63
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4510005,
+          "turns": 7,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4510000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 45.5,
+      "level": 3,
+      "max_turns": 15,
+      "mean_turns": 13.5,
+      "min_turns": 12,
+      "monster": "banling",
+      "opponent_wins": 3,
+      "outcomes": [
+        {
+          "frames": 731,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            10
+          ],
+          "seed": 4520000,
+          "turns": 13,
+          "winner": "player"
+        },
+        {
+          "frames": 720,
+          "opponent_hp": [
+            2
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4520001,
+          "turns": 14,
+          "winner": "opponent"
+        },
+        {
+          "frames": 778,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            7
+          ],
+          "seed": 4520002,
+          "turns": 15,
+          "winner": "player"
+        },
+        {
+          "frames": 707,
+          "opponent_hp": [
+            27
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4520003,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 779,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            22
+          ],
+          "seed": 4520004,
+          "turns": 14,
+          "winner": "player"
+        },
+        {
+          "frames": 694,
+          "opponent_hp": [
+            35
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4520005,
+          "turns": 12,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.5,
+      "player_wins": 3,
+      "seed_origin": 4520000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 75.001,
+      "level": 4,
+      "max_turns": 4,
+      "mean_turns": 3.333,
+      "min_turns": 2,
+      "monster": "chickadee",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 225,
+          "opponent_hp": [
+            3
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4600000,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 104,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4600001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 237,
+          "opponent_hp": [
+            3
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4600002,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 245,
+          "opponent_hp": [
+            4
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4600003,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 234,
+          "opponent_hp": [
+            2
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4600004,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 116,
+          "opponent_hp": [
+            13
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4600005,
+          "turns": 2,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4600000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 76.999,
+      "level": 5,
+      "max_turns": 4,
+      "mean_turns": 2.667,
+      "min_turns": 2,
+      "monster": "chickadee",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 145,
+          "opponent_hp": [
+            22
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4610000,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 112,
+          "opponent_hp": [
+            63
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4610001,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 103,
+          "opponent_hp": [
+            36
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4610002,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 102,
+          "opponent_hp": [
+            33
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4610003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 199,
+          "opponent_hp": [
+            27
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4610004,
+          "turns": 4,
+          "winner": "opponent"
+        },
+        {
+          "frames": 191,
+          "opponent_hp": [
+            25
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4610005,
+          "turns": 3,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4610000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 42.6667,
+      "level": 3,
+      "max_turns": 5,
+      "mean_turns": 3.0,
+      "min_turns": 2,
+      "monster": "chickadee",
+      "opponent_wins": 4,
+      "outcomes": [
+        {
+          "frames": 116,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            6
+          ],
+          "seed": 4620000,
+          "turns": 2,
+          "winner": "player"
+        },
+        {
+          "frames": 192,
+          "opponent_hp": [
+            14
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4620001,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 181,
+          "opponent_hp": [
+            23
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4620002,
+          "turns": 3,
+          "winner": "opponent"
+        },
+        {
+          "frames": 104,
+          "opponent_hp": [
+            31
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4620003,
+          "turns": 2,
+          "winner": "opponent"
+        },
+        {
+          "frames": 192,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            10
+          ],
+          "seed": 4620004,
+          "turns": 3,
+          "winner": "player"
+        },
+        {
+          "frames": 298,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4620005,
+          "turns": 5,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.3333333333333333,
+      "player_wins": 2,
+      "seed_origin": 4620000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 114.001,
+      "level": 4,
+      "max_turns": 25,
+      "mean_turns": 19.667,
+      "min_turns": 13,
+      "monster": "cohldrabi",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 1023,
+          "opponent_hp": [
+            39
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4700000,
+          "turns": 18,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1205,
+          "opponent_hp": [
+            33
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4700001,
+          "turns": 21,
+          "winner": "opponent"
+        },
+        {
+          "frames": 933,
+          "opponent_hp": [
+            27
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4700002,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1435,
+          "opponent_hp": [
+            38
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4700003,
+          "turns": 25,
+          "winner": "opponent"
+        },
+        {
+          "frames": 756,
+          "opponent_hp": [
+            41
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4700004,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1416,
+          "opponent_hp": [
+            34
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4700005,
+          "turns": 25,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4700000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 114.499,
+      "level": 5,
+      "max_turns": 36,
+      "mean_turns": 19.833,
+      "min_turns": 14,
+      "monster": "cohldrabi",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 1027,
+          "opponent_hp": [
+            13
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4710000,
+          "turns": 18,
+          "winner": "opponent"
+        },
+        {
+          "frames": 925,
+          "opponent_hp": [
+            28
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4710001,
+          "turns": 17,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1034,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4710002,
+          "turns": 18,
+          "winner": "opponent"
+        },
+        {
+          "frames": 891,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4710003,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 2010,
+          "opponent_hp": [
+            17
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4710004,
+          "turns": 36,
+          "winner": "opponent"
+        },
+        {
+          "frames": 816,
+          "opponent_hp": [
+            24
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4710005,
+          "turns": 14,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4710000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "error": "RuntimeError: Combat failed to terminate within 5000 frames.",
+      "fitness": null,
+      "level": 3,
+      "monster": "cohldrabi",
+      "outcomes": [],
+      "seed_origin": 4720000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 85.0,
+      "level": 4,
+      "max_turns": 12,
+      "mean_turns": 10.0,
+      "min_turns": 8,
+      "monster": "helipi",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 629,
+          "opponent_hp": [
+            98
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4800000,
+          "turns": 12,
+          "winner": "opponent"
+        },
+        {
+          "frames": 602,
+          "opponent_hp": [
+            86
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4800001,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 540,
+          "opponent_hp": [
+            94
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4800002,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 428,
+          "opponent_hp": [
+            79
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4800003,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 549,
+          "opponent_hp": [
+            99
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4800004,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 404,
+          "opponent_hp": [
+            80
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4800005,
+          "turns": 8,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4800000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 81.001,
+      "level": 5,
+      "max_turns": 13,
+      "mean_turns": 8.667,
+      "min_turns": 6,
+      "monster": "helipi",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 460,
+          "opponent_hp": [
+            100
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4810000,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 308,
+          "opponent_hp": [
+            113
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4810001,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 553,
+          "opponent_hp": [
+            104
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4810002,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 641,
+          "opponent_hp": [
+            103
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4810003,
+          "turns": 13,
+          "winner": "opponent"
+        },
+        {
+          "frames": 338,
+          "opponent_hp": [
+            98
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4810004,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 428,
+          "opponent_hp": [
+            87
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4810005,
+          "turns": 7,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4810000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 99.499,
+      "level": 3,
+      "max_turns": 17,
+      "mean_turns": 14.833,
+      "min_turns": 11,
+      "monster": "helipi",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 531,
+          "opponent_hp": [
+            78
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4820000,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 763,
+          "opponent_hp": [
+            67
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4820001,
+          "turns": 14,
+          "winner": "opponent"
+        },
+        {
+          "frames": 863,
+          "opponent_hp": [
+            86
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4820002,
+          "turns": 17,
+          "winner": "opponent"
+        },
+        {
+          "frames": 719,
+          "opponent_hp": [
+            81
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4820003,
+          "turns": 14,
+          "winner": "opponent"
+        },
+        {
+          "frames": 794,
+          "opponent_hp": [
+            86
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4820004,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 813,
+          "opponent_hp": [
+            72
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4820005,
+          "turns": 17,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 4820000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 21.3333,
+      "level": 4,
+      "max_turns": 14,
+      "mean_turns": 11.0,
+      "min_turns": 8,
+      "monster": "budaye",
+      "opponent_wins": 2,
+      "outcomes": [
+        {
+          "frames": 565,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            6
+          ],
+          "seed": 4900000,
+          "turns": 10,
+          "winner": "player"
+        },
+        {
+          "frames": 795,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4900001,
+          "turns": 14,
+          "winner": "opponent"
+        },
+        {
+          "frames": 687,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4900002,
+          "turns": 12,
+          "winner": "opponent"
+        },
+        {
+          "frames": 668,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            5
+          ],
+          "seed": 4900003,
+          "turns": 12,
+          "winner": "player"
+        },
+        {
+          "frames": 463,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            33
+          ],
+          "seed": 4900004,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 548,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            6
+          ],
+          "seed": 4900005,
+          "turns": 10,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.6666666666666666,
+      "player_wins": 4,
+      "seed_origin": 4900000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 20.3343,
+      "level": 5,
+      "max_turns": 13,
+      "mean_turns": 10.667,
+      "min_turns": 9,
+      "monster": "budaye",
+      "opponent_wins": 2,
+      "outcomes": [
+        {
+          "frames": 466,
+          "opponent_hp": [
+            7
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4910000,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 561,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            29
+          ],
+          "seed": 4910001,
+          "turns": 10,
+          "winner": "player"
+        },
+        {
+          "frames": 623,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            24
+          ],
+          "seed": 4910002,
+          "turns": 11,
+          "winner": "player"
+        },
+        {
+          "frames": 505,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            19
+          ],
+          "seed": 4910003,
+          "turns": 9,
+          "winner": "player"
+        },
+        {
+          "frames": 622,
+          "opponent_hp": [
+            27
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 4910004,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 721,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            11
+          ],
+          "seed": 4910005,
+          "turns": 13,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 0.6666666666666666,
+      "player_wins": 4,
+      "seed_origin": 4910000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 47.001,
+      "level": 3,
+      "max_turns": 15,
+      "mean_turns": 10.667,
+      "min_turns": 8,
+      "monster": "budaye",
+      "opponent_wins": 0,
+      "outcomes": [
+        {
+          "frames": 503,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            40
+          ],
+          "seed": 4920000,
+          "turns": 9,
+          "winner": "player"
+        },
+        {
+          "frames": 434,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            39
+          ],
+          "seed": 4920001,
+          "turns": 8,
+          "winner": "player"
+        },
+        {
+          "frames": 533,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            21
+          ],
+          "seed": 4920002,
+          "turns": 10,
+          "winner": "player"
+        },
+        {
+          "frames": 610,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            25
+          ],
+          "seed": 4920003,
+          "turns": 11,
+          "winner": "player"
+        },
+        {
+          "frames": 610,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            17
+          ],
+          "seed": 4920004,
+          "turns": 11,
+          "winner": "player"
+        },
+        {
+          "frames": 821,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            5
+          ],
+          "seed": 4920005,
+          "turns": 15,
+          "winner": "player"
+        }
+      ],
+      "player_win_rate": 1.0,
+      "player_wins": 6,
+      "seed_origin": 4920000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 66.3323,
+      "level": 4,
+      "max_turns": 11,
+      "mean_turns": 9.333,
+      "min_turns": 8,
+      "monster": "chloragon",
+      "opponent_wins": 5,
+      "outcomes": [
+        {
+          "frames": 577,
+          "opponent_hp": [
+            28
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5000000,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 524,
+          "opponent_hp": [
+            18
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5000001,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 454,
+          "opponent_hp": [
+            34
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5000002,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 597,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            1
+          ],
+          "seed": 5000003,
+          "turns": 11,
+          "winner": "player"
+        },
+        {
+          "frames": 489,
+          "opponent_hp": [
+            20
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5000004,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 460,
+          "opponent_hp": [
+            50
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5000005,
+          "turns": 8,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.16666666666666666,
+      "player_wins": 1,
+      "seed_origin": 5000000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 79.0,
+      "level": 5,
+      "max_turns": 11,
+      "mean_turns": 8.0,
+      "min_turns": 6,
+      "monster": "chloragon",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 570,
+          "opponent_hp": [
+            31
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5010000,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 453,
+          "opponent_hp": [
+            42
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5010001,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 343,
+          "opponent_hp": [
+            49
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5010002,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 328,
+          "opponent_hp": [
+            55
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5010003,
+          "turns": 6,
+          "winner": "opponent"
+        },
+        {
+          "frames": 606,
+          "opponent_hp": [
+            26
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5010004,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 323,
+          "opponent_hp": [
+            58
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5010005,
+          "turns": 6,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 5010000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 37.001,
+      "level": 3,
+      "max_turns": 15,
+      "mean_turns": 10.667,
+      "min_turns": 7,
+      "monster": "chloragon",
+      "opponent_wins": 3,
+      "outcomes": [
+        {
+          "frames": 596,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            9
+          ],
+          "seed": 5020000,
+          "turns": 11,
+          "winner": "player"
+        },
+        {
+          "frames": 738,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            14
+          ],
+          "seed": 5020001,
+          "turns": 13,
+          "winner": "player"
+        },
+        {
+          "frames": 527,
+          "opponent_hp": [
+            0
+          ],
+          "player_hp": [
+            15
+          ],
+          "seed": 5020002,
+          "turns": 10,
+          "winner": "player"
+        },
+        {
+          "frames": 378,
+          "opponent_hp": [
+            31
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5020003,
+          "turns": 7,
+          "winner": "opponent"
+        },
+        {
+          "frames": 801,
+          "opponent_hp": [
+            1
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5020004,
+          "turns": 15,
+          "winner": "opponent"
+        },
+        {
+          "frames": 435,
+          "opponent_hp": [
+            17
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5020005,
+          "turns": 8,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.5,
+      "player_wins": 3,
+      "seed_origin": 5020000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 91.999,
+      "level": 4,
+      "max_turns": 20,
+      "mean_turns": 12.333,
+      "min_turns": 8,
+      "monster": "trapsnap",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 449,
+          "opponent_hp": [
+            57
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5100000,
+          "turns": 8,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1126,
+          "opponent_hp": [
+            74
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5100001,
+          "turns": 20,
+          "winner": "opponent"
+        },
+        {
+          "frames": 967,
+          "opponent_hp": [
+            76
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5100002,
+          "turns": 17,
+          "winner": "opponent"
+        },
+        {
+          "frames": 512,
+          "opponent_hp": [
+            64
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5100003,
+          "turns": 9,
+          "winner": "opponent"
+        },
+        {
+          "frames": 523,
+          "opponent_hp": [
+            53
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5100004,
+          "turns": 10,
+          "winner": "opponent"
+        },
+        {
+          "frames": 593,
+          "opponent_hp": [
+            84
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5100005,
+          "turns": 10,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 5100000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 97.999,
+      "level": 5,
+      "max_turns": 17,
+      "mean_turns": 14.333,
+      "min_turns": 11,
+      "monster": "trapsnap",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 778,
+          "opponent_hp": [
+            78
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5110000,
+          "turns": 14,
+          "winner": "opponent"
+        },
+        {
+          "frames": 945,
+          "opponent_hp": [
+            91
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5110001,
+          "turns": 17,
+          "winner": "opponent"
+        },
+        {
+          "frames": 873,
+          "opponent_hp": [
+            84
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5110002,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 856,
+          "opponent_hp": [
+            90
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5110003,
+          "turns": 16,
+          "winner": "opponent"
+        },
+        {
+          "frames": 509,
+          "opponent_hp": [
+            80
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5110004,
+          "turns": 11,
+          "winner": "opponent"
+        },
+        {
+          "frames": 695,
+          "opponent_hp": [
+            73
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5110005,
+          "turns": 12,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 5110000,
+      "trials": 6
+    },
+    {
+      "admitted": false,
+      "fitness": 112.501,
+      "level": 3,
+      "max_turns": 22,
+      "mean_turns": 19.167,
+      "min_turns": 15,
+      "monster": "trapsnap",
+      "opponent_wins": 6,
+      "outcomes": [
+        {
+          "frames": 1166,
+          "opponent_hp": [
+            85
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5120000,
+          "turns": 21,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1251,
+          "opponent_hp": [
+            67
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5120001,
+          "turns": 22,
+          "winner": "opponent"
+        },
+        {
+          "frames": 819,
+          "opponent_hp": [
+            43
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5120002,
+          "turns": 15,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1096,
+          "opponent_hp": [
+            75
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5120003,
+          "turns": 19,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1024,
+          "opponent_hp": [
+            76
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5120004,
+          "turns": 18,
+          "winner": "opponent"
+        },
+        {
+          "frames": 1165,
+          "opponent_hp": [
+            77
+          ],
+          "player_hp": [
+            0
+          ],
+          "seed": 5120005,
+          "turns": 20,
+          "winner": "opponent"
+        }
+      ],
+      "player_win_rate": 0.0,
+      "player_wins": 0,
+      "seed_origin": 5120000,
+      "trials": 6
+    }
+  ],
+  "contract": {
+    "target_player_win_rate": [
+      0.55,
+      0.85
+    ],
+    "target_turns": [
+      2,
+      8
+    ]
+  },
+  "derivation": {
+    "eligible_species": 32,
+    "habitat": [
+      "grassland",
+      "jungle",
+      "woodland"
+    ],
+    "levels": [
+      4,
+      5,
+      3
+    ],
+    "sampled_species": [
+      {
+        "habitat_overlap": 1,
+        "primary_type": "frost",
+        "slug": "tweesher"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "wood",
+        "slug": "sprightly"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "earth",
+        "slug": "scarlant"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "cosmic",
+        "slug": "forturtle"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "sky",
+        "slug": "hatchling"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "metal",
+        "slug": "katapill"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "normal",
+        "slug": "elofly"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "fire",
+        "slug": "cardiling"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "frost",
+        "slug": "caper"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "wood",
+        "slug": "anoleaf"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "earth",
+        "slug": "devidin"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "sky",
+        "slug": "flacono"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "normal",
+        "slug": "vivipere"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "fire",
+        "slug": "thumpurn"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "wood",
+        "slug": "rosarin"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "earth",
+        "slug": "metesaur"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "sky",
+        "slug": "pairagrin"
+      },
+      {
+        "habitat_overlap": 3,
+        "primary_type": "normal",
+        "slug": "aardorn"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "fire",
+        "slug": "bursa"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "wood",
+        "slug": "turnipper"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "sky",
+        "slug": "toucanary"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "normal",
+        "slug": "komodraw"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "fire",
+        "slug": "pantherafira"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "wood",
+        "slug": "fordin"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "normal",
+        "slug": "pickoon"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "wood",
+        "slug": "banling"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "normal",
+        "slug": "chickadee"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "wood",
+        "slug": "cohldrabi"
+      },
+      {
+        "habitat_overlap": 2,
+        "primary_type": "wood",
+        "slug": "helipi"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "wood",
+        "slug": "budaye"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "wood",
+        "slug": "chloragon"
+      },
+      {
+        "habitat_overlap": 1,
+        "primary_type": "wood",
+        "slug": "trapsnap"
+      }
+    ],
+    "stage": "basic",
+    "trials_per_candidate": 6
+  },
+  "fingerprint": "133e4ad321443a869c37423bd70983cc41b59cf78698718830db0dc620423783",
+  "proofs": [
+    {
+      "detail": {
+        "eligible": 32,
+        "sampled": 32
+      },
+      "id": "habitat-query-produces-candidates",
+      "passed": true
+    },
+    {
+      "detail": [
+        "cosmic",
+        "earth",
+        "fire",
+        "frost",
+        "metal",
+        "normal",
+        "sky",
+        "wood"
+      ],
+      "id": "candidate-pool-is-type-diverse",
+      "passed": true
+    },
+    {
+      "detail": {
+        "completed_trials": 570,
+        "isolated_failures": [
+          {
+            "error": "RuntimeError: Combat failed to terminate within 5000 frames.",
+            "level": 3,
+            "monster": "cohldrabi"
+          }
+        ]
+      },
+      "id": "candidate-failures-are-isolated-and-retained",
+      "passed": true
+    },
+    {
+      "detail": 3,
+      "id": "ecology-has-admitted-survivor",
+      "passed": true
+    },
+    {
+      "detail": {
+        "loss_seed": 3500003,
+        "win_seed": 3500000
+      },
+      "id": "selected-sentinel-has-win-and-loss-witnesses",
+      "passed": true
+    }
+  ],
+  "schema": "ai-native-ecology-selection/v1",
+  "selected": {
+    "actor": "knight1",
+    "level": 4,
+    "loss_seed": 3500003,
+    "mean_turns": 4.333,
+    "monster": "metesaur",
+    "player_win_rate": 0.6666666666666666,
+    "win_seed": 3500000
+  },
+  "source_genome_sha256": "979f92d474b606e5682254dca9161e8130cffc84e70655d49295d17e51b35f88"
+}

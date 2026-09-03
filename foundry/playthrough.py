@@ -256,6 +256,89 @@ def run(root: Path) -> dict[str, Any]:
         pygame.image.save(context.screen, expedition_screenshot)
 
         events = _events_by_name(client)
+        ecology_witness = expedition_witness["ecology"]
+        sentinel_actor = ecology_witness["actor"]
+        sentinel_event = events[expedition_witness["sentinel_event"]]
+        sentinel_attempts = []
+        sentinel_recoveries = []
+        sentinel = None
+        battle_seeds = [
+            int(ecology_witness["loss_seed"]),
+            *(
+                int(ecology_witness["win_seed"]) + offset
+                for offset in range(12)
+            ),
+        ]
+        for attempt, battle_seed in enumerate(battle_seeds):
+            if attempt == 0:
+                session.player.monsters[0].current_hp = 1
+            battle = _run_event(
+                client,
+                session,
+                sentinel_event,
+                battle_seed=battle_seed,
+            )
+            battle["kind"] = "sentinel_battle_attempt"
+            if attempt == 0:
+                battle["fault_injection"] = "player_party_health=1"
+            battle["outcome"] = (
+                session.player.battle_handler.get_last_battle_outcome(
+                    sentinel_actor
+                )
+            )
+            sentinel_attempts.append(battle)
+            execution_steps.append(battle)
+            if battle["outcome"] == "won":
+                sentinel = battle
+                break
+
+            retreat = _run_event(
+                client,
+                session,
+                events[expedition_witness["return_event"]],
+            )
+            retreat["kind"] = "sentinel_loss_retreat"
+            retreat["transition_frames"] = _pump_until_map(
+                client, "unmapped_province.tmx"
+            )
+            retreat["map_after"] = client.get_map_name()
+            execution_steps.append(retreat)
+            visited_regions.append(retreat["map_after"])
+
+            events = _events_by_name(client)
+            recovery = _run_event(
+                client,
+                session,
+                events[admission["witnesses"]["battle_loss_recovery_event"]],
+            )
+            recovery["kind"] = "sentinel_loss_recovery"
+            sentinel_recoveries.append(recovery)
+            execution_steps.append(recovery)
+
+            reentry = _run_event(
+                client,
+                session,
+                events[expedition_witness["entry_event"]],
+            )
+            reentry["kind"] = "sentinel_retry_transition"
+            reentry["transition_frames"] = _pump_until_map(
+                client, "echo_wilds.tmx"
+            )
+            reentry["map_after"] = client.get_map_name()
+            execution_steps.append(reentry)
+            visited_regions.append(reentry["map_after"])
+            events = _events_by_name(client)
+            sentinel_event = events[expedition_witness["sentinel_event"]]
+        if sentinel is None:
+            raise RuntimeError("The selected sentinel has no winning witness.")
+        sentinel["transition"] = "defeat_echo_sentinel"
+        sentinel["post_battle_frames"] = _pump_until_stage(
+            client, session, "wilds_open"
+        )
+        sentinel["stage_after"] = _stage(session)
+        sentinel["attempts"] = len(sentinel_attempts)
+        transcript.append(sentinel)
+
         shard = _run_event(
             client,
             session,
@@ -342,6 +425,7 @@ def run(root: Path) -> dict[str, Any]:
 
     expected_stages = [
         "chartered",
+        "wilds_open",
         "shard_recovered",
         "trial_won",
         "province_mapped",
@@ -374,6 +458,14 @@ def run(root: Path) -> dict[str, Any]:
             == [
                 "unmapped_province.tmx",
                 "echo_wilds.tmx",
+                *[
+                    region
+                    for _ in sentinel_recoveries
+                    for region in (
+                        "unmapped_province.tmx",
+                        "echo_wilds.tmx",
+                    )
+                ],
                 "unmapped_province.tmx",
             ],
             "detail": visited_regions,
@@ -386,6 +478,26 @@ def run(root: Path) -> dict[str, Any]:
                 "sha256": hashlib.sha256(
                     expedition_screenshot.read_bytes()
                 ).hexdigest(),
+            },
+        },
+        {
+            "id": "selected-ecology-executes-loss-recovery-win",
+            "passed": (
+                sentinel_attempts[0]["outcome"] == "lost"
+                and sentinel_attempts[-1]["outcome"] == "won"
+                and len(sentinel_recoveries)
+                == sum(
+                    item["outcome"] == "lost"
+                    for item in sentinel_attempts
+                )
+                and sentinel["stage_after"] == "wilds_open"
+            ),
+            "detail": {
+                "sentinel": ecology_witness,
+                "outcomes": [
+                    item["outcome"] for item in sentinel_attempts
+                ],
+                "recoveries": len(sentinel_recoveries),
             },
         },
         {

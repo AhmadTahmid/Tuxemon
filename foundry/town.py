@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import math
@@ -387,7 +388,9 @@ def _compress_rectangles(cells: set[Coord]) -> list[tuple[int, int, int, int]]:
     )
 
 
-def certify(town: Town, expedition=None) -> dict[str, Any]:
+def certify(
+    town: Town, expedition=None, *, require_ecology_lock: bool = False
+) -> dict[str, Any]:
     from foundry.expedition import (
         certify_expedition,
         expedition_events,
@@ -396,6 +399,8 @@ def certify(town: Town, expedition=None) -> dict[str, Any]:
 
     expedition = expedition or generate_expedition(town.spec)
     expedition_certificate = certify_expedition(expedition)
+    ecology = town.spec["expedition"]["ecology"]
+    selected_ecology = ecology.get("selected")
     reachable = _reachable(town)
     walkable = {
         (x, y)
@@ -547,6 +552,24 @@ def certify(town: Town, expedition=None) -> dict[str, Any]:
             if roundtrip_compiled
             else ["broken_region_roundtrip"],
         },
+        *(
+            [
+                {
+                    "id": "actual-engine-ecology-selection-is-locked",
+                    "passed": bool(selected_ecology)
+                    and bool(ecology.get("selection_certificate")),
+                    "detail": selected_ecology,
+                    "counterexamples": (
+                        []
+                        if selected_ecology
+                        and ecology.get("selection_certificate")
+                        else ["missing_ecology_selection"]
+                    ),
+                }
+            ]
+            if require_ecology_lock
+            else []
+        ),
         *expedition_certificate["proofs"],
     ]
     compiled_semantics = {
@@ -562,13 +585,17 @@ def certify(town: Town, expedition=None) -> dict[str, Any]:
             (expedition, wild_events),
         )
     }
+    seed_genome = copy.deepcopy(town.spec)
+    seed_genome["expedition"]["ecology"].pop(
+        "selection_certificate", None
+    )
     body = {
         "schema": "ai-native-admission-certificate/v1",
         "world": town.slug,
         "seed": town.seed,
         "seed_genome_sha256": hashlib.sha256(
             json.dumps(
-                town.spec, sort_keys=True, separators=(",", ":")
+                seed_genome, sort_keys=True, separators=(",", ":")
             ).encode()
         ).hexdigest(),
         "compiled_semantics_sha256": hashlib.sha256(
@@ -621,6 +648,8 @@ def certify(town: Town, expedition=None) -> dict[str, Any]:
                 **expedition_certificate["witnesses"],
                 "entry_event": "Enter Echo Wilds",
                 "return_event": "Return to Unmapped Province",
+                "sentinel_event": "Challenge echo sentinel",
+                "ecology": selected_ecology,
             },
         },
         "proofs": proofs,
@@ -964,6 +993,23 @@ def _world_events(town: Town) -> dict[str, Any]:
             ),
         ],
     }
+    events["Reenter Echo Wilds"] = {
+        "type": "event",
+        "x": shard_x,
+        "y": shard_y,
+        "conditions": [
+            "is char_facing_tile player",
+            "is button_pressed INTERACT",
+            "is variable_set province_stage:wilds_open",
+        ],
+        "actions": [
+            (
+                "transition_teleport player,"
+                f"{expedition['slug']}.tmx,{expedition_spawn[0]},"
+                f"{expedition_spawn[1]},0.3"
+            ),
+        ],
+    }
     events["Cartographer observes"] = {
         "type": "event",
         "behav": [f"talk {cartographer}"],
@@ -1060,11 +1106,30 @@ def compile_world(
         or root / "foundry" / "worlds" / "unmapped_province.seed.yaml"
     )
     spec = yaml.safe_load(spec_path.read_text(encoding="utf-8"))
+    ecology_lock = (
+        root / "foundry" / "worlds" / "echo_wilds.ecology.lock.json"
+    )
+    if ecology_lock.is_file():
+        selection = json.loads(ecology_lock.read_text(encoding="utf-8"))
+        selection_body = dict(selection)
+        expected_fingerprint = selection_body.pop("fingerprint", None)
+        observed_fingerprint = hashlib.sha256(
+            json.dumps(
+                selection_body, sort_keys=True, separators=(",", ":")
+            ).encode()
+        ).hexdigest()
+        if expected_fingerprint != observed_fingerprint:
+            raise AdmissionRejected("The ecology lock fingerprint is invalid.")
+        if not all(proof["passed"] for proof in selection.get("proofs", [])):
+            raise AdmissionRejected("The ecology lock contains failed proofs.")
+        ecology = spec["expedition"]["ecology"]
+        ecology["selected"] = selection["selected"]
+        ecology["selection_certificate"] = selection["fingerprint"]
     town = generate_town(spec)
     from foundry.expedition import expedition_events, generate_expedition
 
     expedition = generate_expedition(spec)
-    certificate = certify(town, expedition)
+    certificate = certify(town, expedition, require_ecology_lock=True)
     failures = [
         proof for proof in certificate["proofs"] if not proof["passed"]
     ]
@@ -1115,7 +1180,7 @@ def compile_world(
                 "slug": town.slug,
                 "description": "A proof-carrying multi-region RPG compiled by the AI-native foundry.",
                 "name": town.title,
-                "version": "0.2.0",
+                "version": "0.3.0",
                 "authors": ["AI Native Foundry"],
                 "startup_rules": [],
                 "starting_players": ["npc_red"],

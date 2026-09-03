@@ -1,5 +1,5 @@
 {
-  "compiled_semantics_sha256": "4eeef086802bf9935951fed34b876c76c8fe7f2a2b4ba2448526949560243d66",
+  "compiled_semantics_sha256": "742ecac7276bbc878e666021b0d010a28d952d5348f5bf0eb1d4ff0e94abbe32",
   "counts": {
     "actors": 3,
     "collision_cells": 819,
@@ -7,19 +7,19 @@
     "expedition_collision_cells": 417,
     "expedition_repair_cells": 0,
     "landmarks": 4,
-    "quest_transitions": 4,
+    "quest_transitions": 5,
     "reachable_cells": 1701,
     "regions": 2,
     "road_cells": 572,
     "road_cycle_rank": 317,
-    "runtime_events": 21,
+    "runtime_events": 27,
     "walkable_cells": 1701
   },
   "dimensions": [
     60,
     42
   ],
-  "fingerprint": "850716502b00a3e8ef9837e633088b855ee64940c13cf136586c7378bec96911",
+  "fingerprint": "ebdc66219e6ebf003cff8e04f2549e84ff5651637d232d836b498a472377c63a",
   "proofs": [
     {
       "counterexamples": [],
@@ -53,13 +53,13 @@
     },
     {
       "counterexamples": [],
-      "detail": "Witness reaches province_mapped: speak_to_archivist -> recover_echo_shard -> win_cartographers_duel -> report_to_archivist.",
+      "detail": "Witness reaches province_mapped: speak_to_archivist -> defeat_echo_sentinel -> recover_echo_shard -> win_cartographers_duel -> report_to_archivist.",
       "id": "quest-has-terminal-witness",
       "passed": true
     },
     {
       "counterexamples": [],
-      "detail": "Realized 4 quest transitions.",
+      "detail": "Realized 5 quest transitions.",
       "id": "quest-automaton-compiles-to-events",
       "passed": true
     },
@@ -73,6 +73,20 @@
       "counterexamples": [],
       "detail": "unmapped_province -> echo_wilds -> unmapped_province",
       "id": "expedition-roundtrip-compiles",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": {
+        "actor": "knight1",
+        "level": 4,
+        "loss_seed": 3500003,
+        "mean_turns": 4.333,
+        "monster": "metesaur",
+        "player_win_rate": 0.6666666666666666,
+        "win_seed": 3500000
+      },
+      "id": "actual-engine-ecology-selection-is-locked",
       "passed": true
     },
     {
@@ -118,6 +132,15 @@
     },
     {
       "counterexamples": [],
+      "detail": [
+        26,
+        19
+      ],
+      "id": "expedition-sentinel-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
       "detail": "1351/1351 cells connect to entry (1.000; required 0.980).",
       "id": "expedition-walkable-space-connected",
       "passed": true
@@ -139,28 +162,42 @@
         52,
         34
       ],
-      "events": 4
+      "events": 9
     },
     "unmapped_province": {
       "dimensions": [
         60,
         42
       ],
-      "events": 17
+      "events": 18
     }
   },
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73467586,
-  "seed_genome_sha256": "01356beaa7949c42532319f1195aa4ee667d1fcd1c3d9eceff9ec10458043c19",
+  "seed_genome_sha256": "890d01e69920e0953184d97e43990d176534e12c44063079d30b5e2b169afdb1",
   "witnesses": {
     "battle_loss_recovery_event": "Inspect clinic",
     "expedition": {
+      "ecology": {
+        "actor": "knight1",
+        "level": 4,
+        "loss_seed": 3500003,
+        "mean_turns": 4.333,
+        "monster": "metesaur",
+        "player_win_rate": 0.6666666666666666,
+        "win_seed": 3500000
+      },
       "entry_event": "Enter Echo Wilds",
       "return_event": "Return to Unmapped Province",
       "return_gate": [
         1,
         17
       ],
+      "sentinel": [
+        26,
+        19
+      ],
+      "sentinel_event": "Challenge echo sentinel",
       "shrine": [
         48,
         20
@@ -190,6 +227,7 @@
     },
     "quest": [
       "speak_to_archivist",
+      "defeat_echo_sentinel",
       "recover_echo_shard",
       "win_cartographers_duel",
       "report_to_archivist"
@@ -199,6 +237,11 @@
         "event": "Archivist offers charter",
         "region": "unmapped_province",
         "transition": "speak_to_archivist"
+      },
+      {
+        "event": "Record echo sentinel victory",
+        "region": "echo_wilds",
+        "transition": "defeat_echo_sentinel"
       },
       {
         "event": "Recover echo shard",

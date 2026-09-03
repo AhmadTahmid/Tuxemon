@@ -896,6 +896,16 @@ events:
     actions:
     - translated_dialog The gate unfolds a forest from the echo shard's possible locations.
     - transition_teleport player,echo_wilds.tmx,3,17,0.3
+  Reenter Echo Wilds:
+    type: event
+    x: 42
+    y: 16
+    conditions:
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:wilds_open
+    actions:
+    - transition_teleport player,echo_wilds.tmx,3,17,0.3
   Cartographer observes:
     type: event
     behav:

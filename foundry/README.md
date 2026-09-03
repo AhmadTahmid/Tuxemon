@@ -80,6 +80,21 @@ runtime path to the relic, returns through the compiled gateway, and only then
 continues to the duel. This prevents a collection of individually valid maps
 from masquerading as a valid connected campaign.
 
+`python -m foundry.ecology` derives a sentinel population directly from the
+monster database using habitat and evolutionary-stage predicates, preserves
+elemental diversity, and evaluates every species/level candidate through
+Tuxemon's real combat state. Failed or stalled candidates are isolated and
+journaled instead of aborting the population. The selected ecology is a
+content-addressed lock consumed by the world compiler; the current survivor is
+a level-4 Metesaur selected from 32 habitat-compatible species and 570
+terminating battle trials.
+
+The campaign witness fault-injects a one-HP party at the sentinel, proves that
+the player can retreat across the region boundary, heal at the generated
+clinic, re-enter the wilds, and eventually defeat the selected ecology. This
+tests recovery in the compiled scenario rather than assuming self-play RNG
+seeds transfer between different party-construction histories.
+
 On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
 keys move, Enter interacts, and Escape opens or closes menus.
 

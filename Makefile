@@ -34,6 +34,10 @@ foundry-evolve:
 foundry-selfplay:
 	python -m foundry.selfplay
 
+.PHONY: foundry-ecology
+foundry-ecology:
+	python -m foundry.ecology
+
 .PHONY: foundry-playthrough
 foundry-playthrough:
 	python -m foundry.playthrough
@@ -50,8 +54,17 @@ foundry-play:
 foundry-freeze:
 	python buildconfig/setup_foundry_release.py build
 
+.PHONY: foundry-certify
+foundry-certify:
+	python -m foundry.town
+	python -m foundry.ecology
+	python -m foundry.runtime --probe
+	python -m foundry.selfplay
+	python -m foundry.playthrough
+
 .PHONY: foundry-release
-foundry-release: foundry-freeze
+foundry-release: foundry-certify
+	python buildconfig/setup_foundry_release.py build
 	python -m foundry.release
 
 # Format code

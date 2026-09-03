@@ -54,7 +54,8 @@ def smoke_test(root: Path) -> dict[str, Any]:
             },
             {
                 "id": "frozen-runtime-loads-campaign-events",
-                "passed": observed["events"] == 17,
+                "passed": observed["events"]
+                == admission["regions"]["unmapped_province"]["events"],
                 "detail": observed["events"],
             },
             {

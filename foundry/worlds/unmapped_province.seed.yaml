@@ -44,6 +44,15 @@ expedition:
     obstacle_density: 0.14
   admission:
     minimum_reachable_fraction: 0.98
+  ecology:
+    habitat: [grassland, jungle, woodland]
+    stage: basic
+    actor: knight1
+    species_budget: 32
+    levels: [4, 5, 3]
+    trials_per_candidate: 6
+    target_player_win_rate: [0.55, 0.85]
+    target_turns: [2, 8]
 
 style_genome:
   grass: "#4f9a63"
@@ -80,7 +89,8 @@ narrative_automaton:
   terminal: province_mapped
   transitions:
     - [arrival, speak_to_archivist, chartered]
-    - [chartered, recover_echo_shard, shard_recovered]
+    - [chartered, defeat_echo_sentinel, wilds_open]
+    - [wilds_open, recover_echo_shard, shard_recovered]
     - [shard_recovered, win_cartographers_duel, trial_won]
     - [trial_won, report_to_archivist, province_mapped]
 

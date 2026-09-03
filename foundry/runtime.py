@@ -166,6 +166,8 @@ def runtime_probe(
                 observed["expedition"]["map"] == "echo_wilds"
                 and observed["expedition"]["dimensions"]
                 == expected["regions"]["echo_wilds"]["dimensions"]
+                and observed["expedition"]["events"]
+                == expected["regions"]["echo_wilds"]["events"]
                 and observed["expedition"]["collision_cells"]
                 == expected["counts"]["expedition_collision_cells"]
             ),
