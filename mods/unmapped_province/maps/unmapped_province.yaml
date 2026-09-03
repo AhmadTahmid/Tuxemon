@@ -873,8 +873,8 @@ events:
     conditions:
     - is variable_set province_stage:arrival
     actions:
-    - translated_dialog The streets have forgotten their own shape. Find the echo
-      shard beside the observatory.
+    - translated_dialog Three missing sigils keep the province from remembering itself.
+      The eastern gate will compile one route at a time.
     - set_variable province_stage:chartered
   Archivist reminder:
     type: event
@@ -883,9 +883,9 @@ events:
     conditions:
     - is variable_set province_stage:chartered
     actions:
-    - translated_dialog Follow the loop road east. The shard waits below the indigo
-      observatory.
-  Enter Echo Wilds:
+    - translated_dialog Begin at the eastern gate. Survive each region, recover its
+      sigil, and return for the next.
+  Enter The Echo Wilds:
     type: event
     x: 42
     y: 16
@@ -894,18 +894,63 @@ events:
     - is button_pressed INTERACT
     - is variable_set province_stage:chartered
     actions:
-    - translated_dialog The gate unfolds a forest from the echo shard's possible locations.
+    - translated_dialog The gate compiles The Echo Wilds from the next unresolved
+      promise.
     - transition_teleport player,echo_wilds.tmx,3,17,0.3
-  Reenter Echo Wilds:
+  Reenter The Echo Wilds:
     type: event
     x: 42
     y: 16
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
-    - is variable_set province_stage:wilds_open
+    - is variable_set province_stage:echo_wilds_open
     actions:
     - transition_teleport player,echo_wilds.tmx,3,17,0.3
+  Enter The Skyglass Garden:
+    type: event
+    x: 42
+    y: 16
+    conditions:
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:echo_wilds_attuned
+    actions:
+    - translated_dialog The gate compiles The Skyglass Garden from the next unresolved
+      promise.
+    - transition_teleport player,skyglass_garden.tmx,3,16,0.3
+  Reenter The Skyglass Garden:
+    type: event
+    x: 42
+    y: 16
+    conditions:
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:skyglass_garden_open
+    actions:
+    - transition_teleport player,skyglass_garden.tmx,3,16,0.3
+  Enter The Root Vault:
+    type: event
+    x: 42
+    y: 16
+    conditions:
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:skyglass_garden_attuned
+    actions:
+    - translated_dialog The gate compiles The Root Vault from the next unresolved
+      promise.
+    - transition_teleport player,root_vault.tmx,3,18,0.3
+  Reenter The Root Vault:
+    type: event
+    x: 42
+    y: 16
+    conditions:
+    - is char_facing_tile player
+    - is button_pressed INTERACT
+    - is variable_set province_stage:root_vault_open
+    actions:
+    - transition_teleport player,root_vault.tmx,3,18,0.3
   Cartographer observes:
     type: event
     behav:
@@ -918,7 +963,7 @@ events:
     behav:
     - talk npc_test
     conditions:
-    - is variable_set province_stage:shard_recovered
+    - is variable_set province_stage:archive_restored
     - not char_defeated npc_test
     actions:
     - translated_dialog A map is only true if it survives resistance. Show me your
@@ -929,7 +974,7 @@ events:
     conditions:
     - is battle_outcome player,won,npc_test
     - is current_state WorldState
-    - is variable_set province_stage:shard_recovered
+    - is variable_set province_stage:archive_restored
     actions:
     - translated_dialog The map seal answers. Return to the archivist.
     - set_variable province_stage:trial_won

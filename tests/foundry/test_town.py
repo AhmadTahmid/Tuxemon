@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 
 import yaml
@@ -57,6 +58,14 @@ def test_compiler_outputs_are_deterministic(tmp_path: Path) -> None:
         "maps/echo_wilds.yaml",
         "gfx/tilesets/echo_wilds.tsx",
         "gfx/tilesets/echo_wilds.png",
+        "maps/skyglass_garden.tmx",
+        "maps/skyglass_garden.yaml",
+        "gfx/tilesets/skyglass_garden.tsx",
+        "gfx/tilesets/skyglass_garden.png",
+        "maps/root_vault.tmx",
+        "maps/root_vault.yaml",
+        "gfx/tilesets/root_vault.tsx",
+        "gfx/tilesets/root_vault.png",
         "mod.yaml",
         "foundry-admission.json",
     ):
@@ -85,3 +94,8 @@ def test_semantic_combat_levels_are_compiled(tmp_path: Path) -> None:
         "Arm the duelist"
     ]["actions"]
     assert "set_monster_health" in events["Inspect clinic"]["actions"]
+    admission = json.loads(
+        (output / "foundry-admission.json").read_text(encoding="utf-8")
+    )
+    assert admission["counts"]["regions"] == 4
+    assert len(admission["witnesses"]["campaign_regions"]) == 3

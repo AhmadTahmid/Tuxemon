@@ -1,0 +1,236 @@
+{
+  "ecology_fingerprint": "9098c3bea0b96ee0cb6528fd54ffd4f4bb5512e02fcadd7410c9a924372b6f35",
+  "fingerprint": "c74b0c89da862402a0a9d576c51f96eb78b0455b229bd4e91c6874c781320321",
+  "population": {
+    "admitted": 2,
+    "candidates_examined": 6,
+    "selection_cost": 0.5
+  },
+  "proofs": [
+    {
+      "detail": {
+        "admitted": 2,
+        "examined": 6,
+        "rejected": {
+          "role_curve_outside_tolerance": 4
+        }
+      },
+      "id": "campaign-population-was-enumerated",
+      "passed": true
+    },
+    {
+      "detail": [
+        "metesaur",
+        "toucanary",
+        "vivipere"
+      ],
+      "id": "campaign-guardians-are-unique",
+      "passed": true
+    },
+    {
+      "detail": [
+        "ordeal",
+        "respite",
+        "culmination"
+      ],
+      "id": "campaign-roles-are-distinct",
+      "passed": true
+    },
+    {
+      "detail": [
+        "speak_to_archivist",
+        "defeat_echo_wilds_sentinel",
+        "recover_echo_wilds_sigil",
+        "defeat_skyglass_garden_sentinel",
+        "recover_skyglass_garden_sigil",
+        "defeat_root_vault_sentinel",
+        "recover_root_vault_sigil",
+        "win_cartographers_duel",
+        "report_to_archivist"
+      ],
+      "id": "campaign-quest-has-terminal-witness",
+      "passed": true
+    },
+    {
+      "detail": [
+        {
+          "loss": 3500003,
+          "region": "echo_wilds",
+          "win": 3500000
+        },
+        {
+          "loss": 4020001,
+          "region": "skyglass_garden",
+          "win": 4020000
+        },
+        {
+          "loss": 3210000,
+          "region": "root_vault",
+          "win": 3210001
+        }
+      ],
+      "id": "every-guardian-has-win-and-loss-witnesses",
+      "passed": true
+    }
+  ],
+  "schema": "ai-native-campaign-selection/v1",
+  "selected": {
+    "duel_source_state": "archive_restored",
+    "narrative_automaton": {
+      "initial": "arrival",
+      "terminal": "province_mapped",
+      "transitions": [
+        [
+          "arrival",
+          "speak_to_archivist",
+          "chartered"
+        ],
+        [
+          "chartered",
+          "defeat_echo_wilds_sentinel",
+          "echo_wilds_open"
+        ],
+        [
+          "echo_wilds_open",
+          "recover_echo_wilds_sigil",
+          "echo_wilds_attuned"
+        ],
+        [
+          "echo_wilds_attuned",
+          "defeat_skyglass_garden_sentinel",
+          "skyglass_garden_open"
+        ],
+        [
+          "skyglass_garden_open",
+          "recover_skyglass_garden_sigil",
+          "skyglass_garden_attuned"
+        ],
+        [
+          "skyglass_garden_attuned",
+          "defeat_root_vault_sentinel",
+          "root_vault_open"
+        ],
+        [
+          "root_vault_open",
+          "recover_root_vault_sigil",
+          "archive_restored"
+        ],
+        [
+          "archive_restored",
+          "win_cartographers_duel",
+          "trial_won"
+        ],
+        [
+          "trial_won",
+          "report_to_archivist",
+          "province_mapped"
+        ]
+      ]
+    },
+    "regions": [
+      {
+        "actor": "knight1",
+        "admission": {
+          "minimum_reachable_fraction": 0.98
+        },
+        "complete_state": "echo_wilds_attuned",
+        "defeat_action": "defeat_echo_wilds_sentinel",
+        "ecology": {
+          "actor": "knight1",
+          "selected": {
+            "actor": "knight1",
+            "level": 4,
+            "loss_seed": 3500003,
+            "mean_turns": 4.333,
+            "monster": "metesaur",
+            "player_win_rate": 0.6666666666666666,
+            "win_seed": 3500000
+          }
+        },
+        "entry_state": "chartered",
+        "geometry": {
+          "height": 34,
+          "obstacle_density": 0.14,
+          "width": 52
+        },
+        "narrative_role": "ordeal",
+        "open_state": "echo_wilds_open",
+        "palette_shift": 0.055,
+        "recover_action": "recover_echo_wilds_sigil",
+        "seed_offset": 104729,
+        "slug": "echo_wilds",
+        "target_mean_turns": 4.5,
+        "title": "The Echo Wilds"
+      },
+      {
+        "actor": "knight2",
+        "admission": {
+          "minimum_reachable_fraction": 0.98
+        },
+        "complete_state": "skyglass_garden_attuned",
+        "defeat_action": "defeat_skyglass_garden_sentinel",
+        "ecology": {
+          "actor": "knight2",
+          "selected": {
+            "actor": "knight2",
+            "level": 3,
+            "loss_seed": 4020001,
+            "mean_turns": 2.5,
+            "monster": "toucanary",
+            "player_win_rate": 0.8333333333333334,
+            "win_seed": 4020000
+          }
+        },
+        "entry_state": "echo_wilds_attuned",
+        "geometry": {
+          "height": 32,
+          "obstacle_density": 0.09,
+          "width": 48
+        },
+        "narrative_role": "respite",
+        "open_state": "skyglass_garden_open",
+        "palette_shift": 0.115,
+        "recover_action": "recover_skyglass_garden_sigil",
+        "seed_offset": 161803,
+        "slug": "skyglass_garden",
+        "target_mean_turns": 2.5,
+        "title": "The Skyglass Garden"
+      },
+      {
+        "actor": "knight3",
+        "admission": {
+          "minimum_reachable_fraction": 0.98
+        },
+        "complete_state": "archive_restored",
+        "defeat_action": "defeat_root_vault_sentinel",
+        "ecology": {
+          "actor": "knight3",
+          "selected": {
+            "actor": "knight3",
+            "level": 5,
+            "loss_seed": 3210000,
+            "mean_turns": 7.333,
+            "monster": "vivipere",
+            "player_win_rate": 0.8333333333333334,
+            "win_seed": 3210001
+          }
+        },
+        "entry_state": "skyglass_garden_attuned",
+        "geometry": {
+          "height": 36,
+          "obstacle_density": 0.18,
+          "width": 56
+        },
+        "narrative_role": "culmination",
+        "open_state": "root_vault_open",
+        "palette_shift": 0.205,
+        "recover_action": "recover_root_vault_sigil",
+        "seed_offset": 271828,
+        "slug": "root_vault",
+        "target_mean_turns": 7.0,
+        "title": "The Root Vault"
+      }
+    ]
+  },
+  "source_genome_sha256": "40297c9c83a0eb946e36ba08fc634f7c1e6742250e290b78626392a2204a95dd"
+}

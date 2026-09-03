@@ -38,13 +38,25 @@ foundry-selfplay:
 foundry-ecology:
 	python -m foundry.ecology
 
+.PHONY: foundry-campaign
+foundry-campaign:
+	python -m foundry.campaign
+
 .PHONY: foundry-playthrough
 foundry-playthrough:
 	python -m foundry.playthrough
 
+.PHONY: foundry-persistence
+foundry-persistence:
+	python -m foundry.persistence
+
 .PHONY: foundry-probe
 foundry-probe:
 	python -m foundry.runtime --probe
+
+.PHONY: foundry-assets
+foundry-assets:
+	python -m foundry.assets
 
 .PHONY: foundry-play
 foundry-play:
@@ -56,11 +68,14 @@ foundry-freeze:
 
 .PHONY: foundry-certify
 foundry-certify:
-	python -m foundry.town
 	python -m foundry.ecology
+	python -m foundry.campaign
+	python -m foundry.town
+	python -m foundry.assets
 	python -m foundry.runtime --probe
 	python -m foundry.selfplay
 	python -m foundry.playthrough
+	python -m foundry.persistence
 
 .PHONY: foundry-release
 foundry-release: foundry-certify

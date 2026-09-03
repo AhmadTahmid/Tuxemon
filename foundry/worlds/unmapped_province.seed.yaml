@@ -54,6 +54,53 @@ expedition:
     target_player_win_rate: [0.55, 0.85]
     target_turns: [2, 8]
 
+campaign:
+  target_play_minutes: [25, 45]
+  region_atoms:
+    - slug: echo_wilds
+      title: The Echo Wilds
+      narrative_role: ordeal
+      target_mean_turns: 4.5
+      actor: knight1
+      seed_offset: 104729
+      palette_shift: 0.055
+      geometry:
+        width: 52
+        height: 34
+        obstacle_density: 0.14
+      admission:
+        minimum_reachable_fraction: 0.98
+    - slug: skyglass_garden
+      title: The Skyglass Garden
+      narrative_role: respite
+      target_mean_turns: 2.5
+      actor: knight2
+      seed_offset: 161803
+      palette_shift: 0.115
+      geometry:
+        width: 48
+        height: 32
+        obstacle_density: 0.09
+      admission:
+        minimum_reachable_fraction: 0.98
+    - slug: root_vault
+      title: The Root Vault
+      narrative_role: culmination
+      target_mean_turns: 7.0
+      actor: knight3
+      seed_offset: 271828
+      palette_shift: 0.205
+      geometry:
+        width: 56
+        height: 36
+        obstacle_density: 0.18
+      admission:
+        minimum_reachable_fraction: 0.98
+  admission:
+    require_unique_guardians: true
+    require_distinct_narrative_roles: true
+    maximum_guardian_turn_deviation: 2.25
+
 style_genome:
   grass: "#4f9a63"
   grass_dark: "#2f6848"

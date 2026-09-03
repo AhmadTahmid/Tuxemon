@@ -17,11 +17,27 @@ ROOT_MOD_FILES = [
     for path in sorted((ROOT / "mods").iterdir())
     if path.is_file()
 ]
+PROOF_FILES = [
+    ROOT
+    / "foundry"
+    / "artifacts"
+    / "unmapped_province.admission.generated.json",
+    ROOT / "foundry" / "worlds" / "echo_wilds.ecology.lock.json",
+    ROOT / "foundry" / "worlds" / "campaign.lock.json",
+    ROOT / "foundry" / "artifacts" / "assets.generated.json",
+    ROOT
+    / "foundry"
+    / "artifacts"
+    / "unmapped_province.runtime.generated.json",
+    ROOT / "foundry" / "artifacts" / "combat-selfplay.generated.json",
+    ROOT / "foundry" / "artifacts" / "playthrough.generated.json",
+    ROOT / "foundry" / "artifacts" / "persistence.generated.json",
+]
 
 
 setup(
     name="The Unmapped Province",
-    version="0.3.0",
+    version="0.4.0",
     description="A proof-carrying turn-based RPG compiled by an AI foundry",
     options={
         "build_exe": {
@@ -45,6 +61,10 @@ setup(
                     "lib/mods/unmapped_province",
                 ),
                 *ROOT_MOD_FILES,
+                *[
+                    (str(path), f"proofs/{path.name}")
+                    for path in PROOF_FILES
+                ],
                 (str(ROOT / "LICENSE"), "LICENSE"),
                 (str(ROOT / "ATTRIBUTIONS.md"), "ATTRIBUTIONS.md"),
             ],

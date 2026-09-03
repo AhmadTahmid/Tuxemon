@@ -36,15 +36,22 @@ class Expedition:
     actor_positions: dict[str, Coord]
     style: dict[str, str]
     spec: dict[str, Any]
+    contract: dict[str, Any]
     map_type: str
     return_gate: Coord
     repaired_cells: int
 
 
-def _mutate_style(style: dict[str, str], seed: int) -> dict[str, str]:
+def _mutate_style(
+    style: dict[str, str], seed: int, hue_shift: float | None = None
+) -> dict[str, str]:
     """Project a related palette from the parent style without new artwork."""
     output: dict[str, str] = {}
-    hue_shift = 0.055 + (seed % 17) / 1000
+    hue_shift = (
+        float(hue_shift)
+        if hue_shift is not None
+        else 0.055 + (seed % 17) / 1000
+    )
     for name, value in style.items():
         red, green, blue = (
             int(value[index : index + 2], 16) / 255
@@ -64,8 +71,10 @@ def _mutate_style(style: dict[str, str], seed: int) -> dict[str, str]:
     return output
 
 
-def generate_expedition(spec: dict[str, Any]) -> Expedition:
-    contract = spec["expedition"]
+def generate_expedition(
+    spec: dict[str, Any], contract: dict[str, Any] | None = None
+) -> Expedition:
+    contract = contract or spec["expedition"]
     geometry = contract["geometry"]
     width, height = int(geometry["width"]), int(geometry["height"])
     if width < 32 or height < 24:
@@ -91,8 +100,11 @@ def generate_expedition(spec: dict[str, Any]) -> Expedition:
         spawn=entry,
         shard=(0, 0),
         actor_positions={},
-        style=_mutate_style(dict(spec["style_genome"]), seed),
+        style=_mutate_style(
+            dict(spec["style_genome"]), seed, contract.get("palette_shift")
+        ),
         spec=spec,
+        contract=contract,
         map_type="route",
         return_gate=return_gate,
         repaired_cells=0,
@@ -214,14 +226,14 @@ def expedition_events(
     shrine_x, shrine_y = expedition.shard
     return_x, return_y = expedition.return_gate
     town_return = (town.shard[0], town.shard[1] + 1)
-    ecology = expedition.spec["expedition"]["ecology"]
-    selected = ecology.get(
-        "selected",
-        {
+    contract = expedition.contract
+    ecology = contract["ecology"]
+    selected = ecology.get("selected")
+    if selected is None:
+        selected = {
             "monster": "aardorn",
             "level": min(map(int, ecology["levels"])),
-        },
-    )
+        }
     sentinel = str(ecology["actor"])
     sentinel_position = min(
         expedition.roads,
@@ -231,23 +243,28 @@ def expedition_events(
             cell,
         ),
     )
+    slug = expedition.slug
+    title = expedition.title
+    entry_state = str(contract.get("entry_state", "chartered"))
+    open_state = str(contract.get("open_state", "wilds_open"))
+    complete_state = str(contract.get("complete_state", "shard_recovered"))
     return {
-        "Initialize echo wilds": {
+        f"Initialize {slug}": {
             "type": "event",
-            "conditions": ["not variable_set echo_wilds_initialized"],
+            "conditions": [f"not variable_set {slug}_initialized"],
             "actions": [
                 "set_environment grass",
-                "set_variable echo_wilds_initialized:yes",
+                f"set_variable {slug}_initialized:yes",
             ],
         },
-        "Materialize echo sentinel": {
+        f"Materialize {slug} sentinel": {
             "type": "event",
             "conditions": [f"not char_exists {sentinel}"],
             "actions": [
                 f"create_npc {sentinel},{sentinel_position[0]},{sentinel_position[1]}"
             ],
         },
-        "Arm echo sentinel": {
+        f"Arm {slug} sentinel": {
             "type": "event",
             "conditions": [
                 f"is char_exists {sentinel}",
@@ -258,66 +275,66 @@ def expedition_events(
                 f"{selected['monster']},{selected['level']},{sentinel}"
             ],
         },
-        "Challenge echo sentinel": {
+        f"Challenge {slug} sentinel": {
             "type": "event",
             "behav": [f"talk {sentinel}"],
             "conditions": [
-                "is variable_set province_stage:chartered",
+                f"is variable_set province_stage:{entry_state}",
                 f"not char_defeated {sentinel}",
             ],
             "actions": [
-                "translated_dialog The forest has chosen its own answer. Pass through it, not around it.",
+                f"translated_dialog {title} has chosen its own answer. Pass through it, not around it.",
                 f"start_battle player,{sentinel}",
             ],
         },
-        "Record echo sentinel victory": {
+        f"Record {slug} sentinel victory": {
             "type": "event",
             "conditions": [
                 f"is battle_outcome player,won,{sentinel}",
                 "is current_state WorldState",
-                "is variable_set province_stage:chartered",
+                f"is variable_set province_stage:{entry_state}",
             ],
             "actions": [
-                "translated_dialog The sentinel yields. The eastern circuit opens toward the shard.",
-                "set_variable province_stage:wilds_open",
+                f"translated_dialog The sentinel yields. {title} opens toward its sigil.",
+                f"set_variable province_stage:{open_state}",
             ],
         },
-        "Echo sentinel remembers": {
+        f"{title} sentinel remembers": {
             "type": "event",
             "behav": [f"talk {sentinel}"],
-            "conditions": ["is variable_set province_stage:wilds_open"],
+            "conditions": [f"is variable_set province_stage:{open_state}"],
             "actions": [
                 "translated_dialog The path ahead is yours because you survived its reply."
             ],
         },
-        "Recover echo shard": {
+        f"Recover {slug} sigil": {
             "type": "event",
             "x": shrine_x,
             "y": shrine_y,
             "conditions": [
                 "is char_facing_tile player",
                 "is button_pressed INTERACT",
-                "is variable_set province_stage:wilds_open",
+                f"is variable_set province_stage:{open_state}",
             ],
             "actions": [
-                "translated_dialog The wild circuit resolves into one memory: every path can return.",
-                "set_variable province_stage:shard_recovered",
+                f"translated_dialog {title} resolves into a sigil the archive can remember.",
+                f"set_variable province_stage:{complete_state}",
             ],
         },
-        "Echo shrine remembered": {
+        f"{title} shrine remembered": {
             "type": "event",
             "x": shrine_x,
             "y": shrine_y,
             "conditions": [
                 "is char_facing_tile player",
                 "is button_pressed INTERACT",
-                "is variable_set province_stage:shard_recovered",
+                f"is variable_set province_stage:{complete_state}",
             ],
             "actions": [
                 "translated_dialog The empty shrine points west, toward the monolith that remembers home."
             ],
         },
-        "Return to Unmapped Province": {
+        f"Return from {slug}": {
             "type": "event",
             "x": return_x,
             "y": return_y,
@@ -361,14 +378,12 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
     )
     fraction = len(reachable) / max(1, len(walkable))
     threshold = float(
-        expedition.spec["expedition"]["admission"][
-            "minimum_reachable_fraction"
-        ]
+        expedition.contract["admission"]["minimum_reachable_fraction"]
     )
     cycle_rank = _road_cycle_rank(expedition)  # type: ignore[arg-type]
     proofs = [
         {
-            "id": "expedition-entry-is-walkable",
+            "id": f"{expedition.slug}-entry-is-walkable",
             "passed": expedition.spawn in reachable,
             "detail": list(expedition.spawn),
             "counterexamples": []
@@ -376,7 +391,7 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             else [list(expedition.spawn)],
         },
         {
-            "id": "expedition-shrine-is-reachable",
+            "id": f"{expedition.slug}-shrine-is-reachable",
             "passed": bool(shrine_fronts & reachable),
             "detail": sorted(shrine_fronts & reachable),
             "counterexamples": []
@@ -384,7 +399,7 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             else [list(expedition.shard)],
         },
         {
-            "id": "expedition-return-is-reachable",
+            "id": f"{expedition.slug}-return-is-reachable",
             "passed": return_front in reachable,
             "detail": list(return_front),
             "counterexamples": []
@@ -392,7 +407,7 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             else [list(return_front)],
         },
         {
-            "id": "expedition-sentinel-is-reachable",
+            "id": f"{expedition.slug}-sentinel-is-reachable",
             "passed": sentinel_position in reachable,
             "detail": list(sentinel_position),
             "counterexamples": []
@@ -400,7 +415,7 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             else [list(sentinel_position)],
         },
         {
-            "id": "expedition-walkable-space-connected",
+            "id": f"{expedition.slug}-walkable-space-connected",
             "passed": fraction >= threshold,
             "detail": (
                 f"{len(reachable)}/{len(walkable)} cells connect to entry "
@@ -411,7 +426,7 @@ def certify_expedition(expedition: Expedition) -> dict[str, Any]:
             else ["isolated_cells"],
         },
         {
-            "id": "expedition-road-network-has-cycle",
+            "id": f"{expedition.slug}-road-network-has-cycle",
             "passed": cycle_rank >= 1,
             "detail": f"Expedition route cycle rank is {cycle_rank}.",
             "counterexamples": [] if cycle_rank >= 1 else ["acyclic_route"],

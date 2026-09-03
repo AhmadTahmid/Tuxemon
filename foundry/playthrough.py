@@ -212,6 +212,7 @@ def run(root: Path) -> dict[str, Any]:
     }
     previous_logging_threshold = logging.root.manager.disable
     logging.disable(logging.CRITICAL)
+    random.seed(int(admission["seed"]))
     client, context, session = _boot(root, visible=False)
     transcript: list[dict[str, Any]] = []
     execution_steps: list[dict[str, Any]] = []
@@ -230,137 +231,159 @@ def run(root: Path) -> dict[str, Any]:
         transcript.append(charter)
         execution_steps.append(charter)
 
-        expedition_witness = admission["witnesses"]["expedition"]
-        gateway = _run_event(
-            client,
-            session,
-            events[expedition_witness["entry_event"]],
-        )
-        gateway["kind"] = "region_transition"
-        gateway["transition_frames"] = _pump_until_map(
-            client, "echo_wilds.tmx"
-        )
-        gateway["map_after"] = client.get_map_name()
-        execution_steps.append(gateway)
-        visited_regions = ["unmapped_province.tmx", gateway["map_after"]]
-
         import pygame
+        visited_regions = ["unmapped_province.tmx"]
+        region_runs: list[dict[str, Any]] = []
+        region_screenshots: dict[str, Path] = {}
+        all_sentinel_recoveries: list[dict[str, Any]] = []
 
-        client.draw()
-        expedition_screenshot = (
-            root
-            / "foundry"
-            / "artifacts"
-            / "echo_wilds.runtime.generated.png"
-        )
-        pygame.image.save(context.screen, expedition_screenshot)
-
-        events = _events_by_name(client)
-        ecology_witness = expedition_witness["ecology"]
-        sentinel_actor = ecology_witness["actor"]
-        sentinel_event = events[expedition_witness["sentinel_event"]]
-        sentinel_attempts = []
-        sentinel_recoveries = []
-        sentinel = None
-        battle_seeds = [
-            int(ecology_witness["loss_seed"]),
-            *(
-                int(ecology_witness["win_seed"]) + offset
-                for offset in range(12)
-            ),
-        ]
-        for attempt, battle_seed in enumerate(battle_seeds):
-            if attempt == 0:
-                session.player.monsters[0].current_hp = 1
-            battle = _run_event(
-                client,
-                session,
-                sentinel_event,
-                battle_seed=battle_seed,
+        for region_index, region in enumerate(
+            admission["witnesses"]["campaign_regions"]
+        ):
+            slug = region["slug"]
+            expected_map = f"{slug}.tmx"
+            gateway = _run_event(
+                client, session, events[region["entry_event"]]
             )
-            battle["kind"] = "sentinel_battle_attempt"
-            if attempt == 0:
-                battle["fault_injection"] = "player_party_health=1"
-            battle["outcome"] = (
-                session.player.battle_handler.get_last_battle_outcome(
-                    sentinel_actor
+            gateway["kind"] = "region_transition"
+            gateway["region"] = slug
+            gateway["transition_frames"] = _pump_until_map(
+                client, expected_map
+            )
+            gateway["map_after"] = client.get_map_name()
+            execution_steps.append(gateway)
+            visited_regions.append(gateway["map_after"])
+
+            client.draw()
+            screenshot = (
+                root
+                / "foundry"
+                / "artifacts"
+                / f"{slug}.runtime.generated.png"
+            )
+            pygame.image.save(context.screen, screenshot)
+            region_screenshots[slug] = screenshot
+
+            events = _events_by_name(client)
+            ecology = region["ecology"]
+            sentinel_actor = ecology["actor"]
+            sentinel_event = events[region["sentinel_event"]]
+            attempts: list[dict[str, Any]] = []
+            recoveries: list[dict[str, Any]] = []
+            winner = None
+            battle_seeds = [
+                int(ecology["loss_seed"]),
+                *(int(ecology["win_seed"]) + offset for offset in range(16)),
+            ]
+            for attempt, battle_seed in enumerate(battle_seeds):
+                if region_index == 0 and attempt == 0:
+                    session.player.monsters[0].current_hp = 1
+                battle = _run_event(
+                    client,
+                    session,
+                    sentinel_event,
+                    battle_seed=battle_seed,
                 )
-            )
-            sentinel_attempts.append(battle)
-            execution_steps.append(battle)
-            if battle["outcome"] == "won":
-                sentinel = battle
-                break
+                battle["kind"] = "sentinel_battle_attempt"
+                battle["region"] = slug
+                if region_index == 0 and attempt == 0:
+                    battle["fault_injection"] = "player_party_health=1"
+                battle["outcome"] = (
+                    session.player.battle_handler.get_last_battle_outcome(
+                        sentinel_actor
+                    )
+                )
+                attempts.append(battle)
+                execution_steps.append(battle)
+                if battle["outcome"] == "won":
+                    winner = battle
+                    break
 
-            retreat = _run_event(
+                retreat = _run_event(
+                    client, session, events[region["return_event"]]
+                )
+                retreat["kind"] = "sentinel_loss_retreat"
+                retreat["region"] = slug
+                retreat["transition_frames"] = _pump_until_map(
+                    client, "unmapped_province.tmx"
+                )
+                retreat["map_after"] = client.get_map_name()
+                execution_steps.append(retreat)
+                visited_regions.append(retreat["map_after"])
+
+                events = _events_by_name(client)
+                recovery = _run_event(
+                    client,
+                    session,
+                    events[
+                        admission["witnesses"][
+                            "battle_loss_recovery_event"
+                        ]
+                    ],
+                )
+                recovery["kind"] = "sentinel_loss_recovery"
+                recovery["region"] = slug
+                recoveries.append(recovery)
+                all_sentinel_recoveries.append(recovery)
+                execution_steps.append(recovery)
+
+                reentry = _run_event(
+                    client, session, events[region["entry_event"]]
+                )
+                reentry["kind"] = "sentinel_retry_transition"
+                reentry["region"] = slug
+                reentry["transition_frames"] = _pump_until_map(
+                    client, expected_map
+                )
+                reentry["map_after"] = client.get_map_name()
+                execution_steps.append(reentry)
+                visited_regions.append(reentry["map_after"])
+                events = _events_by_name(client)
+                sentinel_event = events[region["sentinel_event"]]
+            if winner is None:
+                raise RuntimeError(
+                    f"The selected sentinel for {slug} has no winning witness."
+                )
+            winner["transition"] = region["defeat_action"]
+            winner["post_battle_frames"] = _pump_until_stage(
+                client, session, region["open_state"]
+            )
+            winner["stage_after"] = _stage(session)
+            winner["attempts"] = len(attempts)
+            transcript.append(winner)
+
+            sigil = _run_event(
                 client,
                 session,
-                events[expedition_witness["return_event"]],
+                events[event_bindings[region["recover_action"]]],
             )
-            retreat["kind"] = "sentinel_loss_retreat"
-            retreat["transition_frames"] = _pump_until_map(
+            sigil["transition"] = region["recover_action"]
+            sigil["region"] = slug
+            transcript.append(sigil)
+            execution_steps.append(sigil)
+
+            return_step = _run_event(
+                client, session, events[region["return_event"]]
+            )
+            return_step["kind"] = "region_transition"
+            return_step["region"] = slug
+            return_step["transition_frames"] = _pump_until_map(
                 client, "unmapped_province.tmx"
             )
-            retreat["map_after"] = client.get_map_name()
-            execution_steps.append(retreat)
-            visited_regions.append(retreat["map_after"])
-
+            return_step["map_after"] = client.get_map_name()
+            execution_steps.append(return_step)
+            visited_regions.append(return_step["map_after"])
             events = _events_by_name(client)
-            recovery = _run_event(
-                client,
-                session,
-                events[admission["witnesses"]["battle_loss_recovery_event"]],
+            region_runs.append(
+                {
+                    "slug": slug,
+                    "ecology": ecology,
+                    "attempts": attempts,
+                    "recoveries": recoveries,
+                    "winner": winner,
+                    "sigil": sigil,
+                }
             )
-            recovery["kind"] = "sentinel_loss_recovery"
-            sentinel_recoveries.append(recovery)
-            execution_steps.append(recovery)
-
-            reentry = _run_event(
-                client,
-                session,
-                events[expedition_witness["entry_event"]],
-            )
-            reentry["kind"] = "sentinel_retry_transition"
-            reentry["transition_frames"] = _pump_until_map(
-                client, "echo_wilds.tmx"
-            )
-            reentry["map_after"] = client.get_map_name()
-            execution_steps.append(reentry)
-            visited_regions.append(reentry["map_after"])
-            events = _events_by_name(client)
-            sentinel_event = events[expedition_witness["sentinel_event"]]
-        if sentinel is None:
-            raise RuntimeError("The selected sentinel has no winning witness.")
-        sentinel["transition"] = "defeat_echo_sentinel"
-        sentinel["post_battle_frames"] = _pump_until_stage(
-            client, session, "wilds_open"
-        )
-        sentinel["stage_after"] = _stage(session)
-        sentinel["attempts"] = len(sentinel_attempts)
-        transcript.append(sentinel)
-
-        shard = _run_event(
-            client,
-            session,
-            events[event_bindings["recover_echo_shard"]],
-        )
-        shard["transition"] = "recover_echo_shard"
-        transcript.append(shard)
-        execution_steps.append(shard)
-
-        return_step = _run_event(
-            client,
-            session,
-            events[expedition_witness["return_event"]],
-        )
-        return_step["kind"] = "region_transition"
-        return_step["transition_frames"] = _pump_until_map(
-            client, "unmapped_province.tmx"
-        )
-        return_step["map_after"] = client.get_map_name()
-        execution_steps.append(return_step)
-        visited_regions.append(return_step["map_after"])
-        events = _events_by_name(client)
 
         duel_event = next(
             event
@@ -424,13 +447,17 @@ def run(root: Path) -> dict[str, Any]:
         pygame.quit()
 
     expected_stages = [
-        "chartered",
-        "wilds_open",
-        "shard_recovered",
-        "trial_won",
-        "province_mapped",
+        target
+        for _, _, target in admission["quest"]["transitions"]
     ]
     observed_stages = [entry["stage_after"] for entry in transcript]
+    expected_visits = ["unmapped_province.tmx"]
+    for region in region_runs:
+        region_map = f"{region['slug']}.tmx"
+        expected_visits.append(region_map)
+        for _ in region["recoveries"]:
+            expected_visits.extend(["unmapped_province.tmx", region_map])
+        expected_visits.append("unmapped_province.tmx")
     proofs = [
         {
             "id": "compiled-quest-transitions-in-real-runtime",
@@ -453,63 +480,59 @@ def run(root: Path) -> dict[str, Any]:
             "detail": [entry["route"] for entry in execution_steps],
         },
         {
-            "id": "campaign-crosses-generated-expedition-and-returns",
-            "passed": visited_regions
-            == [
-                "unmapped_province.tmx",
-                "echo_wilds.tmx",
-                *[
-                    region
-                    for _ in sentinel_recoveries
-                    for region in (
-                        "unmapped_province.tmx",
-                        "echo_wilds.tmx",
-                    )
-                ],
-                "unmapped_province.tmx",
-            ],
+            "id": "campaign-crosses-every-generated-region-and-returns",
+            "passed": visited_regions == expected_visits,
             "detail": visited_regions,
         },
         {
-            "id": "generated-expedition-renders-in-real-runtime",
-            "passed": expedition_screenshot.stat().st_size > 0,
+            "id": "every-generated-region-renders-in-real-runtime",
+            "passed": len(region_screenshots) == len(region_runs)
+            and all(path.stat().st_size > 0 for path in region_screenshots.values()),
             "detail": {
-                "path": expedition_screenshot.as_posix(),
-                "sha256": hashlib.sha256(
-                    expedition_screenshot.read_bytes()
-                ).hexdigest(),
+                slug: {
+                    "path": path.as_posix(),
+                    "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                }
+                for slug, path in region_screenshots.items()
             },
         },
         {
-            "id": "selected-ecology-executes-loss-recovery-win",
-            "passed": (
-                sentinel_attempts[0]["outcome"] == "lost"
-                and sentinel_attempts[-1]["outcome"] == "won"
-                and len(sentinel_recoveries)
-                == sum(
-                    item["outcome"] == "lost"
-                    for item in sentinel_attempts
+            "id": "selected-ecologies-all-execute-and-terminate",
+            "passed": all(
+                region["attempts"][-1]["outcome"] == "won"
+                and region["winner"]["stage_after"]
+                == next(
+                    witness["open_state"]
+                    for witness in admission["witnesses"]["campaign_regions"]
+                    if witness["slug"] == region["slug"]
                 )
-                and sentinel["stage_after"] == "wilds_open"
+                for region in region_runs
             ),
-            "detail": {
-                "sentinel": ecology_witness,
-                "outcomes": [
-                    item["outcome"] for item in sentinel_attempts
-                ],
-                "recoveries": len(sentinel_recoveries),
-            },
+            "detail": [
+                {
+                    "region": region["slug"],
+                    "guardian": region["ecology"]["monster"],
+                    "outcomes": [
+                        attempt["outcome"] for attempt in region["attempts"]
+                    ],
+                }
+                for region in region_runs
+            ],
         },
         {
             "id": "battle-loss-recovery-loop-is-executable",
-            "passed": bool(recovery_steps)
-            and len(recovery_steps)
+            "passed": bool(all_sentinel_recoveries)
+            and len(all_sentinel_recoveries)
             == sum(
-                entry["outcome"] == "lost" for entry in battle_attempts
-            ),
+                attempt["outcome"] == "lost"
+                for region in region_runs
+                for attempt in region["attempts"]
+            )
+            and len(recovery_steps)
+            == sum(entry["outcome"] == "lost" for entry in battle_attempts),
             "detail": {
-                "battle_attempts": len(battle_attempts),
-                "recoveries": len(recovery_steps),
+                "regional_recoveries": len(all_sentinel_recoveries),
+                "duel_recoveries": len(recovery_steps),
             },
         },
         {
@@ -533,7 +556,9 @@ def run(root: Path) -> dict[str, Any]:
         "quest_witness": admission["witnesses"]["quest"],
         "transcript": transcript,
         "execution_steps": execution_steps,
-        "expedition_screenshot": expedition_screenshot.as_posix(),
+        "region_screenshots": {
+            slug: path.as_posix() for slug, path in region_screenshots.items()
+        },
         "proofs": proofs,
     }
     canonical = json.dumps(body, sort_keys=True, separators=(",", ":"))

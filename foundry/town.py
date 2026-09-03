@@ -389,7 +389,7 @@ def _compress_rectangles(cells: set[Coord]) -> list[tuple[int, int, int, int]]:
 
 
 def certify(
-    town: Town, expedition=None, *, require_ecology_lock: bool = False
+    town: Town, expeditions=None, *, require_ecology_lock: bool = False
 ) -> dict[str, Any]:
     from foundry.expedition import (
         certify_expedition,
@@ -397,10 +397,27 @@ def certify(
         generate_expedition,
     )
 
-    expedition = expedition or generate_expedition(town.spec)
-    expedition_certificate = certify_expedition(expedition)
-    ecology = town.spec["expedition"]["ecology"]
-    selected_ecology = ecology.get("selected")
+    campaign = town.spec.get("campaign", {}).get("selected")
+    region_contracts = (
+        campaign["regions"] if campaign else [town.spec["expedition"]]
+    )
+    if expeditions is None:
+        expedition_list = [
+            generate_expedition(town.spec, contract)
+            for contract in region_contracts
+        ]
+    elif isinstance(expeditions, (list, tuple)):
+        expedition_list = list(expeditions)
+    else:
+        expedition_list = [expeditions]
+    expedition_certificates = {
+        expedition.slug: certify_expedition(expedition)
+        for expedition in expedition_list
+    }
+    selected_ecologies = [
+        expedition.contract.get("ecology", {}).get("selected")
+        for expedition in expedition_list
+    ]
     reachable = _reachable(town)
     walkable = {
         (x, y)
@@ -434,10 +451,13 @@ def certify(
         state = target
     quest_passed = state == quest["terminal"]
     town_events = _world_events(town)
-    wild_events = expedition_events(expedition, town)
+    wild_events_by_slug = {
+        expedition.slug: expedition_events(expedition, town)
+        for expedition in expedition_list
+    }
     regional_events = {
         town.slug: town_events,
-        expedition.slug: wild_events,
+        **wild_events_by_slug,
     }
     recovery_role = town.spec["resilience"]["battle_loss"]["recover_at"]
     recovery_event_name = f"Inspect {recovery_role}"
@@ -445,12 +465,21 @@ def certify(
     recovery_compiled = "set_monster_health" in recovery_event.get(
         "actions", []
     )
-    roundtrip_compiled = (
-        f"transition_teleport player,{expedition.slug}.tmx"
-        in " ".join(town_events["Enter Echo Wilds"]["actions"])
-        and f"transition_teleport player,{town.slug}.tmx"
-        in " ".join(wild_events["Return to Unmapped Province"]["actions"])
-    )
+    roundtrip_failures = []
+    for expedition in expedition_list:
+        entry_name = f"Enter {expedition.title}"
+        return_name = f"Return from {expedition.slug}"
+        if (
+            entry_name not in town_events
+            or f"transition_teleport player,{expedition.slug}.tmx"
+            not in " ".join(town_events[entry_name]["actions"])
+            or return_name not in wild_events_by_slug[expedition.slug]
+            or f"transition_teleport player,{town.slug}.tmx"
+            not in " ".join(
+                wild_events_by_slug[expedition.slug][return_name]["actions"]
+            )
+        ):
+            roundtrip_failures.append(expedition.slug)
     realized_transitions = []
     missing_transitions = []
     for source, action, target in quest["transitions"]:
@@ -545,32 +574,43 @@ def certify(
             ),
         },
         {
-            "id": "expedition-roundtrip-compiles",
-            "passed": roundtrip_compiled,
-            "detail": f"{town.slug} -> {expedition.slug} -> {town.slug}",
-            "counterexamples": []
-            if roundtrip_compiled
-            else ["broken_region_roundtrip"],
+            "id": "campaign-region-roundtrips-compile",
+            "passed": not roundtrip_failures,
+            "detail": [
+                f"{town.slug} -> {expedition.slug} -> {town.slug}"
+                for expedition in expedition_list
+            ],
+            "counterexamples": roundtrip_failures,
         },
         *(
             [
                 {
                     "id": "actual-engine-ecology-selection-is-locked",
-                    "passed": bool(selected_ecology)
-                    and bool(ecology.get("selection_certificate")),
-                    "detail": selected_ecology,
+                    "passed": all(selected_ecologies)
+                    and bool(
+                        town.spec.get("campaign", {}).get(
+                            "selection_certificate"
+                        )
+                    ),
+                    "detail": selected_ecologies,
                     "counterexamples": (
                         []
-                        if selected_ecology
-                        and ecology.get("selection_certificate")
-                        else ["missing_ecology_selection"]
+                        if all(selected_ecologies)
+                        and town.spec.get("campaign", {}).get(
+                            "selection_certificate"
+                        )
+                        else ["missing_campaign_or_ecology_selection"]
                     ),
                 }
             ]
             if require_ecology_lock
             else []
         ),
-        *expedition_certificate["proofs"],
+        *[
+            proof
+            for certificate in expedition_certificates.values()
+            for proof in certificate["proofs"]
+        ],
     ]
     compiled_semantics = {
         world.slug: {
@@ -580,15 +620,17 @@ def certify(
             "blocked": sorted(world.blocked),
             "events": events,
         }
-        for world, events in (
+        for world, events in [
             (town, town_events),
-            (expedition, wild_events),
-        )
+            *[
+                (expedition, wild_events_by_slug[expedition.slug])
+                for expedition in expedition_list
+            ],
+        ]
     }
     seed_genome = copy.deepcopy(town.spec)
-    seed_genome["expedition"]["ecology"].pop(
-        "selection_certificate", None
-    )
+    seed_genome["expedition"]["ecology"].pop("selection_certificate", None)
+    seed_genome.get("campaign", {}).pop("selection_certificate", None)
     body = {
         "schema": "ai-native-admission-certificate/v1",
         "world": town.slug,
@@ -609,14 +651,21 @@ def certify(
                 "dimensions": [town.width, town.height],
                 "events": len(town_events),
             },
-            expedition.slug: {
-                "dimensions": [expedition.width, expedition.height],
-                "events": len(wild_events),
+            **{
+                expedition.slug: {
+                    "dimensions": [expedition.width, expedition.height],
+                    "events": len(wild_events_by_slug[expedition.slug]),
+                    "collision_cells": expedition_certificates[
+                        expedition.slug
+                    ]["counts"]["collision_cells"],
+                }
+                for expedition in expedition_list
             },
         },
         "quest": {
             "initial": quest["initial"],
             "terminal": quest["terminal"],
+            "transitions": quest["transitions"],
         },
         "counts": {
             "walkable_cells": len(walkable),
@@ -630,12 +679,14 @@ def certify(
             "quest_transitions": len(quest["transitions"]),
             "regions": len(regional_events),
             "runtime_events": sum(map(len, regional_events.values())),
-            "expedition_collision_cells": expedition_certificate["counts"][
-                "collision_cells"
-            ],
-            "expedition_repair_cells": expedition_certificate["counts"][
-                "repair_cells"
-            ],
+            "regional_collision_cells": sum(
+                certificate["counts"]["collision_cells"]
+                for certificate in expedition_certificates.values()
+            ),
+            "regional_repair_cells": sum(
+                certificate["counts"]["repair_cells"]
+                for certificate in expedition_certificates.values()
+            ),
         },
         "witnesses": {
             "quest": witness,
@@ -644,13 +695,33 @@ def certify(
             "landmark_approaches": {
                 role: list(cell) for role, cell in sorted(approaches.items())
             },
-            "expedition": {
-                **expedition_certificate["witnesses"],
-                "entry_event": "Enter Echo Wilds",
-                "return_event": "Return to Unmapped Province",
-                "sentinel_event": "Challenge echo sentinel",
-                "ecology": selected_ecology,
-            },
+            "campaign_regions": [
+                {
+                    **expedition_certificates[expedition.slug]["witnesses"],
+                    "slug": expedition.slug,
+                    "title": expedition.title,
+                    "entry_state": expedition.contract.get(
+                        "entry_state", "chartered"
+                    ),
+                    "open_state": expedition.contract.get(
+                        "open_state", "wilds_open"
+                    ),
+                    "complete_state": expedition.contract.get(
+                        "complete_state", "shard_recovered"
+                    ),
+                    "defeat_action": expedition.contract.get(
+                        "defeat_action", "defeat_echo_sentinel"
+                    ),
+                    "recover_action": expedition.contract.get(
+                        "recover_action", "recover_echo_shard"
+                    ),
+                    "entry_event": f"Enter {expedition.title}",
+                    "return_event": f"Return from {expedition.slug}",
+                    "sentinel_event": f"Challenge {expedition.slug} sentinel",
+                    "ecology": selected_ecologies[index],
+                }
+                for index, expedition in enumerate(expedition_list)
+            ],
         },
         "proofs": proofs,
     }
@@ -921,6 +992,12 @@ def _world_events(town: Town) -> dict[str, Any]:
         actors["duelist"],
     )
     events: dict[str, Any] = {}
+    selected_campaign = town.spec.get("campaign", {}).get("selected")
+    duel_source_state = (
+        selected_campaign.get("duel_source_state", "archive_restored")
+        if selected_campaign
+        else "shard_recovered"
+    )
     for slug, position in sorted(town.actor_positions.items()):
         events[f"Materialize {slug}"] = {
             "type": "event",
@@ -960,7 +1037,7 @@ def _world_events(town: Town) -> dict[str, Any]:
         "behav": [f"talk {archivist}"],
         "conditions": ["is variable_set province_stage:arrival"],
         "actions": [
-            "translated_dialog The streets have forgotten their own shape. Find the echo shard beside the observatory.",
+            "translated_dialog Three missing sigils keep the province from remembering itself. The eastern gate will compile one route at a time.",
             "set_variable province_stage:chartered",
         ],
     }
@@ -969,47 +1046,52 @@ def _world_events(town: Town) -> dict[str, Any]:
         "behav": [f"talk {archivist}"],
         "conditions": ["is variable_set province_stage:chartered"],
         "actions": [
-            "translated_dialog Follow the loop road east. The shard waits below the indigo observatory."
+            "translated_dialog Begin at the eastern gate. Survive each region, recover its sigil, and return for the next."
         ],
     }
     shard_x, shard_y = town.shard
-    expedition = town.spec["expedition"]
-    expedition_spawn = (3, int(expedition["geometry"]["height"]) // 2)
-    events["Enter Echo Wilds"] = {
-        "type": "event",
-        "x": shard_x,
-        "y": shard_y,
-        "conditions": [
-            "is char_facing_tile player",
-            "is button_pressed INTERACT",
-            "is variable_set province_stage:chartered",
-        ],
-        "actions": [
-            "translated_dialog The gate unfolds a forest from the echo shard's possible locations.",
-            (
-                "transition_teleport player,"
-                f"{expedition['slug']}.tmx,{expedition_spawn[0]},"
-                f"{expedition_spawn[1]},0.3"
-            ),
-        ],
-    }
-    events["Reenter Echo Wilds"] = {
-        "type": "event",
-        "x": shard_x,
-        "y": shard_y,
-        "conditions": [
-            "is char_facing_tile player",
-            "is button_pressed INTERACT",
-            "is variable_set province_stage:wilds_open",
-        ],
-        "actions": [
-            (
-                "transition_teleport player,"
-                f"{expedition['slug']}.tmx,{expedition_spawn[0]},"
-                f"{expedition_spawn[1]},0.3"
-            ),
-        ],
-    }
+    region_contracts = (
+        selected_campaign["regions"]
+        if selected_campaign
+        else [town.spec["expedition"]]
+    )
+    for region in region_contracts:
+        spawn = (3, int(region["geometry"]["height"]) // 2)
+        entry_state = region.get("entry_state", "chartered")
+        open_state = region.get("open_state", "wilds_open")
+        events[f"Enter {region['title']}"] = {
+            "type": "event",
+            "x": shard_x,
+            "y": shard_y,
+            "conditions": [
+                "is char_facing_tile player",
+                "is button_pressed INTERACT",
+                f"is variable_set province_stage:{entry_state}",
+            ],
+            "actions": [
+                f"translated_dialog The gate compiles {region['title']} from the next unresolved promise.",
+                (
+                    "transition_teleport player,"
+                    f"{region['slug']}.tmx,{spawn[0]},{spawn[1]},0.3"
+                ),
+            ],
+        }
+        events[f"Reenter {region['title']}"] = {
+            "type": "event",
+            "x": shard_x,
+            "y": shard_y,
+            "conditions": [
+                "is char_facing_tile player",
+                "is button_pressed INTERACT",
+                f"is variable_set province_stage:{open_state}",
+            ],
+            "actions": [
+                (
+                    "transition_teleport player,"
+                    f"{region['slug']}.tmx,{spawn[0]},{spawn[1]},0.3"
+                ),
+            ],
+        }
     events["Cartographer observes"] = {
         "type": "event",
         "behav": [f"talk {cartographer}"],
@@ -1021,7 +1103,8 @@ def _world_events(town: Town) -> dict[str, Any]:
         "type": "event",
         "behav": [f"talk {duelist}"],
         "conditions": [
-            "is variable_set province_stage:shard_recovered",
+            "is variable_set province_stage:"
+            + duel_source_state,
             f"not char_defeated {duelist}",
         ],
         "actions": [
@@ -1034,7 +1117,7 @@ def _world_events(town: Town) -> dict[str, Any]:
         "conditions": [
             f"is battle_outcome player,won,{duelist}",
             "is current_state WorldState",
-            "is variable_set province_stage:shard_recovered",
+            f"is variable_set province_stage:{duel_source_state}",
         ],
         "actions": [
             "translated_dialog The map seal answers. Return to the archivist.",
@@ -1109,9 +1192,12 @@ def compile_world(
     ecology_lock = (
         root / "foundry" / "worlds" / "echo_wilds.ecology.lock.json"
     )
+    ecology_selection = None
     if ecology_lock.is_file():
-        selection = json.loads(ecology_lock.read_text(encoding="utf-8"))
-        selection_body = dict(selection)
+        ecology_selection = json.loads(
+            ecology_lock.read_text(encoding="utf-8")
+        )
+        selection_body = dict(ecology_selection)
         expected_fingerprint = selection_body.pop("fingerprint", None)
         observed_fingerprint = hashlib.sha256(
             json.dumps(
@@ -1120,16 +1206,53 @@ def compile_world(
         ).hexdigest()
         if expected_fingerprint != observed_fingerprint:
             raise AdmissionRejected("The ecology lock fingerprint is invalid.")
-        if not all(proof["passed"] for proof in selection.get("proofs", [])):
+        if not all(
+            proof["passed"]
+            for proof in ecology_selection.get("proofs", [])
+        ):
             raise AdmissionRejected("The ecology lock contains failed proofs.")
         ecology = spec["expedition"]["ecology"]
-        ecology["selected"] = selection["selected"]
-        ecology["selection_certificate"] = selection["fingerprint"]
+        ecology["selected"] = ecology_selection["selected"]
+        ecology["selection_certificate"] = ecology_selection["fingerprint"]
+
+    campaign_lock = root / "foundry" / "worlds" / "campaign.lock.json"
+    if not campaign_lock.is_file():
+        raise AdmissionRejected("The campaign selection lock is missing.")
+    campaign_selection = json.loads(
+        campaign_lock.read_text(encoding="utf-8")
+    )
+    campaign_body = dict(campaign_selection)
+    campaign_fingerprint = campaign_body.pop("fingerprint", None)
+    observed_campaign_fingerprint = hashlib.sha256(
+        json.dumps(
+            campaign_body, sort_keys=True, separators=(",", ":")
+        ).encode()
+    ).hexdigest()
+    if campaign_fingerprint != observed_campaign_fingerprint:
+        raise AdmissionRejected("The campaign lock fingerprint is invalid.")
+    if not all(
+        proof["passed"] for proof in campaign_selection.get("proofs", [])
+    ):
+        raise AdmissionRejected("The campaign lock contains failed proofs.")
+    if (
+        ecology_selection is None
+        or campaign_selection.get("ecology_fingerprint")
+        != ecology_selection.get("fingerprint")
+    ):
+        raise AdmissionRejected("Campaign and ecology locks disagree.")
+    spec["campaign"]["selected"] = campaign_selection["selected"]
+    spec["campaign"]["selection_certificate"] = campaign_fingerprint
+    spec["narrative_automaton"] = campaign_selection["selected"][
+        "narrative_automaton"
+    ]
     town = generate_town(spec)
     from foundry.expedition import expedition_events, generate_expedition
 
-    expedition = generate_expedition(spec)
-    certificate = certify(town, expedition, require_ecology_lock=True)
+    expeditions = [
+        generate_expedition(spec, contract)
+        for contract in campaign_selection["selected"]["regions"]
+    ]
+    certificate = certify(town, expeditions, require_ecology_lock=True)
     failures = [
         proof for proof in certificate["proofs"] if not proof["passed"]
     ]
@@ -1143,10 +1266,13 @@ def compile_world(
     maps.mkdir(parents=True, exist_ok=True)
     tilesets.mkdir(parents=True, exist_ok=True)
     artifacts.mkdir(parents=True, exist_ok=True)
-    worlds = (
+    worlds = [
         (town, _world_events(town)),
-        (expedition, expedition_events(expedition, town)),
-    )
+        *[
+            (expedition, expedition_events(expedition, town))
+            for expedition in expeditions
+        ],
+    ]
     preview_paths: dict[str, str] = {}
     for world, events in worlds:
         atlas = _tile_atlas(world.style, world.seed)
@@ -1180,7 +1306,7 @@ def compile_world(
                 "slug": town.slug,
                 "description": "A proof-carrying multi-region RPG compiled by the AI-native foundry.",
                 "name": town.title,
-                "version": "0.3.0",
+                "version": "0.4.0",
                 "authors": ["AI Native Foundry"],
                 "startup_rules": [],
                 "starting_players": ["npc_red"],

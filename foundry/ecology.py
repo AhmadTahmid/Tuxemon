@@ -14,7 +14,6 @@ import yaml
 
 from foundry.runtime import _boot
 from foundry.selfplay import _run_battle
-from foundry.town import compile_world
 
 
 def _stable_rank(seed: int, value: str) -> str:
@@ -383,10 +382,8 @@ def run(root: Path) -> dict[str, Any]:
     output.write_text(
         json.dumps(body, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    build = compile_world(root)
     return {
         "output": output.as_posix(),
-        "world_fingerprint": build["fingerprint"],
         **body,
     }
 
@@ -403,7 +400,6 @@ def main() -> None:
             {
                 "output": result["output"],
                 "schema": result["schema"],
-                "world_fingerprint": result["world_fingerprint"],
                 "selected": result["selected"],
                 "proofs": result["proofs"],
                 "fingerprint": result["fingerprint"],

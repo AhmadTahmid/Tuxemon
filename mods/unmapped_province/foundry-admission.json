@@ -1,25 +1,25 @@
 {
-  "compiled_semantics_sha256": "742ecac7276bbc878e666021b0d010a28d952d5348f5bf0eb1d4ff0e94abbe32",
+  "compiled_semantics_sha256": "01c73f70116cb443af1a36940d70f2bd1ff64763500a1953de76179d96b30bc8",
   "counts": {
     "actors": 3,
     "collision_cells": 819,
     "collision_rectangles": 166,
-    "expedition_collision_cells": 417,
-    "expedition_repair_cells": 0,
     "landmarks": 4,
-    "quest_transitions": 5,
+    "quest_transitions": 9,
     "reachable_cells": 1701,
-    "regions": 2,
+    "regional_collision_cells": 1198,
+    "regional_repair_cells": 0,
+    "regions": 4,
     "road_cells": 572,
     "road_cycle_rank": 317,
-    "runtime_events": 27,
+    "runtime_events": 49,
     "walkable_cells": 1701
   },
   "dimensions": [
     60,
     42
   ],
-  "fingerprint": "ebdc66219e6ebf003cff8e04f2549e84ff5651637d232d836b498a472377c63a",
+  "fingerprint": "cdcfeca6b40235f05118cb0f45708862f81d5649c1a9283c95b4db3c8167f0cd",
   "proofs": [
     {
       "counterexamples": [],
@@ -53,13 +53,13 @@
     },
     {
       "counterexamples": [],
-      "detail": "Witness reaches province_mapped: speak_to_archivist -> defeat_echo_sentinel -> recover_echo_shard -> win_cartographers_duel -> report_to_archivist.",
+      "detail": "Witness reaches province_mapped: speak_to_archivist -> defeat_echo_wilds_sentinel -> recover_echo_wilds_sigil -> defeat_skyglass_garden_sentinel -> recover_skyglass_garden_sigil -> defeat_root_vault_sentinel -> recover_root_vault_sigil -> win_cartographers_duel -> report_to_archivist.",
       "id": "quest-has-terminal-witness",
       "passed": true
     },
     {
       "counterexamples": [],
-      "detail": "Realized 5 quest transitions.",
+      "detail": "Realized 9 quest transitions.",
       "id": "quest-automaton-compiles-to-events",
       "passed": true
     },
@@ -71,21 +71,45 @@
     },
     {
       "counterexamples": [],
-      "detail": "unmapped_province -> echo_wilds -> unmapped_province",
-      "id": "expedition-roundtrip-compiles",
+      "detail": [
+        "unmapped_province -> echo_wilds -> unmapped_province",
+        "unmapped_province -> skyglass_garden -> unmapped_province",
+        "unmapped_province -> root_vault -> unmapped_province"
+      ],
+      "id": "campaign-region-roundtrips-compile",
       "passed": true
     },
     {
       "counterexamples": [],
-      "detail": {
-        "actor": "knight1",
-        "level": 4,
-        "loss_seed": 3500003,
-        "mean_turns": 4.333,
-        "monster": "metesaur",
-        "player_win_rate": 0.6666666666666666,
-        "win_seed": 3500000
-      },
+      "detail": [
+        {
+          "actor": "knight1",
+          "level": 4,
+          "loss_seed": 3500003,
+          "mean_turns": 4.333,
+          "monster": "metesaur",
+          "player_win_rate": 0.6666666666666666,
+          "win_seed": 3500000
+        },
+        {
+          "actor": "knight2",
+          "level": 3,
+          "loss_seed": 4020001,
+          "mean_turns": 2.5,
+          "monster": "toucanary",
+          "player_win_rate": 0.8333333333333334,
+          "win_seed": 4020000
+        },
+        {
+          "actor": "knight3",
+          "level": 5,
+          "loss_seed": 3210000,
+          "mean_turns": 7.333,
+          "monster": "vivipere",
+          "player_win_rate": 0.8333333333333334,
+          "win_seed": 3210001
+        }
+      ],
       "id": "actual-engine-ecology-selection-is-locked",
       "passed": true
     },
@@ -95,7 +119,7 @@
         3,
         17
       ],
-      "id": "expedition-entry-is-walkable",
+      "id": "echo_wilds-entry-is-walkable",
       "passed": true
     },
     {
@@ -118,7 +142,7 @@
           20
         ]
       ],
-      "id": "expedition-shrine-is-reachable",
+      "id": "echo_wilds-shrine-is-reachable",
       "passed": true
     },
     {
@@ -127,7 +151,7 @@
         2,
         17
       ],
-      "id": "expedition-return-is-reachable",
+      "id": "echo_wilds-return-is-reachable",
       "passed": true
     },
     {
@@ -136,31 +160,219 @@
         26,
         19
       ],
-      "id": "expedition-sentinel-is-reachable",
+      "id": "echo_wilds-sentinel-is-reachable",
       "passed": true
     },
     {
       "counterexamples": [],
       "detail": "1351/1351 cells connect to entry (1.000; required 0.980).",
-      "id": "expedition-walkable-space-connected",
+      "id": "echo_wilds-walkable-space-connected",
       "passed": true
     },
     {
       "counterexamples": [],
       "detail": "Expedition route cycle rank is 182.",
-      "id": "expedition-road-network-has-cycle",
+      "id": "echo_wilds-road-network-has-cycle",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        3,
+        16
+      ],
+      "id": "skyglass_garden-entry-is-walkable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        [
+          43,
+          13
+        ],
+        [
+          44,
+          12
+        ],
+        [
+          44,
+          14
+        ],
+        [
+          45,
+          13
+        ]
+      ],
+      "id": "skyglass_garden-shrine-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        2,
+        16
+      ],
+      "id": "skyglass_garden-return-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        24,
+        14
+      ],
+      "id": "skyglass_garden-sentinel-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "1240/1240 cells connect to entry (1.000; required 0.980).",
+      "id": "skyglass_garden-walkable-space-connected",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Expedition route cycle rank is 166.",
+      "id": "skyglass_garden-road-network-has-cycle",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        3,
+        18
+      ],
+      "id": "root_vault-entry-is-walkable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        [
+          51,
+          15
+        ],
+        [
+          52,
+          14
+        ],
+        [
+          52,
+          16
+        ],
+        [
+          53,
+          15
+        ]
+      ],
+      "id": "root_vault-shrine-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        2,
+        18
+      ],
+      "id": "root_vault-return-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": [
+        28,
+        18
+      ],
+      "id": "root_vault-sentinel-is-reachable",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "1531/1531 cells connect to entry (1.000; required 0.980).",
+      "id": "root_vault-walkable-space-connected",
+      "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Expedition route cycle rank is 194.",
+      "id": "root_vault-road-network-has-cycle",
       "passed": true
     }
   ],
   "quest": {
     "initial": "arrival",
-    "terminal": "province_mapped"
+    "terminal": "province_mapped",
+    "transitions": [
+      [
+        "arrival",
+        "speak_to_archivist",
+        "chartered"
+      ],
+      [
+        "chartered",
+        "defeat_echo_wilds_sentinel",
+        "echo_wilds_open"
+      ],
+      [
+        "echo_wilds_open",
+        "recover_echo_wilds_sigil",
+        "echo_wilds_attuned"
+      ],
+      [
+        "echo_wilds_attuned",
+        "defeat_skyglass_garden_sentinel",
+        "skyglass_garden_open"
+      ],
+      [
+        "skyglass_garden_open",
+        "recover_skyglass_garden_sigil",
+        "skyglass_garden_attuned"
+      ],
+      [
+        "skyglass_garden_attuned",
+        "defeat_root_vault_sentinel",
+        "root_vault_open"
+      ],
+      [
+        "root_vault_open",
+        "recover_root_vault_sigil",
+        "archive_restored"
+      ],
+      [
+        "archive_restored",
+        "win_cartographers_duel",
+        "trial_won"
+      ],
+      [
+        "trial_won",
+        "report_to_archivist",
+        "province_mapped"
+      ]
+    ]
   },
   "regions": {
     "echo_wilds": {
+      "collision_cells": 417,
       "dimensions": [
         52,
         34
+      ],
+      "events": 9
+    },
+    "root_vault": {
+      "collision_cells": 485,
+      "dimensions": [
+        56,
+        36
+      ],
+      "events": 9
+    },
+    "skyglass_garden": {
+      "collision_cells": 296,
+      "dimensions": [
+        48,
+        32
       ],
       "events": 9
     },
@@ -169,44 +381,127 @@
         60,
         42
       ],
-      "events": 18
+      "events": 22
     }
   },
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73467586,
-  "seed_genome_sha256": "890d01e69920e0953184d97e43990d176534e12c44063079d30b5e2b169afdb1",
+  "seed_genome_sha256": "fc62c16fa450e49746e5fe0c6038ff65530b16ad555e348a9cde4accb1cf9fe9",
   "witnesses": {
     "battle_loss_recovery_event": "Inspect clinic",
-    "expedition": {
-      "ecology": {
-        "actor": "knight1",
-        "level": 4,
-        "loss_seed": 3500003,
-        "mean_turns": 4.333,
-        "monster": "metesaur",
-        "player_win_rate": 0.6666666666666666,
-        "win_seed": 3500000
+    "campaign_regions": [
+      {
+        "complete_state": "echo_wilds_attuned",
+        "defeat_action": "defeat_echo_wilds_sentinel",
+        "ecology": {
+          "actor": "knight1",
+          "level": 4,
+          "loss_seed": 3500003,
+          "mean_turns": 4.333,
+          "monster": "metesaur",
+          "player_win_rate": 0.6666666666666666,
+          "win_seed": 3500000
+        },
+        "entry_event": "Enter The Echo Wilds",
+        "entry_state": "chartered",
+        "open_state": "echo_wilds_open",
+        "recover_action": "recover_echo_wilds_sigil",
+        "return_event": "Return from echo_wilds",
+        "return_gate": [
+          1,
+          17
+        ],
+        "sentinel": [
+          26,
+          19
+        ],
+        "sentinel_event": "Challenge echo_wilds sentinel",
+        "shrine": [
+          48,
+          20
+        ],
+        "slug": "echo_wilds",
+        "spawn": [
+          3,
+          17
+        ],
+        "title": "The Echo Wilds"
       },
-      "entry_event": "Enter Echo Wilds",
-      "return_event": "Return to Unmapped Province",
-      "return_gate": [
-        1,
-        17
-      ],
-      "sentinel": [
-        26,
-        19
-      ],
-      "sentinel_event": "Challenge echo sentinel",
-      "shrine": [
-        48,
-        20
-      ],
-      "spawn": [
-        3,
-        17
-      ]
-    },
+      {
+        "complete_state": "skyglass_garden_attuned",
+        "defeat_action": "defeat_skyglass_garden_sentinel",
+        "ecology": {
+          "actor": "knight2",
+          "level": 3,
+          "loss_seed": 4020001,
+          "mean_turns": 2.5,
+          "monster": "toucanary",
+          "player_win_rate": 0.8333333333333334,
+          "win_seed": 4020000
+        },
+        "entry_event": "Enter The Skyglass Garden",
+        "entry_state": "echo_wilds_attuned",
+        "open_state": "skyglass_garden_open",
+        "recover_action": "recover_skyglass_garden_sigil",
+        "return_event": "Return from skyglass_garden",
+        "return_gate": [
+          1,
+          16
+        ],
+        "sentinel": [
+          24,
+          14
+        ],
+        "sentinel_event": "Challenge skyglass_garden sentinel",
+        "shrine": [
+          44,
+          13
+        ],
+        "slug": "skyglass_garden",
+        "spawn": [
+          3,
+          16
+        ],
+        "title": "The Skyglass Garden"
+      },
+      {
+        "complete_state": "archive_restored",
+        "defeat_action": "defeat_root_vault_sentinel",
+        "ecology": {
+          "actor": "knight3",
+          "level": 5,
+          "loss_seed": 3210000,
+          "mean_turns": 7.333,
+          "monster": "vivipere",
+          "player_win_rate": 0.8333333333333334,
+          "win_seed": 3210001
+        },
+        "entry_event": "Enter The Root Vault",
+        "entry_state": "skyglass_garden_attuned",
+        "open_state": "root_vault_open",
+        "recover_action": "recover_root_vault_sigil",
+        "return_event": "Return from root_vault",
+        "return_gate": [
+          1,
+          18
+        ],
+        "sentinel": [
+          28,
+          18
+        ],
+        "sentinel_event": "Challenge root_vault sentinel",
+        "shrine": [
+          52,
+          15
+        ],
+        "slug": "root_vault",
+        "spawn": [
+          3,
+          18
+        ],
+        "title": "The Root Vault"
+      }
+    ],
     "landmark_approaches": {
       "archive": [
         15,
@@ -227,8 +522,12 @@
     },
     "quest": [
       "speak_to_archivist",
-      "defeat_echo_sentinel",
-      "recover_echo_shard",
+      "defeat_echo_wilds_sentinel",
+      "recover_echo_wilds_sigil",
+      "defeat_skyglass_garden_sentinel",
+      "recover_skyglass_garden_sigil",
+      "defeat_root_vault_sentinel",
+      "recover_root_vault_sigil",
       "win_cartographers_duel",
       "report_to_archivist"
     ],
@@ -239,14 +538,34 @@
         "transition": "speak_to_archivist"
       },
       {
-        "event": "Record echo sentinel victory",
+        "event": "Record echo_wilds sentinel victory",
         "region": "echo_wilds",
-        "transition": "defeat_echo_sentinel"
+        "transition": "defeat_echo_wilds_sentinel"
       },
       {
-        "event": "Recover echo shard",
+        "event": "Recover echo_wilds sigil",
         "region": "echo_wilds",
-        "transition": "recover_echo_shard"
+        "transition": "recover_echo_wilds_sigil"
+      },
+      {
+        "event": "Record skyglass_garden sentinel victory",
+        "region": "skyglass_garden",
+        "transition": "defeat_skyglass_garden_sentinel"
+      },
+      {
+        "event": "Recover skyglass_garden sigil",
+        "region": "skyglass_garden",
+        "transition": "recover_skyglass_garden_sigil"
+      },
+      {
+        "event": "Record root_vault sentinel victory",
+        "region": "root_vault",
+        "transition": "defeat_root_vault_sentinel"
+      },
+      {
+        "event": "Recover root_vault sigil",
+        "region": "root_vault",
+        "transition": "recover_root_vault_sigil"
       },
       {
         "event": "Record duel victory",

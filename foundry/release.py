@@ -13,7 +13,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BUILD = ROOT / "build" / "unmapped-province-windows"
 DEFAULT_DIST = ROOT / "dist"
-RELEASE_NAME = "The-Unmapped-Province-0.3.0-windows-x86_64"
+RELEASE_NAME = "The-Unmapped-Province-0.4.0-windows-x86_64"
 SOURCE_CERTIFICATES = {
     "world-admission": (
         ROOT
@@ -23,6 +23,12 @@ SOURCE_CERTIFICATES = {
     ),
     "ecology-selection": (
         ROOT / "foundry" / "worlds" / "echo_wilds.ecology.lock.json"
+    ),
+    "campaign-selection": (
+        ROOT / "foundry" / "worlds" / "campaign.lock.json"
+    ),
+    "asset-identity": (
+        ROOT / "foundry" / "artifacts" / "assets.generated.json"
     ),
     "runtime-probe": (
         ROOT
@@ -35,6 +41,9 @@ SOURCE_CERTIFICATES = {
     ),
     "campaign-playthrough": (
         ROOT / "foundry" / "artifacts" / "playthrough.generated.json"
+    ),
+    "persistence-replay": (
+        ROOT / "foundry" / "artifacts" / "persistence.generated.json"
     ),
 }
 
@@ -77,9 +86,14 @@ def _read_certificate(
     failed = [proof["id"] for proof in proofs if not proof.get("passed")]
     if not proofs or failed:
         raise RuntimeError(f"{stage} has failed or missing proofs: {failed}")
+    bundled_path = build_dir / "proofs" / path.name
+    if bundled_path.is_file() and _sha256(bundled_path) == _sha256(path):
+        certificate_label = _relative_label(bundled_path, build_dir)
+    else:
+        certificate_label = _relative_label(path, build_dir)
     summary = {
         "stage": stage,
-        "certificate": _relative_label(path, build_dir),
+        "certificate": certificate_label,
         "certificate_sha256": _sha256(path),
         "fingerprint": expected,
         "proofs": [proof["id"] for proof in proofs],
@@ -138,7 +152,7 @@ def build_manifest(build_dir: Path) -> dict[str, Any]:
         "schema": "ai-native-proof-carrying-release/v1",
         "release": {
             "name": "The Unmapped Province",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "platform": "windows-x86_64",
             "entrypoint": "UnmappedProvince.exe",
         },

@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import random
 from pathlib import Path
 from typing import Any
 
@@ -54,6 +55,10 @@ def runtime_probe(
 ) -> dict[str, Any]:
     root = root.resolve()
     build = compile_world(root)
+    expected = json.loads(
+        Path(build["certificate"]).read_text(encoding="utf-8")
+    )
+    random.seed(int(expected["seed"]))
     client, context, session = _boot(root, visible=False)
     for _ in range(12):
         client.update(1.0 / 60.0)
@@ -73,10 +78,11 @@ def runtime_probe(
     screenshot.parent.mkdir(parents=True, exist_ok=True)
     pygame.image.save(context.screen, screenshot)
     current_map = client.map_manager.current_map
-    expedition_map = client.map_loader.load_map_data("echo_wilds.tmx")
-    expected = json.loads(
-        Path(build["certificate"]).read_text(encoding="utf-8")
-    )
+    region_maps = {
+        slug: client.map_loader.load_map_data(f"{slug}.tmx")
+        for slug in expected["regions"]
+        if slug != "unmapped_province"
+    }
     spec_path = root / "foundry" / "worlds" / "unmapped_province.seed.yaml"
     town = generate_town(yaml.safe_load(spec_path.read_text(encoding="utf-8")))
     occupied = {npc.tile_pos for npc in client.npc_manager.npcs.values()}
@@ -117,11 +123,14 @@ def runtime_probe(
         "dimensions": [current_map.width, current_map.height],
         "events": len(current_map.events),
         "collision_cells": len(current_map.collision_map),
-        "expedition": {
-            "map": expedition_map.name,
-            "dimensions": [expedition_map.width, expedition_map.height],
-            "events": len(expedition_map.events),
-            "collision_cells": len(expedition_map.collision_map),
+        "regions": {
+            slug: {
+                "map": region.name,
+                "dimensions": [region.width, region.height],
+                "events": len(region.events),
+                "collision_cells": len(region.collision_map),
+            }
+            for slug, region in region_maps.items()
         },
         "active_states": client.active_state_names,
         "npcs_including_player": len(client.npc_manager.npcs),
@@ -161,17 +170,18 @@ def runtime_probe(
             "detail": observed["collision_cells"],
         },
         {
-            "id": "runtime-loads-generated-expedition",
-            "passed": (
-                observed["expedition"]["map"] == "echo_wilds"
-                and observed["expedition"]["dimensions"]
-                == expected["regions"]["echo_wilds"]["dimensions"]
-                and observed["expedition"]["events"]
-                == expected["regions"]["echo_wilds"]["events"]
-                and observed["expedition"]["collision_cells"]
-                == expected["counts"]["expedition_collision_cells"]
+            "id": "runtime-loads-generated-campaign-regions",
+            "passed": all(
+                observed["regions"][slug]["map"] == slug
+                and observed["regions"][slug]["dimensions"]
+                == expected["regions"][slug]["dimensions"]
+                and observed["regions"][slug]["events"]
+                == expected["regions"][slug]["events"]
+                and observed["regions"][slug]["collision_cells"]
+                == expected["regions"][slug]["collision_cells"]
+                for slug in observed["regions"]
             ),
-            "detail": observed["expedition"],
+            "detail": observed["regions"],
         },
         {
             "id": "runtime-materializes-actors",

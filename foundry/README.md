@@ -42,12 +42,20 @@ aesthetic genes, a quest automaton, and admission thresholds—not a hand-laid
 tile map. The compiler derives the pixel-art atlas, TMX layers, collision
 AABBs, events, quest witness, proof certificate, and visual preview.
 
-The same genome now projects a second region, the Echo Wilds. Its palette is
-mutated mathematically from the town style; a stochastic route trace is
-intersected with a cyclic circuit; sampled forest obstacles are admitted or
-repaired at the smallest disconnected cell set. The quest compiler places the
-relic there and emits a bidirectional map transition. No second TMX map,
-tileset, collision sheet, or transition script is authored by hand.
+The same genome now projects three expedition regions: the Echo Wilds,
+Skyglass Garden, and Root Vault. Their palettes are mutated mathematically
+from the town style; stochastic route traces are intersected with cyclic
+circuits; sampled obstacles are admitted or repaired at the smallest
+disconnected cell set. No regional TMX map, tileset, collision sheet, or
+transition script is authored by hand.
+
+`python -m foundry.campaign` treats the ecology tournament's admitted
+survivors and semantic region roles as atoms. It enumerates whole campaign
+assignments and minimizes distance from the requested dramatic curve. The
+current campaign organism assigns Metesaur to the opening ordeal, Toucanary to
+the short respite, and Vivipere to the long culmination. It also synthesizes
+the nine-transition quest automaton consumed by the compiler and generic
+playthrough interpreter; neither component contains a hard-coded map list.
 
 `python -m foundry.runtime --probe` loads that output in the real Tuxemon
 runtime and writes a rendered-frame certificate. `python -m foundry.runtime
@@ -75,10 +83,12 @@ found that losing the duel stranded a fainted party; the semantic world now
 requires a reachable clinic recovery action, and the witness deliberately
 proves a loss → recovery → retry → victory cycle.
 
-The witness also walks from town into the generated Echo Wilds, traverses the
-runtime path to the relic, returns through the compiled gateway, and only then
-continues to the duel. This prevents a collection of individually valid maps
-from masquerading as a valid connected campaign.
+The witness walks from town through every selected region, traverses the
+runtime path to each sigil, returns through the compiled gateway, and only
+then continues to the duel. It executes whatever campaign is present in the
+lock rather than a scripted Echo Wilds walkthrough. This prevents a
+collection of individually valid maps from masquerading as a connected
+campaign.
 
 `python -m foundry.ecology` derives a sentinel population directly from the
 monster database using habitat and evolutionary-stage predicates, preserves
@@ -89,11 +99,24 @@ content-addressed lock consumed by the world compiler; the current survivor is
 a level-4 Metesaur selected from 32 habitat-compatible species and 570
 terminating battle trials.
 
-The campaign witness fault-injects a one-HP party at the sentinel, proves that
-the player can retreat across the region boundary, heal at the generated
-clinic, re-enter the wilds, and eventually defeat the selected ecology. This
-tests recovery in the compiled scenario rather than assuming self-play RNG
-seeds transfer between different party-construction histories.
+The campaign witness fault-injects a one-HP party at the first sentinel and
+proves that every actual loss can retreat across its region boundary, heal at
+the generated clinic, re-enter the currently active region, and eventually
+defeat the selected ecology. This tests recovery in the compiled scenario
+rather than assuming self-play RNG seeds transfer between different
+party-construction histories.
+
+`python -m foundry.assets` verifies every semantic atlas and preview has its
+declared shape, every generated TMX/TSX/PNG reference resolves, and regional
+style projections remain content-distinct. It explicitly makes no claim that
+these proxy properties prove beauty.
+
+`python -m foundry.persistence` takes a checkpoint inside the first generated
+region using Tuxemon's real `SaveData` encoder, fault-injects corruption into
+quest state, position, and party health, reloads the file, compares the
+authoritative facts, and resumes through a compiled return event. Persistence
+is therefore an executable campaign invariant rather than an assumed engine
+feature.
 
 On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
 keys move, Enter interacts, and Escape opens or closes menus.
@@ -102,9 +125,11 @@ keys move, Enter interacts, and Escape opens or closes menus.
 
 `make foundry-release` freezes the compiler-selected game as a standalone
 Windows executable, boots that executable in a hidden smoke run, and promotes
-it only when five independently generated certificates agree on one world
-fingerprint: static admission, real-runtime traversal, actual-engine combat
-self-play, full campaign playthrough, and frozen-runtime loading.
+it only when nine independently generated certificates are valid and every
+world-bound certificate agrees on one fingerprint: world admission, ecology
+selection, campaign selection, semantic asset identity, real-runtime probing,
+actual-engine combat self-play, full campaign playthrough, persistence replay,
+and frozen-runtime loading.
 
 The release compiler writes `release-manifest.json` beside the executable. It
 contains hashes for every payload file and a hash-linked summary of every

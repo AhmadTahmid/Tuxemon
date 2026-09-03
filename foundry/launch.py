@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import random
 import sys
 from pathlib import Path
 from typing import Any
@@ -26,12 +27,17 @@ def _payload_certificate() -> dict[str, Any]:
 
 def smoke_test(root: Path) -> dict[str, Any]:
     admission = _payload_certificate()
+    random.seed(int(admission["seed"]))
     client, context, session = _boot(root, visible=False)
     try:
         for _ in range(20):
             client.update(0.05)
         client.draw()
-        expedition = client.map_loader.load_map_data("echo_wilds.tmx")
+        regions = {
+            slug: client.map_loader.load_map_data(f"{slug}.tmx")
+            for slug in admission["regions"]
+            if slug != "unmapped_province"
+        }
         observed = {
             "map": client.get_map_name(),
             "screen": list(context.screen.get_size()),
@@ -39,11 +45,14 @@ def smoke_test(root: Path) -> dict[str, Any]:
             "npcs_including_player": len(client.npc_manager.npcs),
             "starter_party_size": len(session.player.monsters),
             "opponent_party_size": len(client.get_npc("npc_test").monsters),
-            "expedition": {
-                "map": expedition.name,
-                "dimensions": [expedition.width, expedition.height],
-                "events": len(expedition.events),
-                "collision_cells": len(expedition.collision_map),
+            "regions": {
+                slug: {
+                    "map": region.name,
+                    "dimensions": [region.width, region.height],
+                    "events": len(region.events),
+                    "collision_cells": len(region.collision_map),
+                }
+                for slug, region in regions.items()
             },
         }
         proofs = [
@@ -68,15 +77,16 @@ def smoke_test(root: Path) -> dict[str, Any]:
                 },
             },
             {
-                "id": "frozen-runtime-loads-expedition",
-                "passed": (
-                    observed["expedition"]["map"] == "echo_wilds"
-                    and observed["expedition"]["dimensions"]
-                    == admission["regions"]["echo_wilds"]["dimensions"]
-                    and observed["expedition"]["events"]
-                    == admission["regions"]["echo_wilds"]["events"]
+                "id": "frozen-runtime-loads-campaign-regions",
+                "passed": all(
+                    observed["regions"][slug]["map"] == slug
+                    and observed["regions"][slug]["dimensions"]
+                    == admission["regions"][slug]["dimensions"]
+                    and observed["regions"][slug]["events"]
+                    == admission["regions"][slug]["events"]
+                    for slug in observed["regions"]
                 ),
-                "detail": observed["expedition"],
+                "detail": observed["regions"],
             },
         ]
     finally:
@@ -106,6 +116,7 @@ def smoke_test(root: Path) -> dict[str, Any]:
 
 
 def play(root: Path) -> None:
+    random.seed(int(_payload_certificate()["seed"]))
     client, _, _ = _boot(root, visible=True)
     try:
         client.main()
