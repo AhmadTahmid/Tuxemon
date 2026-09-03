@@ -46,5 +46,10 @@ AABBs, events, quest witness, proof certificate, and visual preview.
 runtime and writes a rendered-frame certificate. `python -m foundry.runtime
 --play` launches the explorable build.
 
+`python -m foundry.evolve` explores a deterministic population of semantic
+seeds and retains a quality-diversity archive indexed by route length, path
+spread, and collision complexity. This replaces choosing one layout by taste
+with inspectable fitness plus behavioral diversity.
+
 On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
 keys move, Enter interacts, and Escape opens or closes menus.

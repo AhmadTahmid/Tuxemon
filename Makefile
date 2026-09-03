@@ -26,6 +26,10 @@ foundry-audit:
 foundry-build:
 	python -m foundry.town
 
+.PHONY: foundry-evolve
+foundry-evolve:
+	python -m foundry.evolve
+
 .PHONY: foundry-probe
 foundry-probe:
 	python -m foundry.runtime --probe

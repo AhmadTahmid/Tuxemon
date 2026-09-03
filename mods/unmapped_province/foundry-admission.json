@@ -1,21 +1,21 @@
 {
   "counts": {
     "actors": 3,
-    "collision_cells": 811,
-    "collision_rectangles": 162,
+    "collision_cells": 819,
+    "collision_rectangles": 166,
     "landmarks": 4,
     "quest_transitions": 4,
-    "reachable_cells": 1709,
-    "road_cells": 576,
-    "road_cycle_rank": 348,
+    "reachable_cells": 1701,
+    "road_cells": 572,
+    "road_cycle_rank": 317,
     "runtime_events": 17,
-    "walkable_cells": 1709
+    "walkable_cells": 1701
   },
   "dimensions": [
     60,
     42
   ],
-  "fingerprint": "94bc11741015419206e60723967d8a89f0e77518b39c03b1296f2a35179dd798",
+  "fingerprint": "d122e7d88a1f91e0aa12182662d1bc318e9b9f1445f9a616eea0994aa917dd79",
   "proofs": [
     {
       "counterexamples": [],
@@ -31,19 +31,19 @@
     },
     {
       "counterexamples": [],
-      "detail": "1709/1709 walkable cells connect to spawn (1.000; required 0.800).",
+      "detail": "1701/1701 walkable cells connect to spawn (1.000; required 0.800).",
       "id": "walkable-space-connected",
       "passed": true
     },
     {
       "counterexamples": [],
-      "detail": "Road graph cycle rank is 348.",
+      "detail": "Road graph cycle rank is 317.",
       "id": "road-network-has-cycle",
       "passed": true
     },
     {
       "counterexamples": [],
-      "detail": "Minimum anchor separation is 16; required 8.",
+      "detail": "Minimum anchor separation is 18; required 8.",
       "id": "landmarks-separated",
       "passed": true
     },
@@ -61,24 +61,24 @@
     }
   ],
   "schema": "ai-native-admission-certificate/v1",
-  "seed": 73190421,
-  "seed_genome_sha256": "909456df85c95e2ab28247a7a664a570ad194c6aaeed3b41ee6679e37c4b26f4",
+  "seed": 73467586,
+  "seed_genome_sha256": "caa23094b080030e9ed511c5bc9bcec688024d8de0d25256704fc81a72e3ef67",
   "witnesses": {
     "landmark_approaches": {
       "archive": [
-        16,
-        15
+        15,
+        14
       ],
       "clinic": [
-        39,
-        32
+        40,
+        33
       ],
       "guild": [
-        17,
-        31
+        15,
+        33
       ],
       "observatory": [
-        38,
+        39,
         15
       ]
     },

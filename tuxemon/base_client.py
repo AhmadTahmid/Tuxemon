@@ -115,7 +115,8 @@ class BaseClient(ABC):
 
         # Set up our networking for multiplayer.
         self.network_manager = NetworkManager(self)
-        self.network_manager.initialize()
+        if config.net_controller_enabled:
+            self.network_manager.initialize()
 
         # Set up our game's event engine which executes actions based on
         # conditions defined in map files.

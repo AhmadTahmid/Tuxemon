@@ -2,7 +2,7 @@ schema: ai-native-world-seed/v1
 identity:
   slug: unmapped_province
   title: The Unmapped Province
-  seed: 73190421
+  seed: 73467586
 
 intent:
   experience: A strange but welcoming fantasy town whose streets form a navigable loop.

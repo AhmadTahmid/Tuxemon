@@ -10,137 +10,102 @@ collisions:
   width: 1
   height: 40
 - type: collision
-  x: 52
+  x: 53
   y: 1
-  width: 8
-  height: 3
-- type: collision
-  x: 2
-  y: 2
-  width: 1
-  height: 1
-- type: collision
-  x: 9
-  y: 2
-  width: 1
-  height: 1
-- type: collision
-  x: 16
-  y: 2
-  width: 1
-  height: 1
-- type: collision
-  x: 18
-  y: 2
-  width: 1
-  height: 1
-- type: collision
-  x: 27
-  y: 2
-  width: 1
-  height: 1
-- type: collision
-  x: 44
-  y: 2
-  width: 1
-  height: 1
-- type: collision
-  x: 6
-  y: 3
-  width: 1
-  height: 1
-- type: collision
-  x: 11
-  y: 3
-  width: 1
-  height: 1
-- type: collision
-  x: 14
-  y: 3
-  width: 1
-  height: 1
-- type: collision
-  x: 21
-  y: 3
-  width: 1
-  height: 1
-- type: collision
-  x: 24
-  y: 3
-  width: 1
-  height: 1
-- type: collision
-  x: 35
-  y: 3
-  width: 1
-  height: 1
+  width: 7
+  height: 2
 - type: collision
   x: 3
-  y: 4
-  width: 1
-  height: 1
-- type: collision
-  x: 9
-  y: 4
+  y: 2
   width: 1
   height: 1
 - type: collision
   x: 17
-  y: 4
+  y: 2
   width: 1
   height: 1
 - type: collision
-  x: 27
-  y: 4
+  x: 20
+  y: 2
   width: 1
   height: 1
 - type: collision
-  x: 37
-  y: 4
+  x: 45
+  y: 2
   width: 1
   height: 1
 - type: collision
-  x: 39
-  y: 4
-  width: 1
-  height: 1
-- type: collision
-  x: 44
-  y: 4
-  width: 1
-  height: 1
-- type: collision
-  x: 46
-  y: 4
+  x: 48
+  y: 2
   width: 1
   height: 1
 - type: collision
   x: 51
-  y: 4
-  width: 9
-  height: 12
+  y: 2
+  width: 1
+  height: 1
 - type: collision
   x: 7
-  y: 5
+  y: 3
   width: 1
   height: 1
 - type: collision
-  x: 19
-  y: 5
+  x: 12
+  y: 3
   width: 1
   height: 1
 - type: collision
-  x: 22
-  y: 5
+  x: 27
+  y: 3
   width: 1
   height: 1
 - type: collision
   x: 33
+  y: 3
+  width: 1
+  height: 1
+- type: collision
+  x: 36
+  y: 3
+  width: 1
+  height: 1
+- type: collision
+  x: 40
+  y: 3
+  width: 1
+  height: 1
+- type: collision
+  x: 52
+  y: 3
+  width: 8
+  height: 4
+- type: collision
+  x: 5
+  y: 4
+  width: 1
+  height: 1
+- type: collision
+  x: 18
+  y: 4
+  width: 1
+  height: 1
+- type: collision
+  x: 2
   y: 5
   width: 1
   height: 1
 - type: collision
-  x: 41
+  x: 12
+  y: 5
+  width: 1
+  height: 1
+- type: collision
+  x: 20
+  y: 5
+  width: 1
+  height: 1
+- type: collision
+  x: 27
   y: 5
   width: 1
   height: 1
@@ -150,12 +115,12 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 11
+  x: 7
   y: 6
   width: 1
   height: 1
 - type: collision
-  x: 13
+  x: 9
   y: 6
   width: 1
   height: 1
@@ -165,12 +130,27 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 27
+  x: 18
   y: 6
   width: 1
   height: 1
 - type: collision
-  x: 39
+  x: 23
+  y: 6
+  width: 1
+  height: 1
+- type: collision
+  x: 36
+  y: 6
+  width: 1
+  height: 1
+- type: collision
+  x: 40
+  y: 6
+  width: 1
+  height: 1
+- type: collision
+  x: 42
   y: 6
   width: 1
   height: 1
@@ -185,157 +165,137 @@ collisions:
   width: 1
   height: 1
 - type: collision
+  x: 12
+  y: 7
+  width: 7
+  height: 7
+- type: collision
   x: 48
   y: 7
   width: 1
   height: 1
 - type: collision
-  x: 4
-  y: 8
-  width: 1
-  height: 1
+  x: 51
+  y: 7
+  width: 9
+  height: 12
 - type: collision
-  x: 35
+  x: 36
   y: 8
   width: 7
   height: 2
 - type: collision
-  x: 9
-  y: 9
-  width: 1
-  height: 1
-- type: collision
-  x: 13
-  y: 9
-  width: 8
-  height: 1
-- type: collision
-  x: 25
-  y: 9
-  width: 1
-  height: 1
-- type: collision
-  x: 28
-  y: 9
-  width: 1
-  height: 1
-- type: collision
-  x: 32
-  y: 9
-  width: 1
-  height: 1
-- type: collision
-  x: 5
+  x: 3
   y: 10
-  width: 1
-  height: 1
-- type: collision
-  x: 13
-  y: 10
-  width: 7
-  height: 5
-- type: collision
-  x: 34
-  y: 10
-  width: 8
-  height: 1
-- type: collision
-  x: 7
-  y: 11
   width: 1
   height: 1
 - type: collision
   x: 9
-  y: 11
-  width: 1
-  height: 1
-- type: collision
-  x: 23
-  y: 11
-  width: 1
-  height: 1
-- type: collision
-  x: 28
-  y: 11
+  y: 10
   width: 1
   height: 1
 - type: collision
   x: 35
-  y: 11
-  width: 7
-  height: 4
-- type: collision
-  x: 43
-  y: 11
-  width: 1
-  height: 1
-- type: collision
-  x: 5
-  y: 12
-  width: 1
-  height: 1
-- type: collision
-  x: 21
-  y: 12
-  width: 1
-  height: 1
-- type: collision
-  x: 2
-  y: 13
-  width: 1
-  height: 1
-- type: collision
-  x: 10
-  y: 13
-  width: 1
-  height: 1
-- type: collision
-  x: 23
-  y: 13
-  width: 1
-  height: 1
-- type: collision
-  x: 33
-  y: 13
-  width: 1
+  y: 10
+  width: 8
   height: 1
 - type: collision
   x: 47
-  y: 13
+  y: 10
   width: 1
   height: 1
 - type: collision
   x: 5
-  y: 14
+  y: 11
   width: 1
   height: 1
 - type: collision
-  x: 49
-  y: 14
-  width: 1
-  height: 1
-- type: collision
-  x: 2
-  y: 15
-  width: 1
-  height: 1
-- type: collision
-  x: 14
-  y: 15
-  width: 1
-  height: 1
-- type: collision
-  x: 19
-  y: 15
-  width: 1
-  height: 1
-- type: collision
-  x: 25
-  y: 15
+  x: 20
+  y: 11
   width: 1
   height: 1
 - type: collision
   x: 36
+  y: 11
+  width: 7
+  height: 2
+- type: collision
+  x: 49
+  y: 12
+  width: 1
+  height: 1
+- type: collision
+  x: 20
+  y: 13
+  width: 1
+  height: 1
+- type: collision
+  x: 22
+  y: 13
+  width: 1
+  height: 1
+- type: collision
+  x: 25
+  y: 13
+  width: 1
+  height: 1
+- type: collision
+  x: 27
+  y: 13
+  width: 1
+  height: 1
+- type: collision
+  x: 32
+  y: 13
+  width: 1
+  height: 1
+- type: collision
+  x: 35
+  y: 13
+  width: 8
+  height: 1
+- type: collision
+  x: 5
+  y: 14
+  width: 1
+  height: 1
+- type: collision
+  x: 9
+  y: 14
+  width: 1
+  height: 1
+- type: collision
+  x: 13
+  y: 14
+  width: 1
+  height: 1
+- type: collision
+  x: 36
+  y: 14
+  width: 7
+  height: 1
+- type: collision
+  x: 3
+  y: 15
+  width: 1
+  height: 1
+- type: collision
+  x: 21
+  y: 15
+  width: 1
+  height: 1
+- type: collision
+  x: 28
+  y: 15
+  width: 1
+  height: 1
+- type: collision
+  x: 33
+  y: 15
+  width: 1
+  height: 1
+- type: collision
+  x: 37
   y: 15
   width: 1
   height: 1
@@ -343,34 +303,19 @@ collisions:
   x: 42
   y: 15
   width: 1
-  height: 1
+  height: 2
 - type: collision
-  x: 4
+  x: 10
   y: 16
   width: 1
   height: 1
 - type: collision
-  x: 9
+  x: 18
   y: 16
   width: 1
   height: 1
 - type: collision
-  x: 13
-  y: 16
-  width: 1
-  height: 1
-- type: collision
-  x: 21
-  y: 16
-  width: 1
-  height: 1
-- type: collision
-  x: 27
-  y: 16
-  width: 1
-  height: 1
-- type: collision
-  x: 41
+  x: 44
   y: 16
   width: 1
   height: 1
@@ -380,19 +325,34 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 52
-  y: 16
-  width: 8
-  height: 4
-- type: collision
-  x: 19
+  x: 4
   y: 17
   width: 1
   height: 1
 - type: collision
-  x: 24
+  x: 6
   y: 17
-  width: 2
+  width: 1
+  height: 1
+- type: collision
+  x: 8
+  y: 17
+  width: 1
+  height: 1
+- type: collision
+  x: 20
+  y: 17
+  width: 1
+  height: 1
+- type: collision
+  x: 22
+  y: 17
+  width: 1
+  height: 1
+- type: collision
+  x: 25
+  y: 17
+  width: 1
   height: 1
 - type: collision
   x: 35
@@ -400,23 +360,23 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 43
-  y: 17
-  width: 1
-  height: 1
-- type: collision
-  x: 6
-  y: 18
-  width: 1
-  height: 1
-- type: collision
   x: 13
   y: 18
   width: 1
   height: 1
 - type: collision
-  x: 50
+  x: 16
   y: 18
+  width: 1
+  height: 1
+- type: collision
+  x: 38
+  y: 18
+  width: 1
+  height: 1
+- type: collision
+  x: 4
+  y: 19
   width: 1
   height: 1
 - type: collision
@@ -425,19 +385,19 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 22
+  x: 19
   y: 19
   width: 1
   height: 1
 - type: collision
-  x: 37
+  x: 49
   y: 19
   width: 1
   height: 1
 - type: collision
-  x: 48
+  x: 52
   y: 19
-  width: 1
+  width: 8
   height: 1
 - type: collision
   x: 58
@@ -450,22 +410,27 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 3
+  x: 2
   y: 23
   width: 1
   height: 1
 - type: collision
-  x: 44
+  x: 5
   y: 23
   width: 1
   height: 1
 - type: collision
-  x: 47
+  x: 10
   y: 23
   width: 1
   height: 1
 - type: collision
-  x: 51
+  x: 17
+  y: 23
+  width: 1
+  height: 1
+- type: collision
+  x: 22
   y: 23
   width: 1
   height: 1
@@ -473,9 +438,9 @@ collisions:
   x: 53
   y: 23
   width: 7
-  height: 10
+  height: 13
 - type: collision
-  x: 6
+  x: 8
   y: 24
   width: 1
   height: 1
@@ -485,34 +450,29 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 17
+  x: 20
   y: 24
   width: 1
   height: 1
 - type: collision
-  x: 19
+  x: 37
   y: 24
   width: 1
   height: 1
 - type: collision
-  x: 36
+  x: 44
   y: 24
   width: 1
   height: 1
 - type: collision
-  x: 42
+  x: 51
   y: 24
   width: 1
   height: 1
 - type: collision
-  x: 3
+  x: 4
   y: 25
   width: 1
-  height: 1
-- type: collision
-  x: 13
-  y: 25
-  width: 9
   height: 1
 - type: collision
   x: 25
@@ -522,261 +482,301 @@ collisions:
 - type: collision
   x: 35
   y: 25
-  width: 8
-  height: 6
+  width: 1
+  height: 1
 - type: collision
-  x: 44
+  x: 40
   y: 25
-  width: 1
-  height: 1
-- type: collision
-  x: 47
-  y: 25
-  width: 1
-  height: 1
-- type: collision
-  x: 13
-  y: 26
-  width: 8
-  height: 1
-- type: collision
-  x: 5
-  y: 27
-  width: 1
-  height: 1
-- type: collision
-  x: 8
-  y: 27
-  width: 1
-  height: 1
-- type: collision
-  x: 13
-  y: 27
-  width: 9
-  height: 1
-- type: collision
-  x: 13
-  y: 28
-  width: 8
-  height: 3
-- type: collision
-  x: 33
-  y: 28
-  width: 1
-  height: 1
-- type: collision
-  x: 47
-  y: 28
-  width: 1
-  height: 1
-- type: collision
-  x: 51
-  y: 28
-  width: 1
-  height: 1
-- type: collision
-  x: 2
-  y: 29
-  width: 1
-  height: 1
-- type: collision
-  x: 28
-  y: 29
-  width: 1
-  height: 1
-- type: collision
-  x: 25
-  y: 30
-  width: 1
-  height: 1
-- type: collision
-  x: 32
-  y: 30
-  width: 1
-  height: 1
-- type: collision
-  x: 2
-  y: 31
-  width: 1
-  height: 1
-- type: collision
-  x: 6
-  y: 31
-  width: 1
-  height: 1
-- type: collision
-  x: 9
-  y: 31
-  width: 1
-  height: 1
-- type: collision
-  x: 14
-  y: 31
-  width: 1
-  height: 1
-- type: collision
-  x: 34
-  y: 31
-  width: 9
-  height: 1
-- type: collision
-  x: 44
-  y: 31
-  width: 1
-  height: 1
-- type: collision
-  x: 50
-  y: 31
-  width: 1
-  height: 1
-- type: collision
-  x: 13
-  y: 32
-  width: 1
-  height: 1
-- type: collision
-  x: 36
-  y: 32
-  width: 1
-  height: 1
-- type: collision
-  x: 22
-  y: 33
-  width: 1
-  height: 1
-- type: collision
-  x: 50
-  y: 33
-  width: 1
-  height: 1
-- type: collision
-  x: 52
-  y: 33
-  width: 8
-  height: 3
-- type: collision
-  x: 3
-  y: 34
-  width: 1
-  height: 1
-- type: collision
-  x: 6
-  y: 34
-  width: 1
-  height: 1
-- type: collision
-  x: 9
-  y: 34
-  width: 1
-  height: 1
-- type: collision
-  x: 47
-  y: 34
-  width: 1
-  height: 1
-- type: collision
-  x: 6
-  y: 36
-  width: 1
-  height: 1
-- type: collision
-  x: 9
-  y: 36
-  width: 1
-  height: 1
-- type: collision
-  x: 13
-  y: 36
-  width: 1
-  height: 1
-- type: collision
-  x: 25
-  y: 36
-  width: 1
-  height: 1
-- type: collision
-  x: 27
-  y: 36
-  width: 1
-  height: 1
-- type: collision
-  x: 37
-  y: 36
   width: 1
   height: 1
 - type: collision
   x: 42
-  y: 36
+  y: 25
   width: 1
   height: 1
 - type: collision
-  x: 47
-  y: 36
+  x: 8
+  y: 26
+  width: 1
+  height: 1
+- type: collision
+  x: 12
+  y: 26
+  width: 8
+  height: 1
+- type: collision
+  x: 22
+  y: 26
+  width: 1
+  height: 1
+- type: collision
+  x: 36
+  y: 26
+  width: 9
+  height: 6
+- type: collision
+  x: 49
+  y: 26
+  width: 1
+  height: 1
+- type: collision
+  x: 12
+  y: 27
+  width: 7
+  height: 1
+- type: collision
+  x: 32
+  y: 27
   width: 1
   height: 1
 - type: collision
   x: 51
+  y: 27
+  width: 1
+  height: 1
+- type: collision
+  x: 5
+  y: 28
+  width: 1
+  height: 1
+- type: collision
+  x: 7
+  y: 28
+  width: 1
+  height: 1
+- type: collision
+  x: 12
+  y: 28
+  width: 8
+  height: 1
+- type: collision
+  x: 26
+  y: 28
+  width: 1
+  height: 1
+- type: collision
+  x: 49
+  y: 28
+  width: 1
+  height: 1
+- type: collision
+  x: 10
+  y: 29
+  width: 1
+  height: 1
+- type: collision
+  x: 12
+  y: 29
+  width: 7
+  height: 1
+- type: collision
+  x: 23
+  y: 29
+  width: 1
+  height: 1
+- type: collision
+  x: 34
+  y: 29
+  width: 1
+  height: 1
+- type: collision
+  x: 51
+  y: 29
+  width: 1
+  height: 1
+- type: collision
+  x: 2
+  y: 30
+  width: 1
+  height: 1
+- type: collision
+  x: 12
+  y: 30
+  width: 8
+  height: 1
+- type: collision
+  x: 6
+  y: 31
+  width: 1
+  height: 1
+- type: collision
+  x: 9
+  y: 31
+  width: 1
+  height: 1
+- type: collision
+  x: 12
+  y: 31
+  width: 7
+  height: 2
+- type: collision
+  x: 23
+  y: 31
+  width: 1
+  height: 1
+- type: collision
+  x: 26
+  y: 31
+  width: 1
+  height: 1
+- type: collision
+  x: 51
+  y: 31
+  width: 1
+  height: 1
+- type: collision
+  x: 4
+  y: 32
+  width: 1
+  height: 1
+- type: collision
+  x: 35
+  y: 32
+  width: 10
+  height: 1
+- type: collision
+  x: 48
+  y: 32
+  width: 1
+  height: 1
+- type: collision
+  x: 2
+  y: 33
+  width: 1
+  height: 1
+- type: collision
+  x: 13
+  y: 33
+  width: 1
+  height: 1
+- type: collision
+  x: 23
+  y: 33
+  width: 1
+  height: 1
+- type: collision
+  x: 28
+  y: 33
+  width: 1
+  height: 1
+- type: collision
+  x: 33
+  y: 33
+  width: 1
+  height: 1
+- type: collision
+  x: 37
+  y: 33
+  width: 1
+  height: 1
+- type: collision
+  x: 10
+  y: 34
+  width: 1
+  height: 1
+- type: collision
+  x: 47
+  y: 34
+  width: 1
+  height: 1
+- type: collision
+  x: 7
+  y: 35
+  width: 1
+  height: 1
+- type: collision
+  x: 3
   y: 36
-  width: 9
-  height: 5
+  width: 1
+  height: 1
+- type: collision
+  x: 5
+  y: 36
+  width: 1
+  height: 1
+- type: collision
+  x: 9
+  y: 36
+  width: 1
+  height: 1
+- type: collision
+  x: 13
+  y: 36
+  width: 1
+  height: 1
 - type: collision
   x: 15
-  y: 37
+  y: 36
   width: 1
   height: 1
 - type: collision
-  x: 17
-  y: 37
+  x: 21
+  y: 36
   width: 1
   height: 1
+- type: collision
+  x: 33
+  y: 36
+  width: 1
+  height: 1
+- type: collision
+  x: 35
+  y: 36
+  width: 1
+  height: 1
+- type: collision
+  x: 38
+  y: 36
+  width: 1
+  height: 1
+- type: collision
+  x: 48
+  y: 36
+  width: 1
+  height: 1
+- type: collision
+  x: 52
+  y: 36
+  width: 8
+  height: 3
 - type: collision
   x: 19
   y: 37
   width: 1
   height: 1
 - type: collision
+  x: 28
+  y: 37
+  width: 1
+  height: 1
+- type: collision
+  x: 43
+  y: 37
+  width: 1
+  height: 1
+- type: collision
+  x: 10
+  y: 38
+  width: 1
+  height: 1
+- type: collision
+  x: 17
+  y: 38
+  width: 1
+  height: 1
+- type: collision
+  x: 22
+  y: 38
+  width: 1
+  height: 1
+- type: collision
+  x: 24
+  y: 38
+  width: 1
+  height: 1
+- type: collision
   x: 32
-  y: 37
-  width: 1
-  height: 1
-- type: collision
-  x: 34
-  y: 37
-  width: 1
-  height: 1
-- type: collision
-  x: 45
-  y: 37
-  width: 1
-  height: 1
-- type: collision
-  x: 8
   y: 38
-  width: 1
-  height: 1
-- type: collision
-  x: 11
-  y: 38
-  width: 1
-  height: 1
-- type: collision
-  x: 21
-  y: 38
-  width: 1
-  height: 1
-- type: collision
-  x: 36
-  y: 38
-  width: 1
-  height: 1
-- type: collision
-  x: 49
-  y: 38
-  width: 1
-  height: 1
-- type: collision
-  x: 3
-  y: 39
   width: 1
   height: 1
 - type: collision
@@ -785,7 +785,17 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 26
+  x: 8
+  y: 39
+  width: 1
+  height: 1
+- type: collision
+  x: 15
+  y: 39
+  width: 1
+  height: 1
+- type: collision
+  x: 34
   y: 39
   width: 1
   height: 1
@@ -795,15 +805,25 @@ collisions:
   width: 1
   height: 1
 - type: collision
-  x: 42
+  x: 43
   y: 39
   width: 1
   height: 1
 - type: collision
-  x: 47
+  x: 46
   y: 39
   width: 1
   height: 1
+- type: collision
+  x: 48
+  y: 39
+  width: 1
+  height: 1
+- type: collision
+  x: 51
+  y: 39
+  width: 9
+  height: 2
 - type: collision
   x: 0
   y: 41
@@ -821,13 +841,13 @@ events:
     conditions:
     - not char_exists maple_wren
     actions:
-    - create_npc maple_wren,16,15
+    - create_npc maple_wren,15,14
   Materialize npc_test:
     type: event
     conditions:
     - not char_exists npc_test
     actions:
-    - create_npc npc_test,17,31
+    - create_npc npc_test,15,33
   Initialize semantic slice:
     type: event
     conditions:
@@ -866,7 +886,7 @@ events:
       observatory.
   Recover echo shard:
     type: event
-    x: 41
+    x: 42
     y: 16
     conditions:
     - is char_facing_tile player
@@ -922,8 +942,8 @@ events:
     - translated_dialog Beyond the river are worlds the foundry has not admitted yet.
   Inspect archive:
     type: event
-    x: 16
-    y: 14
+    x: 15
+    y: 13
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
@@ -931,7 +951,7 @@ events:
     - translated_dialog Archive. Its sealed door hums with map-light.
   Inspect observatory:
     type: event
-    x: 38
+    x: 39
     y: 14
     conditions:
     - is char_facing_tile player
@@ -940,8 +960,8 @@ events:
     - translated_dialog Observatory. Its sealed door hums with map-light.
   Inspect guild:
     type: event
-    x: 17
-    y: 30
+    x: 15
+    y: 32
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
@@ -949,8 +969,8 @@ events:
     - translated_dialog Guild. Its sealed door hums with map-light.
   Inspect clinic:
     type: event
-    x: 39
-    y: 31
+    x: 40
+    y: 32
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
