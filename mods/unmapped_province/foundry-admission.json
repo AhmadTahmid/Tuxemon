@@ -8,13 +8,14 @@
     "reachable_cells": 1709,
     "road_cells": 576,
     "road_cycle_rank": 348,
+    "runtime_events": 17,
     "walkable_cells": 1709
   },
   "dimensions": [
     60,
     42
   ],
-  "fingerprint": "d868fc617f2370845ee1ad4ce16d19ab3d6c1f1c939e1abf46607fa4d5278bf3",
+  "fingerprint": "94bc11741015419206e60723967d8a89f0e77518b39c03b1296f2a35179dd798",
   "proofs": [
     {
       "counterexamples": [],
@@ -51,11 +52,17 @@
       "detail": "Witness reaches province_mapped: speak_to_archivist -> recover_echo_shard -> win_cartographers_duel -> report_to_archivist.",
       "id": "quest-has-terminal-witness",
       "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Realized 4 quest transitions.",
+      "id": "quest-automaton-compiles-to-events",
+      "passed": true
     }
   ],
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73190421,
-  "seed_genome_sha256": "97404559df90f1635b1e929f15b4ae438ca1552993443e5ed325b483bb8a7776",
+  "seed_genome_sha256": "909456df85c95e2ab28247a7a664a570ad194c6aaeed3b41ee6679e37c4b26f4",
   "witnesses": {
     "landmark_approaches": {
       "archive": [
@@ -80,6 +87,24 @@
       "recover_echo_shard",
       "win_cartographers_duel",
       "report_to_archivist"
+    ],
+    "quest_event_bindings": [
+      {
+        "event": "Archivist offers charter",
+        "transition": "speak_to_archivist"
+      },
+      {
+        "event": "Recover echo shard",
+        "transition": "recover_echo_shard"
+      },
+      {
+        "event": "Record duel victory",
+        "transition": "win_cartographers_duel"
+      },
+      {
+        "event": "Archivist completes map",
+        "transition": "report_to_archivist"
+      }
     ]
   },
   "world": "unmapped_province"

@@ -45,3 +45,6 @@ AABBs, events, quest witness, proof certificate, and visual preview.
 `python -m foundry.runtime --probe` loads that output in the real Tuxemon
 runtime and writes a rendered-frame certificate. `python -m foundry.runtime
 --play` launches the explorable build.
+
+On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
+keys move, Enter interacts, and Escape opens or closes menus.

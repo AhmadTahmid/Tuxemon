@@ -72,4 +72,4 @@ actors:
   cartographer: bob
   duelist: npc_test
   starter_monster: bamboon
-
+  duelist_monster: rockitten

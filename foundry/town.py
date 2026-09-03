@@ -420,6 +420,24 @@ def certify(town: Town) -> dict[str, Any]:
         witness.append(action)
         state = target
     quest_passed = state == quest["terminal"]
+    runtime_events = _world_events(town)
+    realized_transitions = []
+    missing_transitions = []
+    for source, action, target in quest["transitions"]:
+        source_condition = f"is variable_set province_stage:{source}"
+        target_action = f"set_variable province_stage:{target}"
+        matching_events = [
+            name
+            for name, event in runtime_events.items()
+            if source_condition in event.get("conditions", [])
+            and target_action in event.get("actions", [])
+        ]
+        if matching_events:
+            realized_transitions.append(
+                {"transition": action, "event": matching_events[0]}
+            )
+        else:
+            missing_transitions.append(action)
     proofs = [
         {
             "id": "spawn-is-walkable",
@@ -471,6 +489,12 @@ def certify(town: Town) -> dict[str, Any]:
             "detail": f"Witness reaches {state}: {' -> '.join(witness)}.",
             "counterexamples": [] if quest_passed else [state],
         },
+        {
+            "id": "quest-automaton-compiles-to-events",
+            "passed": not missing_transitions,
+            "detail": f"Realized {len(realized_transitions)} quest transitions.",
+            "counterexamples": missing_transitions,
+        },
     ]
     body = {
         "schema": "ai-native-admission-certificate/v1",
@@ -492,9 +516,11 @@ def certify(town: Town) -> dict[str, Any]:
             "landmarks": len(town.landmarks),
             "actors": len(town.actor_positions),
             "quest_transitions": len(quest["transitions"]),
+            "runtime_events": len(runtime_events),
         },
         "witnesses": {
             "quest": witness,
+            "quest_event_bindings": realized_transitions,
             "landmark_approaches": {
                 role: list(cell) for role, cell in sorted(approaches.items())
             },
@@ -771,25 +797,34 @@ def _world_events(town: Town) -> dict[str, Any]:
         "actions": [
             "set_environment grass",
             f"add_monster {actors['starter_monster']},5",
+            "set_variable province_stage:arrival",
             "set_variable foundry_initialized:yes",
+        ],
+    }
+    events["Arm the duelist"] = {
+        "type": "event",
+        "conditions": [
+            f"is char_exists {duelist}",
+            "not variable_set foundry_duelist_armed",
+        ],
+        "actions": [
+            f"add_monster {actors['duelist_monster']},5,{duelist}",
+            "set_variable foundry_duelist_armed:yes",
         ],
     }
     events["Archivist offers charter"] = {
         "type": "event",
         "behav": [f"talk {archivist}"],
-        "conditions": ["not variable_set province_quest:started"],
+        "conditions": ["is variable_set province_stage:arrival"],
         "actions": [
             "translated_dialog The streets have forgotten their own shape. Find the echo shard beside the observatory.",
-            "set_variable province_quest:started",
+            "set_variable province_stage:chartered",
         ],
     }
     events["Archivist reminder"] = {
         "type": "event",
         "behav": [f"talk {archivist}"],
-        "conditions": [
-            "is variable_set province_quest:started",
-            "not variable_set echo_shard:taken",
-        ],
+        "conditions": ["is variable_set province_stage:chartered"],
         "actions": [
             "translated_dialog Follow the loop road east. The shard waits below the indigo observatory."
         ],
@@ -802,12 +837,11 @@ def _world_events(town: Town) -> dict[str, Any]:
         "conditions": [
             "is char_facing_tile player",
             "is button_pressed INTERACT",
-            "is variable_set province_quest:started",
-            "not variable_set echo_shard:taken",
+            "is variable_set province_stage:chartered",
         ],
         "actions": [
             "translated_dialog The crystal remembers every road at once.",
-            "set_variable echo_shard:taken",
+            "set_variable province_stage:shard_recovered",
         ],
     }
     events["Cartographer observes"] = {
@@ -821,7 +855,7 @@ def _world_events(town: Town) -> dict[str, Any]:
         "type": "event",
         "behav": [f"talk {duelist}"],
         "conditions": [
-            "is variable_set echo_shard:taken",
+            "is variable_set province_stage:shard_recovered",
             f"not char_defeated {duelist}",
         ],
         "actions": [
@@ -834,29 +868,26 @@ def _world_events(town: Town) -> dict[str, Any]:
         "conditions": [
             f"is battle_outcome player,won,{duelist}",
             "is current_state WorldState",
-            "not variable_set cartographers_trial:won",
+            "is variable_set province_stage:shard_recovered",
         ],
         "actions": [
             "translated_dialog The map seal answers. Return to the archivist.",
-            "set_variable cartographers_trial:won",
+            "set_variable province_stage:trial_won",
         ],
     }
     events["Archivist completes map"] = {
         "type": "event",
         "behav": [f"talk {archivist}"],
-        "conditions": [
-            "is variable_set cartographers_trial:won",
-            "not variable_set province_quest:complete",
-        ],
+        "conditions": ["is variable_set province_stage:trial_won"],
         "actions": [
             "translated_dialog The province is mapped because you proved a path through it. This slice is complete.",
-            "set_variable province_quest:complete",
+            "set_variable province_stage:province_mapped",
         ],
     }
     events["Archivist epilogue"] = {
         "type": "event",
         "behav": [f"talk {archivist}"],
-        "conditions": ["is variable_set province_quest:complete"],
+        "conditions": ["is variable_set province_stage:province_mapped"],
         "actions": [
             "translated_dialog Beyond the river are worlds the foundry has not admitted yet."
         ],

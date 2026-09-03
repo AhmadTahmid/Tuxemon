@@ -94,6 +94,19 @@ def runtime_probe(
         )
         for landmark in town.landmarks
     }
+    opponent_party_size = len(client.get_npc("npc_test").monsters)
+    client.event_engine.execute_action(
+        "start_battle", ["player", "npc_test"], skip=True
+    )
+    battle_started = "CombatState" in client.active_state_names
+    for _ in range(360):
+        client.update(1.0 / 60.0)
+    client.draw()
+    battle_screenshot = screenshot.with_name(
+        "unmapped_province.battle.generated.png"
+    )
+    pygame.image.save(context.screen, battle_screenshot)
+    battle_state = client.get_state_by_name("CombatState")
     observed = {
         "map": client.get_map_name(),
         "dimensions": [current_map.width, current_map.height],
@@ -102,6 +115,9 @@ def runtime_probe(
         "active_states": client.active_state_names,
         "npcs_including_player": len(client.npc_manager.npcs),
         "starter_party_size": len(session.player.monsters),
+        "opponent_party_size": opponent_party_size,
+        "battle_started": battle_started,
+        "battle_phase": str(getattr(battle_state, "phase", None)),
         "landmark_path_lengths": path_lengths,
         "blocked_landmark_doors_rejected": [
             role for role, path in blocked_door_paths.items() if path is None
@@ -109,6 +125,9 @@ def runtime_probe(
         "screen": list(context.screen.get_size()),
         "screenshot_sha256": hashlib.sha256(
             screenshot.read_bytes()
+        ).hexdigest(),
+        "battle_screenshot_sha256": hashlib.sha256(
+            battle_screenshot.read_bytes()
         ).hexdigest(),
     }
     proofs = [
@@ -159,6 +178,18 @@ def runtime_probe(
             ),
             "detail": observed["blocked_landmark_doors_rejected"],
         },
+        {
+            "id": "runtime-enters-turn-based-battle",
+            "passed": (
+                observed["opponent_party_size"] == 1
+                and observed["battle_started"]
+                and battle_screenshot.stat().st_size > 0
+            ),
+            "detail": {
+                "opponent_party_size": observed["opponent_party_size"],
+                "phase": observed["battle_phase"],
+            },
+        },
     ]
     body = {
         "schema": "ai-native-runtime-certificate/v1",
@@ -182,6 +213,7 @@ def runtime_probe(
     return {
         "certificate": certificate.as_posix(),
         "screenshot": screenshot.as_posix(),
+        "battle_screenshot": battle_screenshot.as_posix(),
         **body,
     }
 

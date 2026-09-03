@@ -835,24 +835,32 @@ events:
     actions:
     - set_environment grass
     - add_monster bamboon,5
+    - set_variable province_stage:arrival
     - set_variable foundry_initialized:yes
+  Arm the duelist:
+    type: event
+    conditions:
+    - is char_exists npc_test
+    - not variable_set foundry_duelist_armed
+    actions:
+    - add_monster rockitten,5,npc_test
+    - set_variable foundry_duelist_armed:yes
   Archivist offers charter:
     type: event
     behav:
     - talk maple_wren
     conditions:
-    - not variable_set province_quest:started
+    - is variable_set province_stage:arrival
     actions:
     - translated_dialog The streets have forgotten their own shape. Find the echo
       shard beside the observatory.
-    - set_variable province_quest:started
+    - set_variable province_stage:chartered
   Archivist reminder:
     type: event
     behav:
     - talk maple_wren
     conditions:
-    - is variable_set province_quest:started
-    - not variable_set echo_shard:taken
+    - is variable_set province_stage:chartered
     actions:
     - translated_dialog Follow the loop road east. The shard waits below the indigo
       observatory.
@@ -863,11 +871,10 @@ events:
     conditions:
     - is char_facing_tile player
     - is button_pressed INTERACT
-    - is variable_set province_quest:started
-    - not variable_set echo_shard:taken
+    - is variable_set province_stage:chartered
     actions:
     - translated_dialog The crystal remembers every road at once.
-    - set_variable echo_shard:taken
+    - set_variable province_stage:shard_recovered
   Cartographer observes:
     type: event
     behav:
@@ -880,7 +887,7 @@ events:
     behav:
     - talk npc_test
     conditions:
-    - is variable_set echo_shard:taken
+    - is variable_set province_stage:shard_recovered
     - not char_defeated npc_test
     actions:
     - translated_dialog A map is only true if it survives resistance. Show me your
@@ -891,27 +898,26 @@ events:
     conditions:
     - is battle_outcome player,won,npc_test
     - is current_state WorldState
-    - not variable_set cartographers_trial:won
+    - is variable_set province_stage:shard_recovered
     actions:
     - translated_dialog The map seal answers. Return to the archivist.
-    - set_variable cartographers_trial:won
+    - set_variable province_stage:trial_won
   Archivist completes map:
     type: event
     behav:
     - talk maple_wren
     conditions:
-    - is variable_set cartographers_trial:won
-    - not variable_set province_quest:complete
+    - is variable_set province_stage:trial_won
     actions:
     - translated_dialog The province is mapped because you proved a path through it.
       This slice is complete.
-    - set_variable province_quest:complete
+    - set_variable province_stage:province_mapped
   Archivist epilogue:
     type: event
     behav:
     - talk maple_wren
     conditions:
-    - is variable_set province_quest:complete
+    - is variable_set province_stage:province_mapped
     actions:
     - translated_dialog Beyond the river are worlds the foundry has not admitted yet.
   Inspect archive:
