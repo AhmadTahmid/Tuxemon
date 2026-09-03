@@ -15,7 +15,7 @@
     60,
     42
   ],
-  "fingerprint": "a4aa95227fcb8be770bf35b93b186f2902f667c0899d7b1db5641b471b0a4459",
+  "fingerprint": "a3590b18aac0e9cb13936f0f968727909104f10cf53cd5c94ffba46750494599",
   "proofs": [
     {
       "counterexamples": [],
@@ -58,12 +58,23 @@
       "detail": "Realized 4 quest transitions.",
       "id": "quest-automaton-compiles-to-events",
       "passed": true
+    },
+    {
+      "counterexamples": [],
+      "detail": "Inspect clinic restores the party and its approach is included in the spatial reachability proof.",
+      "id": "battle-loss-has-reachable-recovery",
+      "passed": true
     }
   ],
+  "quest": {
+    "initial": "arrival",
+    "terminal": "province_mapped"
+  },
   "schema": "ai-native-admission-certificate/v1",
   "seed": 73467586,
-  "seed_genome_sha256": "883b2f912c63914250617830aa4142e9b6174d440c7a432442342cf9ab1ba426",
+  "seed_genome_sha256": "6919c73bf50eb487fa3232c77d830ca3d9dd0a989950c7b29fea8c7415b88cc8",
   "witnesses": {
+    "battle_loss_recovery_event": "Inspect clinic",
     "landmark_approaches": {
       "archive": [
         15,

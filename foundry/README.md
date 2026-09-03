@@ -59,5 +59,14 @@ size, desired win-rate band, and turn bounds live in the semantic world seed;
 the selected duel is rejected when its measured behavior violates that
 contract.
 
+`python -m foundry.playthrough` consumes the admitted quest witness, makes the
+real Tuxemon pathfinder walk every route, evaluates the compiled interaction
+conditions, executes the actual event actions and battle, and rejects the
+world unless the terminal quest state is reached. This joins spatial, causal,
+and combat evidence into an executable campaign proof. Its first adverse run
+found that losing the duel stranded a fainted party; the semantic world now
+requires a reachable clinic recovery action, and the witness deliberately
+proves a loss → recovery → retry → victory cycle.
+
 On Windows, `play_unmapped_province.cmd` is the one-click entry point. Arrow
 keys move, Enter interacts, and Escape opens or closes menus.

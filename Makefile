@@ -34,6 +34,10 @@ foundry-evolve:
 foundry-selfplay:
 	python -m foundry.selfplay
 
+.PHONY: foundry-playthrough
+foundry-playthrough:
+	python -m foundry.playthrough
+
 .PHONY: foundry-probe
 foundry-probe:
 	python -m foundry.runtime --probe

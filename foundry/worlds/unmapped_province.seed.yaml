@@ -73,6 +73,10 @@ narrative_automaton:
     - [shard_recovered, win_cartographers_duel, trial_won]
     - [trial_won, report_to_archivist, province_mapped]
 
+resilience:
+  battle_loss:
+    recover_at: clinic
+
 actors:
   archivist: maple_wren
   cartographer: bob

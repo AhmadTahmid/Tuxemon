@@ -421,6 +421,12 @@ def certify(town: Town) -> dict[str, Any]:
         state = target
     quest_passed = state == quest["terminal"]
     runtime_events = _world_events(town)
+    recovery_role = town.spec["resilience"]["battle_loss"]["recover_at"]
+    recovery_event_name = f"Inspect {recovery_role}"
+    recovery_event = runtime_events.get(recovery_event_name, {})
+    recovery_compiled = "set_monster_health" in recovery_event.get(
+        "actions", []
+    )
     realized_transitions = []
     missing_transitions = []
     for source, action, target in quest["transitions"]:
@@ -495,6 +501,19 @@ def certify(town: Town) -> dict[str, Any]:
             "detail": f"Realized {len(realized_transitions)} quest transitions.",
             "counterexamples": missing_transitions,
         },
+        {
+            "id": "battle-loss-has-reachable-recovery",
+            "passed": recovery_role in approaches and recovery_compiled,
+            "detail": (
+                f"{recovery_event_name} restores the party and its approach "
+                "is included in the spatial reachability proof."
+            ),
+            "counterexamples": (
+                []
+                if recovery_role in approaches and recovery_compiled
+                else [recovery_event_name]
+            ),
+        },
     ]
     body = {
         "schema": "ai-native-admission-certificate/v1",
@@ -506,6 +525,10 @@ def certify(town: Town) -> dict[str, Any]:
             ).encode()
         ).hexdigest(),
         "dimensions": [town.width, town.height],
+        "quest": {
+            "initial": quest["initial"],
+            "terminal": quest["terminal"],
+        },
         "counts": {
             "walkable_cells": len(walkable),
             "reachable_cells": len(reachable),
@@ -521,6 +544,7 @@ def certify(town: Town) -> dict[str, Any]:
         "witnesses": {
             "quest": witness,
             "quest_event_bindings": realized_transitions,
+            "battle_loss_recovery_event": recovery_event_name,
             "landmark_approaches": {
                 role: list(cell) for role, cell in sorted(approaches.items())
             },
@@ -760,9 +784,19 @@ def _write_tsx(town: Town, path: Path) -> None:
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
 
 
-def _landmark_event(landmark: Landmark) -> dict[str, Any]:
+def _landmark_event(
+    landmark: Landmark, recovery_role: str
+) -> dict[str, Any]:
     x, y = landmark.door
     title = landmark.role.replace("_", " ").title()
+    actions = [
+        f"translated_dialog {title}. Its sealed door hums with map-light."
+    ]
+    if landmark.role == recovery_role:
+        actions = [
+            "translated_dialog The clinic tunes every tired creature back to its remembered shape.",
+            "set_monster_health",
+        ]
     return {
         "type": "event",
         "x": x,
@@ -771,14 +805,13 @@ def _landmark_event(landmark: Landmark) -> dict[str, Any]:
             "is char_facing_tile player",
             "is button_pressed INTERACT",
         ],
-        "actions": [
-            f"translated_dialog {title}. Its sealed door hums with map-light."
-        ],
+        "actions": actions,
     }
 
 
 def _world_events(town: Town) -> dict[str, Any]:
     actors = town.spec["actors"]
+    recovery_role = town.spec["resilience"]["battle_loss"]["recover_at"]
     archivist, cartographer, duelist = (
         actors["archivist"],
         actors["cartographer"],
@@ -900,7 +933,9 @@ def _world_events(town: Town) -> dict[str, Any]:
         ],
     }
     for landmark in town.landmarks:
-        events[f"Inspect {landmark.role}"] = _landmark_event(landmark)
+        events[f"Inspect {landmark.role}"] = _landmark_event(
+            landmark, recovery_role
+        )
     return events
 
 

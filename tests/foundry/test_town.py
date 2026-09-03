@@ -67,3 +67,4 @@ def test_semantic_combat_levels_are_compiled(tmp_path: Path) -> None:
     assert "add_monster rockitten,5,npc_test" in events[
         "Arm the duelist"
     ]["actions"]
+    assert "set_monster_health" in events["Inspect clinic"]["actions"]

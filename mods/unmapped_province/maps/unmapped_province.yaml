@@ -975,4 +975,6 @@ events:
     - is char_facing_tile player
     - is button_pressed INTERACT
     actions:
-    - translated_dialog Clinic. Its sealed door hums with map-light.
+    - translated_dialog The clinic tunes every tired creature back to its remembered
+      shape.
+    - set_monster_health
